@@ -6,7 +6,8 @@
     "author": "Charles Wang <charles.w.developer@gmail.com>",
     "license": "MIT",
     "scripts": {
-        "format": "./node_modules/.bin/prettier --config .config/prettier.config.js --write ."
+        "format": "./node_modules/.bin/prettier --config .config/prettier.config.js --write .",
+        "docker:up": "docker-compose -f .docker/docker-compose.yml up"
     },
     "devDependencies": {
         "prettier": "^2.5.1"

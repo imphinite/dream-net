@@ -1,8 +1,8 @@
 version: '3.8'
 services:
     tensorflow:
-        build: ./classification-service
+        build: ../services/classification
         ports:
             - '8888:8888'
         volumes:
-            - ./classification-service:/cs
+            - ../services/classification:/dnet-classification-service
