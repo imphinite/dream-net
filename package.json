@@ -1,0 +1,14 @@
+{
+    "name": "dream-net",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "git@github.com:imphinite/dream-net.git",
+    "author": "Charles Wang <charles.w.developer@gmail.com>",
+    "license": "MIT",
+    "scripts": {
+        "format": "./node_modules/.bin/prettier --config .config/prettier.config.js --write ."
+    },
+    "devDependencies": {
+        "prettier": "^2.5.1"
+    }
+}
