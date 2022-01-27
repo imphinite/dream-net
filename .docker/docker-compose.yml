@@ -1,2 +1,8 @@
 version: '3.8'
 services:
+    tensorflow:
+        build: ./classification-service
+        ports:
+            - '8888:8888'
+        volumes:
+            - ./classification-service:/cs
