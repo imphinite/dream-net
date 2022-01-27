@@ -6,3 +6,24 @@ services:
             - '8888:8888'
         volumes:
             - ../services/classification:/dnet-classification-service
+
+    database:
+        image: mysql
+        container_name: database
+        restart: unless-stopped
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_DATABASE: core_api
+            MYSQL_ROOT_PASSWORD: secret
+        volumes:
+            - ../services/mysql:/var/lib/mysql
+        ports:
+            - '3306:3306'
+
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 8080:8080
+        depends_on:
+            - database
