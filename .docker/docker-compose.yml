@@ -1,40 +1,60 @@
 version: '3.8'
 services:
-    tensorflow:
-        build: ../services/classification
+    core-api:
+        image: khromov/alpine-nginx-php8
+        container_name: core_api
+        ports:
+            - '${APP_PORT:-8090}:8080'
+        volumes:
+            - ../services/core-api:/var/www/html
+        depends_on:
+            - app-database
+            # - redis
+
+    app-database:
+        image: postgres
+        container_name: app_database
+        ports:
+            - '5432:5432'
+        volumes:
+            - ./app-data:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_NAME=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+
+    data-curation:
+        build: ./data-curation
+        container_name: data_curation
+        ports:
+            - '8091:8080'
+        volumes:
+            - ../services/data-curation:/data-curation
+        environment:
+            - POSTGRES_NAME=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+        depends_on:
+            - ml-database
+
+    ml-database:
+        image: postgres
+        container_name: ml_database
+        ports:
+            - '5433:5432'
+        volumes:
+            - ./ml-data:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_NAME=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+
+    ml-classification:
+        build: ./data-classification
+        container_name: ml_classification
         ports:
             - '8888:8888'
         volumes:
-            - ../services/classification:/dnet-classification-service
-
-    database:
-        image: mysql
-        container_name: database
-        restart: unless-stopped
-        command: --default-authentication-plugin=mysql_native_password
-        environment:
-            MYSQL_DATABASE: core_api
-            MYSQL_ROOT_PASSWORD: secret
-        volumes:
-            - ../services/mysql:/var/lib/mysql
-        ports:
-            - '3306:3306'
-
-    adminer:
-        image: adminer
-        restart: always
-        ports:
-            - 8081:8081
+            - ../services/data-classification:/tensorflow
         depends_on:
-            - database
-
-    core-api:
-        image: khromov/alpine-nginx-php8
-        container_name: core-api
-        ports:
-            - '${APP_PORT:-80}:80'
-        volumes:
-            - '../services/core-api:/var/www/html'
-        depends_on:
-            - database
-            # - redis
+            - ml-database

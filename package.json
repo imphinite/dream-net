@@ -6,10 +6,15 @@
     "author": "Charles Wang <charles.w.developer@gmail.com>",
     "license": "MIT",
     "scripts": {
+        "docker:up": "docker-compose -f .docker/docker-compose.yml up -d",
+        "docker:kill": "docker kill $(docker ps -q)",
         "format": "./node_modules/.bin/prettier --config .config/prettier.config.js --write .",
-        "docker:up": "docker-compose -f .docker/docker-compose.yml up"
+        "vue-cli": "./node_modules/.bin/vue"
     },
     "devDependencies": {
         "prettier": "^2.5.1"
+    },
+    "dependencies": {
+        "@vue/cli": "^4.5.15"
     }
 }

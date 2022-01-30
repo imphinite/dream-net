@@ -1,5 +1,5 @@
 FROM tensorflow/tensorflow:latest-jupyter
 
-COPY . /dnet-classification-service
-WORKDIR /dnet-classification-service
+COPY . /tensorflow
+WORKDIR /tensorflow
 RUN pip install -r requirements.txt
