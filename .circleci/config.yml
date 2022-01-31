@@ -24,24 +24,13 @@ jobs:
                   install-yarn: true
                   node-version: '16.13'
             - run: node --version
-
-    build:
-        docker:
-            - image: 'cimg/base:stable'
-        working_directory: ~/dream-net/app/
-        steps:
-            - checkout
-            - restore_cache:
-                  keys:
-                      - v1-dependencies-{{ checksum "package.json" }}
-                      - v1-dependencies
+            - run: pwd
             - run: yarn install
-            - run: yarn run build
+            - run: yarn build
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
     base:
         jobs:
-            - install-node
             - build
