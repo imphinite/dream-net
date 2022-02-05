@@ -18,7 +18,11 @@
             <span class="title mx-4 text-xl min-w-max">Vue Next</span>
         </div>
         <div class="button-group flex">
-            <router-link v-for="(link, index) in links" :key="index" :to="link.to">
+            <router-link
+                v-for="(link, index) in links"
+                :key="index"
+                :to="link.to"
+            >
                 <button
                     class="
                         uppercase
@@ -62,6 +66,10 @@ export default {
                 {
                     name: 'tailwind',
                     to: '/tailwind',
+                },
+                {
+                    name: 'arena',
+                    to: '/arena',
                 },
             ],
         }

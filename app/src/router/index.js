@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../pages/Home.vue'
 import About from '../pages/About.vue'
 import Tailwind from '../pages/Tailwind.vue'
+import arena from '../pages/arena.vue'
 
 const routes = [
     {
@@ -18,6 +19,11 @@ const routes = [
         path: '/tailwind',
         name: 'Tailwind',
         component: Tailwind,
+    },
+    {
+        path: '/arena',
+        name: 'Arena',
+        component: arena,
     },
 ]
 
