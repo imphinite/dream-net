@@ -1,24 +1,36 @@
-# app
+# vue-tailwind-tempalte
 
-## Project setup
-```
+- Minimal webpack setup for Vue 3 (RC)
+- Tailwind installed
+- Lint & prettier
+
+### Prerequisites
+- npm | yarn
+
+### Install
+```sh
+# npm
+npm install
+# yarn
 yarn install
 ```
-
-### Compiles and hot-reloads for development
+### Usage
+##### Develop
+```sh
+# run dev server at localhost:8080
+# npm
+npm run dev
+# yarn
+yarn dev
 ```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
+##### Build
+```sh
+# transpile js for deployment
+# npm
+npm run build
+# yarn
 yarn build
 ```
 
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Reference
+https://snipcart.com/blog/tailwind-vue-tutorial
