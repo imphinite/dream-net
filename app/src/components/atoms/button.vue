@@ -7,7 +7,7 @@
 
 <script>
 export default {
-    name: 'my-button',
+    name: 'button',
     methods: {
         onClick() {
             /**
