@@ -1,42 +1,38 @@
 {
-  "private": true,
-  "scripts": {
-    "build": "./node_modules/.bin/webpack --env.prod",
-    "lint": "./node_modules/.bin/vue-cli-service lint",
-    "dev": "./node_modules/.bin/webpack-dev-server",
-    "lint:fix": "./node_modules/.bin/vue-cli-service lint --fix",
-    "storybook:build": "./node_modules/.bin/vue-cli-service storybook:build -c config/storybook",
-    "storybook:serve": "./node_modules/.bin/vue-cli-service storybook:serve -p 6006 -c config/storybook"
-  },
-  "dependencies": {
-    "tailwindcss": "^2.1.2",
-    "vue": "^3.0.11",
-    "vue-router": "4"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.4.5",
-    "@storybook/addon-essentials": "^6.0.26",
-    "@storybook/vue": "^6.0.26",
-    "@vue/cli-plugin-eslint": "~5.0.0-beta.1",
-    "@vue/cli-service": "~5.0.0-beta.1",
-    "@vue/compiler-sfc": "^3.0.11",
-    "@vue/component-compiler-utils": "3.1.2",
-    "@vue/eslint-config-prettier": "^6.0.0",
-    "autoprefixer": "^10.2.6",
-    "babel-loader": "^8.0.4",
-    "css-loader": "^4.2.2",
-    "eslint": "^7.27.0",
-    "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-vue": "^7.9.0",
-    "file-loader": "^6.0.0",
-    "mini-css-extract-plugin": "^0.11.0",
-    "postcss-loader": "^4.2.0",
-    "prettier": "^2.2.1",
-    "url-loader": "^4.0.0",
-    "vue-cli-plugin-storybook": "~2.0.0",
-    "vue-loader": "^15.9.7",
-    "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
-  }
+    "private": true,
+    "scripts": {
+        "build": "./node_modules/.bin/webpack --env.prod",
+        "lint": "./node_modules/.bin/vue-cli-service lint",
+        "dev": "./node_modules/.bin/webpack-dev-server",
+        "lint:fix": "./node_modules/.bin/vue-cli-service lint --fix"
+    },
+    "dependencies": {
+        "tailwindcss": "^2.1.2",
+        "vue": "^3.0.11",
+        "vue-router": "4"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.4.5",
+        "@vue/cli-plugin-eslint": "~5.0.0-beta.1",
+        "@vue/cli-service": "~5.0.0-beta.1",
+        "@vue/compiler-sfc": "^3.0.11",
+        "@vue/component-compiler-utils": "3.1.2",
+        "@vue/eslint-config-prettier": "^6.0.0",
+        "autoprefixer": "^10.2.6",
+        "babel-loader": "^8.0.4",
+        "css-loader": "^4.2.2",
+        "eslint": "^7.27.0",
+        "eslint-plugin-prettier": "^3.3.1",
+        "eslint-plugin-vue": "^7.9.0",
+        "file-loader": "^6.0.0",
+        "mini-css-extract-plugin": "^0.11.0",
+        "postcss-loader": "^4.2.0",
+        "prettier": "^2.2.1",
+        "url-loader": "^4.0.0",
+        "vue-cli-plugin-storybook": "~2.0.0",
+        "vue-loader": "^15.9.7",
+        "webpack": "^4.42.1",
+        "webpack-cli": "^3.3.11",
+        "webpack-dev-server": "^3.10.3"
+    }
 }
