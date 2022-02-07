@@ -1,9 +1,22 @@
 <template>
     <div class="flex w-full justify-center">
         <div class="flex flex-col mt-16 w-4/5">
-            <div class="font-display uppercase font-bold text-5xl text-gray-500">Arena</div>
+            <div
+                class="font-display uppercase font-bold text-5xl text-gray-500"
+            >
+                Arena
+            </div>
 
-            <div class="flex w-full h-full p-4 border-2 border-gray-300 rounded-lg">
+            <div
+                class="
+                    flex
+                    w-full
+                    h-full
+                    p-4
+                    border-2 border-gray-300
+                    rounded-lg
+                "
+            >
                 <!-- left container -->
                 <div class="rounded-lg w-1/3 flex flex-col">
                     <card
