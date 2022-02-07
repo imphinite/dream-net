@@ -17,8 +17,13 @@ export default {
 // More on component templates: https://storybook.js.org/docs/vue/writing-stories/introduction#using-args
 const Template = (args, { argTypes }) => ({
     props: Object.keys(argTypes),
+    setup() {
+        return {
+            args,
+        }
+    },
     components: { MyButton },
-    template: '<my-button @onClick="onClick" v-bind="$props" />',
+    template: '<my-button @onClick="onClick" v-bind="args" />',
 })
 
 export const Primary = Template.bind({})
