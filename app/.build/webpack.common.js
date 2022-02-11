@@ -6,19 +6,12 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
 
-console.log(
-    '==============',
-    path.resolve(__dirname, '../dist'),
-    path.resolve(__dirname, '../src/components/atoms')
-)
-
 module.exports = {
     entry: './src/main.js', //Import file
-    // output: {
-    //     filename: '[name].js', // output file
-    //     path: path.resolve(__dirname, '../dist'), // Storage address of output file
-    //     // publicPath: '../public/',
-    // },
+    output: {
+        filename: '[name].[contenthash].js', // output file
+        path: path.resolve(__dirname, '../dist'), // Storage address of output file
+    },
     resolve: {
         extensions: ['.vue', '.ts', '.js', '.jsx', '.json'], //It means that the file suffix can not be written in the import file
         alias: {
@@ -34,26 +27,26 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: 'index.html',
+            path: '[name].[contenthash].js',
             inject: true,
-            //Compress HTML
-            // minify: {
-            //     removeComments: true, // Remove comments from HTML
-            //     collapseWhitespace: true, // Remove whitespace and newline
-            // },
+            // Compress HTML
+            minify: {
+                removeComments: true, // Remove comments from HTML
+                collapseWhitespace: true, // Remove whitespace and newline
+            },
         }),
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
-            filename: '[name].css',
-            chunkFilename: '[id].css',
+            filename: '[name].[contenthash].css',
         }),
     ],
     module: {
         rules: [
-            // {
-            //     test: /\.js$/,
-            //     exclude: /node_modules/,
-            //     use: ['babel-loader'],
-            // },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: ['babel-loader'],
+            },
             {
                 test: /\.vue$/,
                 use: ['vue-loader'],
