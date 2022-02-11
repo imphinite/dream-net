@@ -1,9 +1,9 @@
-import MyButton from './Button.vue'
+import DnButton from '@ca/button.vue'
 
 // More on default export: https://storybook.js.org/docs/vue/writing-stories/introduction#default-export
 export default {
-    title: 'Example/Button',
-    component: MyButton,
+    title: 'Atoms/Button',
+    component: DnButton,
     // More on argTypes: https://storybook.js.org/docs/vue/api/argtypes
     argTypes: {
         backgroundColor: { control: 'color' },
@@ -22,8 +22,8 @@ const Template = (args, { argTypes }) => ({
             args,
         }
     },
-    components: { MyButton },
-    template: '<my-button @onClick="onClick" v-bind="args" />',
+    components: { DnButton },
+    template: '<dn-button @onClick="onClick" v-bind="args" />',
 })
 
 export const Primary = Template.bind({})

@@ -1,17 +1,6 @@
 <template>
     <div
-        class="
-            navigation-bar
-            w-screen
-            bg-gray-900
-            h-24
-            flex
-            items-center
-            justify-between
-            text-white
-            font-bold font-display
-            px-16
-        "
+        class="navigation-bar w-screen bg-gray-900 h-24 flex items-center justify-between text-white font-bold font-display px-16"
     >
         <div class="h-1/2 flex items-center">
             <img class="object-contain h-full" :src="favicon" alt="favicon" />
@@ -24,21 +13,7 @@
                 :to="link.to"
             >
                 <button
-                    class="
-                        uppercase
-                        font-bold
-                        focus:outline-none
-                        bg-green-500
-                        rounded
-                        px-4
-                        py-1
-                        pt-1.5
-                        mx-2
-                        hover:bg-green-50
-                        hover:text-green-500
-                        transition
-                        text-center
-                    "
+                    class="uppercase font-bold focus:outline-none bg-green-500 rounded px-4 py-1 pt-1.5 mx-2 hover:bg-green-50 hover:text-green-500 transition text-center"
                 >
                     {{ link.name }}
                 </button>

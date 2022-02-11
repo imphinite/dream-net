@@ -20,6 +20,9 @@ module.exports = {
             '@cm': path.resolve(__dirname, '../src/components/molecules'),
             '@co': path.resolve(__dirname, '../src/components/organisms'),
             '@ct': path.resolve(__dirname, '../src/components/templates'),
+            '@style': path.resolve(__dirname, '../src/style'),
+            '@store': path.resolve(__dirname, '../src/store'),
+            '@stories': path.resolve(__dirname, '../src/stories'),
         },
     },
     plugins: [

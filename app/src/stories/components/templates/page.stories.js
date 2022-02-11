@@ -1,16 +1,16 @@
-import MyPage from './Page.vue'
-import * as HeaderStories from './Header.stories'
+import DnPage from '@ct/page.vue'
+import * as HeaderStories from '@stories/components/molecules/header.stories.js'
 
 export default {
-    title: 'Example/Page',
-    component: MyPage,
+    title: 'Templates/Page',
+    component: DnPage,
 }
 
 const Template = (args, { argTypes }) => ({
     props: Object.keys(argTypes),
-    components: { MyPage },
+    components: { DnPage },
     template:
-        '<my-page :user="user" @onLogin="onLogin" @onLogout="onLogout" @onCreateAccount="onCreateAccount" />',
+        '<dn-page :user="user" @onLogin="onLogin" @onLogout="onLogout" @onCreateAccount="onCreateAccount" />',
 })
 
 export const LoggedIn = Template.bind({})

@@ -9,7 +9,8 @@ export default {
     categories: [
         {
             name: 'Monolith',
-            description: 'All-in-one, turnkey solutions to build and run online stores',
+            description:
+                'All-in-one, turnkey solutions to build and run online stores',
             tags: [0, 1, 2, 3, 4],
             color: '#264653',
         },
@@ -22,13 +23,15 @@ export default {
         },
         {
             name: 'Storefront',
-            description: 'Frontend-centric tooling to design fast & performant storefronts',
+            description:
+                'Frontend-centric tooling to design fast & performant storefronts',
             tags: [3, 4],
             color: '#f4a261',
         },
         {
             name: 'API',
-            description: 'E-commerce building blocks to create custom online stores',
+            description:
+                'E-commerce building blocks to create custom online stores',
             tags: [1, 2],
             color: '#e76f51',
         },
@@ -53,7 +56,8 @@ export default {
         },
         {
             name: 'PrestaShop',
-            description: 'Open source e-commerce solution powering over 300,000 online stores',
+            description:
+                'Open source e-commerce solution powering over 300,000 online stores',
             cat: [0],
         },
         {
@@ -63,7 +67,8 @@ export default {
         },
         {
             name: 'WooCommerce',
-            description: 'The most customizable platform for building your online business',
+            description:
+                'The most customizable platform for building your online business',
             cat: [1],
         },
         {
@@ -80,7 +85,8 @@ export default {
         },
         {
             name: 'Buy Button',
-            description: "Shopify's solution for adding simple e-commerce to existing sites",
+            description:
+                "Shopify's solution for adding simple e-commerce to existing sites",
             cat: [1],
         },
         {
@@ -91,7 +97,8 @@ export default {
         },
         {
             name: 'Vue Storefront',
-            description: 'Revolutionary PWA Frontend for eCommerce working with every backend',
+            description:
+                'Revolutionary PWA Frontend for eCommerce working with every backend',
             cat: [2],
         },
         {

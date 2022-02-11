@@ -1,34 +1,56 @@
 <template>
-    <button class="button is-primary" @click="onClick">
-        <!-- @slot default inner button content -->
-        <slot></slot>
+    <button type="button" :class="classes" @click="onClick" :style="style">
+        {{ label }}
     </button>
 </template>
 
 <script>
+import '@style/components/button.css'
+
 export default {
-    name: 'button',
+    name: 'my-button',
+
+    props: {
+        label: {
+            type: String,
+            required: true,
+        },
+        primary: {
+            type: Boolean,
+            default: false,
+        },
+        size: {
+            type: String,
+            default: 'medium',
+            validator: function (value) {
+                return ['small', 'medium', 'large'].indexOf(value) !== -1
+            },
+        },
+        backgroundColor: {
+            type: String,
+        },
+    },
+
+    computed: {
+        classes() {
+            return {
+                'storybook-button': true,
+                'storybook-button--primary': this.primary,
+                'storybook-button--secondary': !this.primary,
+                [`storybook-button--${this.size}`]: true,
+            }
+        },
+        style() {
+            return {
+                backgroundColor: this.backgroundColor,
+            }
+        },
+    },
+
     methods: {
         onClick() {
-            /**
-             * Click event
-             *
-             * @event click
-             */
-            this.$emit('click')
+            this.$emit('onClick')
         },
     },
 }
 </script>
-
-<style scoped>
-button {
-    border: 1px solid #eee;
-    border-radius: 3px;
-    background-color: #ffffff;
-    cursor: pointer;
-    font-size: 15pt;
-    padding: 3px 10px;
-    margin: 10px;
-}
-</style>

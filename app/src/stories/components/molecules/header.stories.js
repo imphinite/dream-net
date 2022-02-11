@@ -1,15 +1,15 @@
-import MyHeader from './Header.vue'
+import DnHeader from '@cm/header.vue'
 
 export default {
-    title: 'Example/Header',
-    component: MyHeader,
+    title: 'Molecules/Header',
+    component: DnHeader,
 }
 
 const Template = (args, { argTypes }) => ({
     props: Object.keys(argTypes),
-    components: { MyHeader },
+    components: { DnHeader },
     template:
-        '<my-header :user="user" @onLogin="onLogin" @onLogout="onLogout" @onCreateAccount="onCreateAccount" />',
+        '<dn-header :user="user" @onLogin="onLogin" @onLogout="onLogout" @onCreateAccount="onCreateAccount" />',
 })
 
 export const LoggedIn = Template.bind({})

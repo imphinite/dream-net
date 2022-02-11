@@ -8,14 +8,7 @@
             </div>
 
             <div
-                class="
-                    flex
-                    w-full
-                    h-full
-                    p-4
-                    border-2 border-gray-300
-                    rounded-lg
-                "
+                class="flex w-full h-full p-4 border-2 border-gray-300 rounded-lg"
             >
                 <!-- left container -->
                 <div class="rounded-lg w-1/3 flex flex-col">

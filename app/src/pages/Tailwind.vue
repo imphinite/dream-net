@@ -1,11 +1,16 @@
 <template>
-    <div id="main" class="flex flex-col items-center justify-center w-full mt-12 mb-12">
+    <div
+        id="main"
+        class="flex flex-col items-center justify-center w-full mt-12 mb-12"
+    >
         <div class="flex w-full">
             <div class="flex w-1/3 flex-col">
                 <div
                     class="p-6 mb-6 rounded-r-lg shadow-lg"
                     :style="{ backgroundColor: color }"
-                    v-for="({ name, description, color, tags }, index) in categories"
+                    v-for="(
+                        { name, description, color, tags }, index
+                    ) in categories"
                     :key="index"
                 >
                     <label :for="name" class="flex flex-col cursor-pointer">
@@ -20,23 +25,15 @@
                                     type="checkbox"
                                     checked
                                     class="hidden"
-                                    @change="isToggled[index] = !isToggled[index]"
+                                    @change="
+                                        isToggled[index] = !isToggled[index]
+                                    "
                                 />
                                 <div
                                     class="toggle__line w-10 h-4 bg-cus rounded-full shadow-inner"
                                 ></div>
                                 <div
-                                    class="
-                                        toggle__dot
-                                        absolute
-                                        w-6
-                                        h-6
-                                        bg-white
-                                        rounded-full
-                                        shadow
-                                        inset-y-0
-                                        left-0
-                                    "
+                                    class="toggle__dot absolute w-6 h-6 bg-white rounded-full shadow inset-y-0 left-0"
                                 ></div>
                             </div>
                         </div>
@@ -48,19 +45,7 @@
                         <span
                             v-for="tag in tags"
                             :key="tag"
-                            class="
-                                op
-                                inline-block
-                                bg-cus
-                                rounded-full
-                                px-3
-                                py-1
-                                text-xs
-                                font-semibold
-                                text-gray-700
-                                mr-2
-                                mb-2
-                            "
+                            class="op inline-block bg-cus rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2"
                         >
                             {{ labels[tag] }} ✔️
                         </span>
@@ -74,8 +59,13 @@
                     :key="name"
                 >
                     <div>
-                        <div :style="getColorForCat(cat)" class="px-3 py-2 rounded-t-lg">
-                            <div class="font-bold text-xl text-gray-100 mb-2 mr-2">
+                        <div
+                            :style="getColorForCat(cat)"
+                            class="px-3 py-2 rounded-t-lg"
+                        >
+                            <div
+                                class="font-bold text-xl text-gray-100 mb-2 mr-2"
+                            >
                                 {{ name }}
                             </div>
                         </div>
@@ -101,13 +91,18 @@ export default {
         const isToggled = ref(dataset.categories.map(() => true))
 
         const filters = computed(() =>
-            isToggled.value.reduce((acc, curr, i) => (curr ? [...acc, i] : acc), [])
+            isToggled.value.reduce(
+                (acc, curr, i) => (curr ? [...acc, i] : acc),
+                []
+            )
         )
 
         const filteredEntries = computed(() =>
             dataset.entries
                 .filter((entry) =>
-                    filters.value.some((filter) => entry.cat.some((cat) => cat === filter))
+                    filters.value.some((filter) =>
+                        entry.cat.some((cat) => cat === filter)
+                    )
                 )
                 .sort(() => Math.random() - 0.5)
         )
@@ -115,9 +110,9 @@ export default {
             return cat.length === 1
                 ? { backgroundColor: categories[cat[0]].color }
                 : {
-                      background: `linear-gradient(110deg, ${categories[cat[0]].color} 60%, ${
-                          categories[cat[1]].color
-                      } 60%)`,
+                      background: `linear-gradient(110deg, ${
+                          categories[cat[0]].color
+                      } 60%, ${categories[cat[1]].color} 60%)`,
                   }
         }
         return {
