@@ -28,6 +28,12 @@ module.exports = {
                     light: '#d05ce3',
                     default: '#9c27b0',
                     dark: '#6a0080',
+                    'extra-dark': '#490059',
+                },
+                yellow: {
+                    light: '#fffb85',
+                    default: '#ffc800',
+                    dark: '#ffa600',
                 },
             },
             fontFamily: {

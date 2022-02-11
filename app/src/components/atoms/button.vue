@@ -1,28 +1,27 @@
 <template>
-    <button
-        type="button"
-        class="border rounded-full"
-        @click="onClick"
-        :style="style"
-    >
+    <button type="button" :class="computedStyles" @click="onClick">
         {{ label }}
     </button>
 </template>
 
 <script>
 import '@style/components/button.css'
+import { toRef, computed } from 'vue'
 
 export default {
     name: 'dn-button',
 
     props: {
+        preset: {
+            type: String,
+            required: false,
+            validator: (value) => {
+                return ['primary', 'secondary'].indexOf(value) !== -1
+            },
+        },
         label: {
             type: String,
             required: true,
-        },
-        primary: {
-            type: Boolean,
-            default: false,
         },
         size: {
             type: String,
@@ -31,29 +30,57 @@ export default {
                 return ['small', 'medium', 'large'].indexOf(value) !== -1
             },
         },
-        backgroundColor: {
-            type: String,
-        },
-        tailwind: {
-            type: String,
-            default: '',
+        uppercase: {
+            type: Boolean,
+            default: false,
         },
     },
 
-    computed: {
-        classes() {
-            return {
-                'dn-button': true,
-                // 'storybook-button--primary': this.primary,
-                // 'storybook-button--secondary': !this.primary,
-                // [`storybook-button--${this.size}`]: true,
+    setup(props) {
+        const BASE_STYLES = 'font-display border-2 rounded-full transition'
+
+        //-- refs
+        const preset = toRef(props, 'preset')
+        const size = toRef(props, 'size')
+
+        //-- computed
+        const computedPresetStyles = computed(() => {
+            const presetStyleMapping = {
+                primary: [
+                    'bg-white text-purple-dark border-purple-dark',
+                    'hover:bg-purple-dark hover:text-white hover:purple-dark',
+                    'active:bg-purple-extra-dark active:text-white',
+                    'focus:ring-2 focus:ring-yellow-light',
+                ],
+                secondary: [
+                    'bg-purple-dark text-white border-purple-dark',
+                    'hover:bg-white hover:text-purple-dark hover:border-gray-300',
+                    'active:bg-gray-300 active:text-purple-dark',
+                    'focus:ring-2 focus:ring-yellow-light',
+                ],
             }
-        },
-        style() {
-            return {
-                backgroundColor: this.backgroundColor,
+            return presetStyleMapping[preset.value] || ''
+        })
+        const computedSizeStyles = computed(() => {
+            const sizeStyleMapping = {
+                large: ['font-bold text-lg px-6 py-2'],
+                medium: ['font-semibold text-base px-4 py-1'],
+                small: ['font-semibold text-sm px-3'],
             }
-        },
+            return sizeStyleMapping[size.value] || ''
+        })
+        const computedStyles = computed(() => {
+            return [
+                BASE_STYLES,
+                computedPresetStyles.value,
+                computedSizeStyles.value,
+                props.uppercase && 'uppercase',
+            ]
+        })
+
+        return {
+            computedStyles,
+        }
     },
 
     methods: {

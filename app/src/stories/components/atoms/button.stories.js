@@ -6,10 +6,16 @@ export default {
     component: DnButton,
     // More on argTypes: https://storybook.js.org/docs/vue/api/argtypes
     argTypes: {
-        backgroundColor: { control: 'color' },
+        preset: {
+            control: { type: 'select' },
+            options: ['primary', 'secondary'],
+        },
         size: {
             control: { type: 'select' },
             options: ['small', 'medium', 'large'],
+        },
+        uppercase: {
+            control: { type: 'boolean' },
         },
     },
 }
@@ -29,25 +35,26 @@ const Template = (args, { argTypes }) => ({
 export const Primary = Template.bind({})
 // More on args: https://storybook.js.org/docs/vue/writing-stories/args
 Primary.args = {
-    primary: true,
-    label: 'Button',
-    backgroundColor: 'purple-light',
-    tailwind: 'purple-light',
+    preset: 'primary',
+    label: 'Primary',
 }
 
 export const Secondary = Template.bind({})
 Secondary.args = {
-    label: 'Button',
+    preset: 'secondary',
+    label: 'Secondary',
 }
 
 export const Large = Template.bind({})
 Large.args = {
+    preset: 'primary',
     size: 'large',
-    label: 'Button',
+    label: 'Large',
 }
 
 export const Small = Template.bind({})
 Small.args = {
+    preset: 'primary',
     size: 'small',
-    label: 'Button',
+    label: 'Small',
 }
