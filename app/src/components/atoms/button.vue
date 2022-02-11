@@ -63,7 +63,7 @@ export default {
         })
         const computedSizeStyles = computed(() => {
             const sizeStyleMapping = {
-                large: ['font-bold text-lg px-6 py-2'],
+                large: ['font-bold text-lg px-6 py-1'],
                 medium: ['font-semibold text-base px-4 py-1'],
                 small: ['font-semibold text-sm px-3'],
             }
