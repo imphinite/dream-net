@@ -5,7 +5,7 @@
         "dev": "./node_modules/.bin/webpack-dev-server --config .build/webpack.dev.js",
         "lint": "./node_modules/.bin/vue-cli-service lint",
         "lint:fix": "./node_modules/.bin/vue-cli-service lint --fix",
-        "storybook": "start-storybook -p 6006",
+        "storybook": "start-storybook -p 6006 --no-open",
         "build-storybook": "build-storybook"
     },
     "dependencies": {

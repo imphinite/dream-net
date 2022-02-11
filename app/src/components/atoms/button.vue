@@ -1,5 +1,10 @@
 <template>
-    <button type="button" :class="classes" @click="onClick" :style="style">
+    <button
+        type="button"
+        class="border rounded-full"
+        @click="onClick"
+        :style="style"
+    >
         {{ label }}
     </button>
 </template>
@@ -8,7 +13,7 @@
 import '@style/components/button.css'
 
 export default {
-    name: 'my-button',
+    name: 'dn-button',
 
     props: {
         label: {
@@ -29,15 +34,19 @@ export default {
         backgroundColor: {
             type: String,
         },
+        tailwind: {
+            type: String,
+            default: '',
+        },
     },
 
     computed: {
         classes() {
             return {
-                'storybook-button': true,
-                'storybook-button--primary': this.primary,
-                'storybook-button--secondary': !this.primary,
-                [`storybook-button--${this.size}`]: true,
+                'dn-button': true,
+                // 'storybook-button--primary': this.primary,
+                // 'storybook-button--secondary': !this.primary,
+                // [`storybook-button--${this.size}`]: true,
             }
         },
         style() {

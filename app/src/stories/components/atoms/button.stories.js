@@ -31,6 +31,8 @@ export const Primary = Template.bind({})
 Primary.args = {
     primary: true,
     label: 'Button',
+    backgroundColor: 'purple-light',
+    tailwind: 'purple-light',
 }
 
 export const Secondary = Template.bind({})
