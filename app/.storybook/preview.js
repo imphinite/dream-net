@@ -1,4 +1,5 @@
 import '@style/tailwind.css'
+import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport'
 
 export const parameters = {
     actions: { argTypesRegex: '^on[A-Z].*' },
@@ -11,5 +12,9 @@ export const parameters = {
     layout: 'centered',
     backgrounds: {
         default: 'dark',
+    },
+    viewport: {
+        viewports: INITIAL_VIEWPORTS,
+        defaultViewport: 'iphone5',
     },
 }
