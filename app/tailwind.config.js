@@ -1,5 +1,6 @@
 module.exports = {
     content: ['./src/**/*.{html,js,vue}'],
+    plugins: [require('@tailwindcss/line-clamp')],
     theme: {
         extend: {
             screens: {

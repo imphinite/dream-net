@@ -1,6 +1,8 @@
 <template>
     <button type="button" :class="computedStyles" @click="onClick">
-        {{ label }}
+        <slot>
+            {{ label }}
+        </slot>
     </button>
 </template>
 
@@ -14,14 +16,14 @@ export default {
     props: {
         preset: {
             type: String,
-            required: false,
+            default: 'primary',
             validator: (value) => {
                 return ['primary', 'secondary'].indexOf(value) !== -1
             },
         },
         label: {
             type: String,
-            required: true,
+            default: 'label',
         },
         size: {
             type: String,
