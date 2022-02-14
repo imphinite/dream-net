@@ -1,9 +1,9 @@
-import DnButton from '@ca/button.vue'
+import DnIconButton from '@ca/icon-button.vue'
 
 // More on default export: https://storybook.js.org/docs/vue/writing-stories/introduction#default-export
 export default {
-    title: 'Atoms/Button',
-    component: DnButton,
+    title: 'Atoms/Icon Button',
+    component: DnIconButton,
     // More on argTypes: https://storybook.js.org/docs/vue/api/argtypes
     argTypes: {
         preset: {
@@ -13,9 +13,6 @@ export default {
         size: {
             control: { type: 'select' },
             options: ['small', 'medium', 'large'],
-        },
-        uppercase: {
-            control: { type: 'boolean' },
         },
     },
 }
@@ -28,8 +25,8 @@ const Template = (args, { argTypes }) => ({
             args,
         }
     },
-    components: { DnButton },
-    template: '<dn-button v-bind="args" />',
+    components: { DnIconButton },
+    template: `<dn-icon-button v-bind="args" />`,
 })
 
 export const Primary = Template.bind({})

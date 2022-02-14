@@ -6,12 +6,17 @@
             eiusmod tempor incididunt ut.
         </div>
         <div class="card-footer flex justify-between pt-2">
-            <div>
-                <fa icon="coffee" />
-                <dn-button></dn-button>
-                <dn-button>Like</dn-button>
+            <div class="flex justify-between">
+                <dn-icon-button @click="$emit('heart-button-click')"
+                    ><fa icon="heart"
+                /></dn-icon-button>
+                <dn-icon-button @click="$emit('star-button-click')"
+                    ><fa icon="star"
+                /></dn-icon-button>
             </div>
-            <dn-button>Comment</dn-button>
+            <dn-button @click="$emit('comment-button-click')"
+                >Comment</dn-button
+            >
         </div>
     </div>
 </template>
@@ -19,12 +24,15 @@
 <script>
 import { toRef, computed } from 'vue'
 import DnButton from '@ca/button.vue'
+import DnIconButton from '@ca/icon-button.vue'
 
 export default {
     name: 'dn-card',
     components: {
         DnButton,
+        DnIconButton,
     },
+    emits: ['heart-button-click', 'star-button-click', 'comment-button-click'],
     props: {
         preset: {
             type: String,
@@ -46,7 +54,6 @@ export default {
         const BASE_STYLES = [
             'flex flex-col border-2 rounded-xl p-2 w-full min-w-[80%]',
             'font-display text-white',
-            // 'transition-[height] h-[300px] hover:h-[500px]',
         ]
 
         const BASE_BG = [
@@ -61,16 +68,6 @@ export default {
         return {
             computedStyles,
         }
-    },
-    methods: {
-        onClick() {
-            /**
-             * Click event
-             *
-             * @event click
-             */
-            this.$emit('click')
-        },
     },
 }
 </script>

@@ -1,17 +1,17 @@
 <template>
     <button type="button" :class="computedStyles">
         <slot>
-            {{ label }}
+            <fa :icon="icon" />
         </slot>
     </button>
 </template>
 
 <script>
-import '@style/components/button.css'
 import { toRef, computed } from 'vue'
 
 export default {
-    name: 'dn-button',
+    name: 'dn-icon-button',
+
     props: {
         preset: {
             type: String,
@@ -20,9 +20,9 @@ export default {
                 return ['primary', 'secondary'].indexOf(value) !== -1
             },
         },
-        label: {
+        icon: {
             type: String,
-            default: 'label',
+            default: 'heart',
         },
         size: {
             type: String,
@@ -31,13 +31,11 @@ export default {
                 return ['small', 'medium', 'large'].indexOf(value) !== -1
             },
         },
-        uppercase: {
-            type: Boolean,
-            default: false,
-        },
     },
+
     setup(props) {
-        const BASE_STYLES = 'font-display border-2 rounded-full transition'
+        const BASE_STYLES =
+            'flex items-center justify-center font-display border-2 rounded-full transition'
 
         //-- refs
         const preset = toRef(props, 'preset')
@@ -58,28 +56,14 @@ export default {
                     'active:bg-gray-300 active:text-purple-dark',
                     'focus:ring-2 focus:ring-yellow-light',
                 ],
-                round: [
-                    'bg-white text-purple-dark border-purple-dark',
-                    'hover:bg-purple-dark hover:text-white hover:purple-dark',
-                    'active:bg-purple-extra-dark active:text-white',
-                    'focus:ring-2 focus:ring-yellow-light',
-                ],
             }
             return presetStyleMapping[preset.value] || ''
         })
-        const computedSpacingStyles = computed(() => {
-            const spacingMapping = {
-                large: ['px-6 py-1'],
-                medium: ['px-4 py-1'],
-                small: ['px-3'],
-            }
-            return spacingMapping[size.value] || ''
-        })
         const computedSizeStyles = computed(() => {
             const sizeStyleMapping = {
-                large: ['font-bold text-lg'],
-                medium: ['font-semibold text-base'],
-                small: ['font-semibold text-sm'],
+                large: ['font-bold text-lg w-11 h-11'],
+                medium: ['font-semibold text-base w-9 h-9'],
+                small: ['font-semibold text-sm w-7 h-7'],
             }
             return sizeStyleMapping[size.value] || ''
         })
@@ -88,8 +72,6 @@ export default {
                 BASE_STYLES,
                 computedPresetStyles.value,
                 computedSizeStyles.value,
-                computedSpacingStyles.value,
-                props.uppercase && 'uppercase',
             ]
         })
 
