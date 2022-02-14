@@ -23,6 +23,7 @@ module.exports = {
             '@style': path.resolve(__dirname, '../src/style'),
             '@store': path.resolve(__dirname, '../src/store'),
             '@stories': path.resolve(__dirname, '../src/stories'),
+            '@sb': path.resolve(__dirname, '../.storybook'),
         },
     },
     plugins: [
