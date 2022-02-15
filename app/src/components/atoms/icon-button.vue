@@ -32,7 +32,6 @@ export default {
             },
         },
     },
-
     setup(props) {
         const BASE_STYLES =
             'flex items-center justify-center font-display border-2 rounded-full transition'
