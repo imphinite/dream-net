@@ -10,7 +10,17 @@ export default (argTypes) => {
 
     const actionEvents = {}
     events.map((event) => {
-        actionEvents[_.camelCase(event)] = action(_.kebabCase(event))
+        let eventName = _.camelCase(event)
+        let actionEventName = _.kebabCase(event)
+
+        const eventNameArray = event.split(':')
+        // Handle edgecases such as 'update:modelValue'
+        if (eventNameArray.length > 1) {
+            eventName = `${eventNameArray[0]}:${_.camelCase(eventNameArray[1])}`
+            actionEventName = `${eventNameArray[0]}:${_.kebabCase(eventNameArray[1])}`
+        }
+
+        actionEvents[eventName] = action(actionEventName)
     })
 
     return {
