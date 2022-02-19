@@ -33,25 +33,21 @@ export const Primary = Template.bind({})
 // More on args: https://storybook.js.org/docs/vue/writing-stories/args
 Primary.args = {
     preset: 'primary',
-    label: 'Primary',
 }
 
 export const Secondary = Template.bind({})
 Secondary.args = {
     preset: 'secondary',
-    label: 'Secondary',
 }
 
 export const Large = Template.bind({})
 Large.args = {
     preset: 'primary',
     size: 'large',
-    label: 'Large',
 }
 
 export const Small = Template.bind({})
 Small.args = {
     preset: 'primary',
     size: 'small',
-    label: 'Small',
 }
