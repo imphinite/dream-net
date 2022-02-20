@@ -25,14 +25,21 @@
 
 <script>
 import favicon from '@/assets/favicon.png'
-import { computed } from 'vue'
+import { ref, toRef, computed, watch } from 'vue'
 import DnIconButton from '@ca/icon-button.vue'
 
 export default {
-    name: 'dn-navigation',
+    name: 'dn-navigation-drawer',
     components: {
         DnIconButton,
     },
+    props: {
+        modelValue: {
+            type: Boolean,
+            default: false,
+        },
+    },
+    emits: ['update:modelValue'],
     data() {
         return {
             favicon: favicon,
@@ -49,27 +56,44 @@ export default {
                     name: 'tailwind',
                     to: '/tailwind',
                 },
-                {
-                    name: 'arena',
-                    to: '/arena',
-                },
+                // {
+                //     name: 'arena',
+                //     to: '/arena',
+                // },
             ],
         }
     },
-    setup() {
-        const baseLayoutStyles = ['flex flex-col justify-between items-center', 'w-7/8 h-full']
+    setup(props, { emit }) {
+        const baseLayoutStyles = [
+            'flex flex-col justify-between items-center',
+            'h-full',
+            'rounded-r-lg overflow-hidden',
+            'transition-[width] ease-in-out duration-500',
+        ]
+
+        const active = toRef(props, 'modelValue')
+        const transitionStyles = computed(() => {
+            return active.value ? ['w-11/12'] : ['w-0']
+        })
+
+        // watch(active, (newVal) => {
+        //     emit('update:modelValue', newVal)
+        // })
 
         const containerStyles = computed(() => {
-            return [baseLayoutStyles]
+            return [baseLayoutStyles, transitionStyles.value]
         })
 
         return {
             containerStyles,
+            active,
         }
     },
     methods: {
         collapse() {
             console.log('collapse')
+            this.$emit('update:modelValue', false)
+            // this.active = false
         },
     },
 }
