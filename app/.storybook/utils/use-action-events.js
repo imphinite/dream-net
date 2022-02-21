@@ -17,7 +17,9 @@ export default (argTypes) => {
         // Handle edgecases such as 'update:modelValue'
         if (eventNameArray.length > 1) {
             eventName = `${eventNameArray[0]}:${_.camelCase(eventNameArray[1])}`
-            actionEventName = `${eventNameArray[0]}:${_.kebabCase(eventNameArray[1])}`
+            actionEventName = `${eventNameArray[0]}:${_.kebabCase(
+                eventNameArray[1]
+            )}`
         }
 
         actionEvents[eventName] = action(actionEventName)

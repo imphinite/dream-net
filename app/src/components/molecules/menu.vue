@@ -1,72 +1,76 @@
 <template>
     <div :class="computedStyles">
-        <div class="card-title font-bold uppercase text-2xl">title</div>
-        <div class="card-body text-sm line-clamp-2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut.
-        </div>
-        <div class="card-footer flex justify-between pt-2">
-            <div class="flex justify-between">
-                <dn-icon-button @click="$emit('heart-button-click')"
-                    ><fa icon="heart"
-                /></dn-icon-button>
-                <dn-icon-button @click="$emit('star-button-click')"
-                    ><fa icon="star"
-                /></dn-icon-button>
-            </div>
-            <dn-button @click="$emit('comment-button-click')"
-                >Comment</dn-button
-            >
-        </div>
+        <dn-menu-item
+            v-for="(item, index) in items"
+            :icon="item.icon"
+            :label="item.label"
+            :active="item.active"
+            @click="selectItem(index)"
+        ></dn-menu-item>
     </div>
 </template>
 
 <script>
-import { toRef, computed } from 'vue'
-import DnButton from '@ca/button.vue'
-import DnIconButton from '@ca/icon-button.vue'
+import _ from 'lodash'
+import { ref, toRef, computed, watch } from 'vue'
+import DnMenuItem from '@ca/menu-item.vue'
 
 export default {
-    name: 'dn-card',
+    name: 'dn-menu',
     components: {
-        DnButton,
-        DnIconButton,
+        DnMenuItem,
     },
-    emits: ['heart-button-click', 'star-button-click', 'comment-button-click'],
+    emits: ['update:modelValue'],
     props: {
-        preset: {
-            type: String,
-            default: 'primary',
-            validator: (value) => {
-                return ['primary', 'secondary'].indexOf(value) !== -1
-            },
+        modelValue: {
+            type: Object,
+            default: null,
         },
-        title: {
-            type: String,
-            default: 'title',
-        },
-        dismissable: {
-            type: Boolean,
-            default: false,
+        items: {
+            type: Object,
+            default: () => [],
         },
     },
-    setup(props) {
+    setup(props, { emit }) {
+        // Styles
         const BASE_STYLES = [
-            'flex flex-col border-2 rounded-xl p-2 w-full min-w-[80%]',
+            'flex flex-col w-full h-full',
             'font-display text-white',
         ]
-
-        const BASE_BG = [
-            'bg-gradient-to-tr from-indigo-900 via-purple-900 to-pink-900',
-            'hover:bg-gradient-to-tr hover:from-indigo-800 hover:via-purple-800 hover:to-pink-800',
-        ]
+        const BASE_BG = ['bg-transparent']
 
         const computedStyles = computed(() => {
             return [BASE_STYLES, BASE_BG]
         })
 
+        // Select item
+        const selectedItemIndex = ref()
+
+        if (props.modelValue) {
+            const modelValueItemIndex = props.items.findIndex((item) =>
+                _.isEqual(item, props.modelValue)
+            )
+            selectedItemIndex.value = modelValueItemIndex
+            console.log('')
+        }
+
+        const selectedItem = computed(() => {
+            return props.items.find(
+                (item, index) => index === selectedItemIndex.value
+            )
+        })
+        const selectItem = (itemIndex) => {
+            selectedItemIndex.value = itemIndex
+        }
+
+        watch(selectedItem, (item) => {
+            console.log('selected', item)
+            emit('update:modelValue', item)
+        })
+
         return {
             computedStyles,
+            selectItem,
         }
     },
 }

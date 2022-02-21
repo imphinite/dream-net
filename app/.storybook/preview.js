@@ -24,4 +24,5 @@ export const parameters = {
         viewports: INITIAL_VIEWPORTS,
         defaultViewport: 'iphone5',
     },
+    layout: 'fullscreen',
 }

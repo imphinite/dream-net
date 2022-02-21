@@ -1,38 +1,15 @@
 <template>
     <div :class="computedStyles">
-        <div class="card-title font-bold uppercase text-2xl">title</div>
-        <div class="card-body text-sm line-clamp-2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut.
-        </div>
-        <div class="card-footer flex justify-between pt-2">
-            <div class="flex justify-between">
-                <dn-icon-button @click="$emit('heart-button-click')"
-                    ><fa icon="heart"
-                /></dn-icon-button>
-                <dn-icon-button @click="$emit('star-button-click')"
-                    ><fa icon="star"
-                /></dn-icon-button>
-            </div>
-            <dn-button @click="$emit('comment-button-click')"
-                >Comment</dn-button
-            >
-        </div>
+        <div class="w-1/6"><fa :icon="icon" /></div>
+        <div>{{ label }}</div>
     </div>
 </template>
 
 <script>
 import { toRef, computed } from 'vue'
-import DnButton from '@ca/button.vue'
-import DnIconButton from '@ca/icon-button.vue'
 
 export default {
-    name: 'dn-card',
-    components: {
-        DnButton,
-        DnIconButton,
-    },
-    emits: ['heart-button-click', 'star-button-click', 'comment-button-click'],
+    name: 'dn-menu-item',
     props: {
         preset: {
             type: String,
@@ -41,28 +18,31 @@ export default {
                 return ['primary', 'secondary'].indexOf(value) !== -1
             },
         },
-        title: {
+        icon: {
             type: String,
-            default: 'title',
+            default: 'heart',
         },
-        dismissable: {
-            type: Boolean,
-            default: false,
+        label: {
+            type: String,
+            default: 'label',
         },
     },
     setup(props) {
-        const BASE_STYLES = [
-            'flex flex-col border-2 rounded-xl p-2 w-full min-w-[80%]',
-            'font-display text-white',
+        const BASE_STYLES = ['flex w-full p-3', 'cursor-pointer', 'transition']
+
+        const TEXT_STYLES = [
+            'font-display text-white/90 text-center select-none',
+            'active:text-white/50',
         ]
 
-        const BASE_BG = [
-            'bg-gradient-to-tr from-indigo-900 via-purple-900 to-pink-900',
-            'hover:bg-gradient-to-tr hover:from-indigo-800 hover:via-purple-800 hover:to-pink-800',
+        const BG_STYLES = [
+            'bg-transparent',
+            'hover:bg-black/50',
+            'active:bg-black/75',
         ]
 
         const computedStyles = computed(() => {
-            return [BASE_STYLES, BASE_BG]
+            return [BASE_STYLES, BG_STYLES, TEXT_STYLES]
         })
 
         return {

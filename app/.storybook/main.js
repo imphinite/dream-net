@@ -18,6 +18,13 @@ module.exports = {
             ...common.resolve.alias,
         }
 
+        // @vueuse/core
+        config.module.rules.push({
+            test: /\.mjs$/,
+            include: /node_modules/,
+            type: 'javascript/auto',
+        })
+
         // Return the altered config
         return config
     },

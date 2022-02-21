@@ -17,7 +17,10 @@ export default {
             type: String,
             default: 'primary',
             validator: (value) => {
-                return ['primary', 'secondary'].indexOf(value) !== -1
+                return (
+                    ['primary', 'secondary', 'transparent'].indexOf(value) !==
+                    -1
+                )
             },
         },
         icon: {
@@ -53,6 +56,12 @@ export default {
                     'bg-purple-dark text-white border-purple-dark',
                     'hover:bg-white hover:text-purple-dark hover:border-gray-300',
                     'active:bg-gray-300 active:text-purple-dark',
+                    'focus:ring-2 focus:ring-yellow-light',
+                ],
+                transparent: [
+                    'bg-transparent text-white/90 border-white/90',
+                    'hover:bg-black/50',
+                    'active:bg-black/75 active:text-white/50 active:border-white/50',
                     'focus:ring-2 focus:ring-yellow-light',
                 ],
             }

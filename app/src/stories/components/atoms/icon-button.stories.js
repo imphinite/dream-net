@@ -40,6 +40,11 @@ Secondary.args = {
     preset: 'secondary',
 }
 
+export const Transparent = Template.bind({})
+Transparent.args = {
+    preset: 'transparent',
+}
+
 export const Large = Template.bind({})
 Large.args = {
     preset: 'primary',
