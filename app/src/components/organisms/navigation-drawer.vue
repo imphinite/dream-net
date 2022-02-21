@@ -1,8 +1,6 @@
 <template>
     <div ref="navbar" class="navbar" :class="containerStyles">
-        <div
-            class="navbar-header w-full h-1/8 flex items-center justify-between p-2"
-        >
+        <div class="navbar-header w-full h-1/8 flex items-center justify-between p-2">
             <!-- <img class="object-contain h-full" :src="favicon" alt="favicon" /> -->
             <div class="navbar-header-left px-2">
                 <span class="title text-xl min-w-max">{{ title }}</span>
@@ -16,11 +14,9 @@
         </div>
 
         <div class="navbar-body w-full flex flex-col grow py-2">
-            <dn-menu :items="menuItems" @select="" />
+            <dn-menu :items="menuItems" />
         </div>
-        <div
-            class="navbar-footer w-full p-2 text-right font-normal text-sm text-gray-400"
-        >
+        <div class="navbar-footer w-full p-2 text-right font-normal text-sm text-gray-400">
             @dreamnet
         </div>
     </div>
@@ -85,7 +81,7 @@ export default {
     },
     setup(props, { emit }) {
         const BASE_STYLES = [
-            'flex flex-col justify-between items-center divide-y divide-white/25',
+            'flex flex-col justify-between items-center divide-y divide-slate-500/50',
             'h-screen',
             'border-r border-slate-700 border-left-none rounded-r-lg overflow-hidden',
             'text-white font-bold select-none',
