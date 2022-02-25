@@ -9,8 +9,7 @@ export default {
 const Template = (args, { argTypes }) => ({
     props: Object.keys(argTypes),
     components: { DnPage },
-    template:
-        '<dn-page :user="user" @onLogin="onLogin" @onLogout="onLogout" @onCreateAccount="onCreateAccount" />',
+    template: '<dn-page :user="user" />',
 })
 
 export const LoggedIn = Template.bind({})

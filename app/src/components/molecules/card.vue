@@ -10,7 +10,7 @@
                 <dn-icon-button @click="$emit('heart-button-click')"
                     ><fa icon="heart"
                 /></dn-icon-button>
-                <dn-icon-button @click="$emit('star-button-click')"
+                <dn-icon-button class="ml-2" @click="$emit('star-button-click')"
                     ><fa icon="star"
                 /></dn-icon-button>
             </div>

@@ -34,7 +34,10 @@ export default {
     },
     setup(props, { emit }) {
         // Styles
-        const BASE_STYLES = ['flex flex-col w-full h-full', 'font-display text-white']
+        const BASE_STYLES = [
+            'flex flex-col w-full h-full',
+            'font-display text-white',
+        ]
         const BASE_BG = ['bg-transparent']
 
         const computedStyles = computed(() => {
@@ -47,7 +50,9 @@ export default {
         )
         const selectedItemIndex = ref(modelValueItemIndex)
         const selectedItem = computed(() => {
-            return props.items.find((item, index) => index === selectedItemIndex.value)
+            return props.items.find(
+                (item, index) => index === selectedItemIndex.value
+            )
         })
         const selectItem = (itemIndex) => {
             selectedItemIndex.value = itemIndex

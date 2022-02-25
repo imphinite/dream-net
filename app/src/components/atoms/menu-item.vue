@@ -32,7 +32,11 @@ export default {
         },
     },
     setup(props) {
-        const BASE_STYLES = ['flex w-full p-3', 'cursor-pointer', 'transition']
+        const BASE_STYLES = [
+            'flex w-full min-w-[144px] p-3',
+            'cursor-pointer',
+            'transition',
+        ]
 
         const TEXT_STYLES = [
             'font-display text-center select-none',
