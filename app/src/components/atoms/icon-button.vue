@@ -15,12 +15,9 @@ export default {
     props: {
         preset: {
             type: String,
-            default: 'primary',
+            default: 'transparent',
             validator: (value) => {
-                return (
-                    ['primary', 'secondary', 'transparent'].indexOf(value) !==
-                    -1
-                )
+                return ['primary', 'secondary', 'transparent'].indexOf(value) !== -1
             },
         },
         icon: {
@@ -59,7 +56,7 @@ export default {
                     'focus:ring-2 focus:ring-yellow-light',
                 ],
                 transparent: [
-                    'bg-transparent text-white/90 border-white/90',
+                    'bg-transparent text-white/90 border-white/90 bg-black/25',
                     'hover:bg-black/50',
                     'active:bg-black/75 active:text-white/50 active:border-white/50',
                     'focus:ring-2 focus:ring-yellow-light',
@@ -76,11 +73,7 @@ export default {
             return sizeStyleMapping[size.value] || ''
         })
         const computedStyles = computed(() => {
-            return [
-                BASE_STYLES,
-                computedPresetStyles.value,
-                computedSizeStyles.value,
-            ]
+            return [BASE_STYLES, computedPresetStyles.value, computedSizeStyles.value]
         })
 
         return {

@@ -45,6 +45,12 @@ Secondary.args = {
     label: 'Secondary',
 }
 
+export const Transparent = Template.bind({})
+Transparent.args = {
+    preset: 'transparent',
+    label: 'Transparent',
+}
+
 export const Large = Template.bind({})
 Large.args = {
     preset: 'primary',

@@ -1,15 +1,9 @@
 <template>
     <article :class="containerStyles">
-        <dn-header
-            @menu-button-click="showNavigationDrawer = !showNavigationDrawer"
-        />
+        <dn-header @menu-button-click="showNavigationDrawer = !showNavigationDrawer" />
 
         <section :class="bodySectionStyles">
-            <dn-card
-                v-for="(item, index) in 20"
-                :key="index"
-                class="snap-start mt-2"
-            />
+            <dn-card v-for="(item, index) in 20" :key="index" class="snap-start mt-2" />
         </section>
 
         <dn-navigation-drawer v-model="showNavigationDrawer" />
@@ -40,6 +34,7 @@ export default {
             'relative',
             'flex flex-col',
             'w-screen h-screen overflow-hidden',
+            'bg-black/50',
         ]
 
         const containerStyles = computed(() => {
@@ -48,7 +43,7 @@ export default {
 
         const BODY_SECTION_STYLES = [
             'absolute',
-            'w-full h-screen px-2 pt-12',
+            'w-full h-screen pt-12',
             'snap-y overflow-y-scroll scroll-smooth box-content scroll-py-14 pr-[17px]',
         ]
 
