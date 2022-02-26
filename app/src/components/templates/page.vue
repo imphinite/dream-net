@@ -1,9 +1,15 @@
 <template>
     <article :class="containerStyles">
-        <dn-header @menu-button-click="showNavigationDrawer = !showNavigationDrawer" />
+        <dn-header
+            @menu-button-click="showNavigationDrawer = !showNavigationDrawer"
+        />
 
         <section :class="bodySectionStyles">
-            <dn-card v-for="(item, index) in 20" :key="index" class="snap-start mt-2" />
+            <dn-card
+                v-for="(item, index) in 20"
+                :key="index"
+                class="snap-start mt-2"
+            />
         </section>
 
         <dn-navigation-drawer v-model="showNavigationDrawer" />

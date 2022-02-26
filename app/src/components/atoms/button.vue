@@ -16,7 +16,10 @@ export default {
             type: String,
             default: 'transparent',
             validator: (value) => {
-                return ['primary', 'secondary', 'transparent'].indexOf(value) !== -1
+                return (
+                    ['primary', 'secondary', 'transparent'].indexOf(value) !==
+                    -1
+                )
             },
         },
         label: {

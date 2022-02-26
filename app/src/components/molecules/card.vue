@@ -2,8 +2,8 @@
     <div :class="computedStyles">
         <div class="card-title font-bold uppercase text-2xl">title</div>
         <div class="card-body text-sm line-clamp-2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut.
         </div>
         <div class="card-footer flex justify-between pt-2">
             <div class="flex justify-between">
@@ -14,7 +14,9 @@
                     ><fa icon="star"
                 /></dn-icon-button>
             </div>
-            <dn-button @click="$emit('comment-button-click')">Comment</dn-button>
+            <dn-button @click="$emit('comment-button-click')"
+                >Comment</dn-button
+            >
         </div>
     </div>
 </template>
@@ -99,7 +101,10 @@ export default {
                 'from-[#c33764] to-[#1d2671]',
                 'hover:from-[#c33764]/50 hover:to-[#1d2671]/50',
             ],
-            ROYAL: ['from-[#141e30] to-[#243b55]', 'hover:from-[#141e30]/50 hover:to-[#243b55]/50'],
+            ROYAL: [
+                'from-[#141e30] to-[#243b55]',
+                'hover:from-[#141e30]/50 hover:to-[#243b55]/50',
+            ],
         }
 
         const BASE_BG = ['bg-gradient-to-tr', GRADIENTS.CELESTIAL]

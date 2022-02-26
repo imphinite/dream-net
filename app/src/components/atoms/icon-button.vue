@@ -17,7 +17,10 @@ export default {
             type: String,
             default: 'transparent',
             validator: (value) => {
-                return ['primary', 'secondary', 'transparent'].indexOf(value) !== -1
+                return (
+                    ['primary', 'secondary', 'transparent'].indexOf(value) !==
+                    -1
+                )
             },
         },
         icon: {
@@ -73,7 +76,11 @@ export default {
             return sizeStyleMapping[size.value] || ''
         })
         const computedStyles = computed(() => {
-            return [BASE_STYLES, computedPresetStyles.value, computedSizeStyles.value]
+            return [
+                BASE_STYLES,
+                computedPresetStyles.value,
+                computedSizeStyles.value,
+            ]
         })
 
         return {
