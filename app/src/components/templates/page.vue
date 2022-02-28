@@ -4,7 +4,7 @@
             @menu-button-click="showNavigationDrawer = !showNavigationDrawer"
         />
 
-        <section :class="bodySectionStyles">
+        <section class="scrollbar-hidden" :class="bodySectionStyles">
             <dn-card
                 v-for="(item, index) in 20"
                 :key="index"
@@ -15,6 +15,16 @@
         <dn-navigation-drawer v-model="showNavigationDrawer" />
     </article>
 </template>
+
+<style scoped>
+.scrollbar-hidden::-webkit-scrollbar {
+    width: 0 !important;
+}
+.scrollbar-hidden {
+    overflow: -moz-scrollbars-none;
+    -ms-overflow-style: none;
+}
+</style>
 
 <script>
 import { computed } from 'vue'
@@ -50,7 +60,7 @@ export default {
         const BODY_SECTION_STYLES = [
             'absolute',
             'w-full h-screen pt-12',
-            'snap-y overflow-y-scroll scroll-smooth box-content scroll-py-14 pr-[17px]',
+            'snap-y overflow-y-scroll scroll-smooth box-content scroll-py-14',
         ]
 
         const bodySectionStyles = computed(() => {
