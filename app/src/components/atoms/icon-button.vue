@@ -11,7 +11,6 @@ import { toRef, computed } from 'vue'
 
 export default {
     name: 'dn-icon-button',
-
     props: {
         preset: {
             type: String,

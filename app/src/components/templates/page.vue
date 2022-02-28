@@ -35,11 +35,7 @@ import DnCard from '@cm/card.vue'
 export default {
     name: 'dn-page',
     components: { DnHeader, DnNavigationDrawer, DnCard },
-    props: {
-        user: {
-            type: Object,
-        },
-    },
+    props: {},
     data() {
         return {
             showNavigationDrawer: false,

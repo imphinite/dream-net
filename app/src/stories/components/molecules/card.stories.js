@@ -19,4 +19,13 @@ const Template = (args, { argTypes }) => ({
 })
 
 export const Compact = Template.bind({})
-Compact.args = {}
+Compact.args = {
+    readOnly: true,
+    content: {
+        ops: [
+            { insert: 'Gandalf', attributes: { bold: true } },
+            { insert: ' the ' },
+            { insert: 'Grey', attributes: { color: '#cccccc' } },
+        ],
+    },
+}

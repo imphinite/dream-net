@@ -9,16 +9,14 @@ export default {
 const Template = (args, { argTypes }) => ({
     props: Object.keys(argTypes),
     components: { DnPage },
-    template: '<dn-page :user="user" />',
+    setup() {
+        return { args }
+    },
+    template: '<dn-page v-bind="args" />',
 })
 
-export const LoggedIn = Template.bind({})
-LoggedIn.args = {
+export const Default = Template.bind({})
+Default.args = {
     // More on composing args: https://storybook.js.org/docs/vue/writing-stories/args#args-composition
-    ...HeaderStories.LoggedIn.args,
-}
-
-export const LoggedOut = Template.bind({})
-LoggedOut.args = {
-    ...HeaderStories.LoggedOut.args,
+    ...HeaderStories.Default.args,
 }

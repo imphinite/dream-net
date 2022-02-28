@@ -1,10 +1,16 @@
 <template>
     <div :class="computedStyles">
+        <!-- title block -->
         <div class="card-title font-bold uppercase text-2xl">title</div>
-        <div class="card-body text-sm line-clamp-2">
+
+        <!-- content block -->
+        <dn-editor v-if="content" :content="content" read-only />
+        <div v-else class="card-body text-sm line-clamp-2">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut.
         </div>
+
+        <!-- footer block -->
         <div class="card-footer flex justify-between pt-2">
             <div class="flex justify-between">
                 <dn-icon-button @click="$emit('heart-button-click')"
@@ -22,15 +28,18 @@
 </template>
 
 <script>
-import { toRef, computed } from 'vue'
+import { computed } from 'vue'
 import DnButton from '@ca/button.vue'
 import DnIconButton from '@ca/icon-button.vue'
+import DnEditor from '@ca/editor.vue'
+import _ from 'lodash'
 
 export default {
     name: 'dn-card',
     components: {
         DnButton,
         DnIconButton,
+        DnEditor,
     },
     emits: ['heart-button-click', 'star-button-click', 'comment-button-click'],
     props: {
@@ -41,23 +50,23 @@ export default {
                 return ['primary', 'secondary'].indexOf(value) !== -1
             },
         },
+        rounded: {
+            type: Boolean,
+            default: false,
+        },
         title: {
             type: String,
             default: 'title',
         },
-        dismissable: {
-            type: Boolean,
-            default: false,
-        },
-        rounded: {
-            type: Boolean,
-            default: false,
+        content: {
+            type: Object,
+            default: () => {},
         },
     },
     setup(props) {
         const BASE_STYLES = [
             'flex flex-col border-2 border-black/50 p-2 w-full min-w-[80%]',
-            'font-display text-white',
+            'font-display text-white select-none',
         ]
 
         const GRADIENTS = {
@@ -107,14 +116,20 @@ export default {
             ],
         }
 
-        const BASE_BG = ['bg-gradient-to-tr', GRADIENTS.CELESTIAL]
+        const BASE_BG = [
+            'bg-gradient-to-tr',
+            GRADIENTS.CAN_YOU_FEEL_THE_LOVE_TONIGHT,
+        ]
 
         const computedStyles = computed(() => {
             return [BASE_STYLES, BASE_BG, props.rounded && 'rounded-xl']
         })
 
+        const hasContent = computed(() => !_.isEmpty(props.content))
+
         return {
             computedStyles,
+            hasContent,
         }
     },
 }

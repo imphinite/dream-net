@@ -4,7 +4,7 @@ import { ref } from 'vue'
 import Lights from '@sb/assets/lights.jpeg'
 
 export default {
-    title: 'Organism/Navigation Drawer',
+    title: 'Organisms/Navigation Drawer',
     component: DnNavigationDrawer,
     // More on argTypes: https://storybook.js.org/docs/vue/api/argtypes
     argTypes: {
