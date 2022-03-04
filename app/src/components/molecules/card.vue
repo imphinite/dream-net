@@ -56,58 +56,58 @@ export default {
     },
     setup(props) {
         const BASE_STYLES = [
-            'flex flex-col border-2 border-black/50 p-2 w-full min-w-[80%]',
+            'flex flex-col border-none border-black/50 p-2 w-full min-w-[80%]',
             'font-display text-white',
         ]
 
         const GRADIENTS = {
             VIRGIN_AMERICA: [
                 'from-[#7b4397] to-[#dc2430]',
-                'hover:from-[#7b4397]/50 hover:to-[#dc2430]/50',
+                'hover:from-[#7b4397]/75 hover:to-[#dc2430]/75',
             ],
             PURPLE_WHITE: [
                 'from-[#ba5370] to-[#f4e2d8]',
-                'hover:from-[#ba5370]/50 hover:to-[#f4e2d8]/50',
+                'hover:from-[#ba5370]/75 hover:to-[#f4e2d8]/75',
             ],
             ENDLESS_RIVER: [
                 'from-[#43cea2] to-[#185a9d]',
-                'hover:from-[#43cea2]/50 hover:to-[#185a9d]/50',
+                'hover:from-[#43cea2]/75 hover:to-[#185a9d]/75',
             ],
             BLOODY_MARY: [
                 'from-[#ff512f] to-[#dd2476]',
-                'hover:from-[#ff512f]/50 hover:to-[#dd2476]/50',
+                'hover:from-[#ff512f]/75 hover:to-[#dd2476]/75',
             ],
             CAN_YOU_FEEL_THE_LOVE_TONIGHT: [
                 'from-[#4568dc] to-[#b06ab3]',
-                'hover:from-[#4568dc]/50 hover:to-[#b06ab3]/50',
+                'hover:from-[#4568dc]/75 hover:to-[#b06ab3]/75',
             ],
             BOURBON: [
                 'from-[#ec6f66] to-[#f3a183]',
-                'hover:from-[#ec6f66]/50 hover:to-[#f3a183]/50',
+                'hover:from-[#ec6f66]/75 hover:to-[#f3a183]/75',
             ],
             DECENT: [
                 'from-[#4ca1af] to-[#c4e0e5]',
-                'hover:from-[#4ca1af]/50 hover:to-[#c4e0e5]/50',
+                'hover:from-[#4ca1af]/75 hover:to-[#c4e0e5]/75',
             ],
             SWEET_MORNING: [
                 'from-[#ff5f6d] to-[#ffc371]',
-                'hover:from-[#ff5f6d]/50 hover:to-[#ffc371]/50',
+                'hover:from-[#ff5f6d]/75 hover:to-[#ffc371]/75',
             ],
             SCOOTER: [
                 'from-[#36d1dc] to-[#5b86e5]',
-                'hover:from-[#36d1dc]/50 hover:to-[#5b86e5]/50',
+                'hover:from-[#36d1dc]/75 hover:to-[#5b86e5]/75',
             ],
             CELESTIAL: [
                 'from-[#c33764] to-[#1d2671]',
-                'hover:from-[#c33764]/50 hover:to-[#1d2671]/50',
+                'hover:from-[#c33764]/75 hover:to-[#1d2671]/75',
             ],
             ROYAL: [
                 'from-[#141e30] to-[#243b55]',
-                'hover:from-[#141e30]/50 hover:to-[#243b55]/50',
+                'hover:from-[#141e30]/75 hover:to-[#243b55]/75',
             ],
         }
 
-        const BASE_BG = ['bg-gradient-to-tr', GRADIENTS.CELESTIAL]
+        const BASE_BG = ['bg-gradient-to-tr', GRADIENTS.SWEET_MORNING]
 
         const computedStyles = computed(() => {
             return [BASE_STYLES, BASE_BG, props.rounded && 'rounded-xl']
