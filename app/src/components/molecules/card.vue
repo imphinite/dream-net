@@ -6,8 +6,8 @@
         <!-- content block -->
         <dn-editor v-if="content" :content="content" read-only />
         <div v-else class="card-body text-sm line-clamp-2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut.
         </div>
 
         <!-- footer block -->
@@ -20,7 +20,9 @@
                     ><fa icon="star"
                 /></dn-icon-button>
             </div>
-            <dn-button @click="$emit('comment-button-click')">Comment</dn-button>
+            <dn-button @click="$emit('comment-button-click')"
+                >Comment</dn-button
+            >
         </div>
     </div>
 </template>
@@ -108,10 +110,16 @@ export default {
                 'from-[#c33764] to-[#1d2671]',
                 'hover:from-[#c33764]/75 hover:to-[#1d2671]/75',
             ],
-            ROYAL: ['from-[#141e30] to-[#243b55]', 'hover:from-[#141e30]/75 hover:to-[#243b55]/75'],
+            ROYAL: [
+                'from-[#141e30] to-[#243b55]',
+                'hover:from-[#141e30]/75 hover:to-[#243b55]/75',
+            ],
         }
 
-        const BASE_BG = ['bg-gradient-to-tr', GRADIENTS.CAN_YOU_FEEL_THE_LOVE_TONIGHT]
+        const BASE_BG = [
+            'bg-gradient-to-tr',
+            GRADIENTS.CAN_YOU_FEEL_THE_LOVE_TONIGHT,
+        ]
 
         const computedStyles = computed(() => {
             return [BASE_STYLES, BASE_BG, props.rounded && 'rounded-xl']
