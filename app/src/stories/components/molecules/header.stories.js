@@ -8,14 +8,11 @@ export default {
 const Template = (args, { argTypes }) => ({
     props: Object.keys(argTypes),
     components: { DnHeader },
-    template:
-        '<dn-header :user="user" @onLogin="onLogin" @onLogout="onLogout" @onCreateAccount="onCreateAccount" />',
+    setup() {
+        return { args }
+    },
+    template: '<dn-header v-bind="args"/>',
 })
 
-export const LoggedIn = Template.bind({})
-LoggedIn.args = {
-    user: {},
-}
-
-export const LoggedOut = Template.bind({})
-LoggedOut.args = {}
+export const Default = Template.bind({})
+Default.args = {}
