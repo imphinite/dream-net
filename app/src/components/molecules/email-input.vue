@@ -33,8 +33,6 @@ export default {
         const validationErrorMessage = 'Must be a valid email'
 
         watch(modelValue, (newValue) => {
-            console.log('newValue', newValue)
-
             if (Boolean(newValue)) {
                 isEmailValid.value = validateEmailInput(newValue)
             }
