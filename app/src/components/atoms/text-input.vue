@@ -1,27 +1,30 @@
 <template>
-    <div class="relative">
-        <label v-show="label" class="text-white/75" :for="id || name">{{
-            label
-        }}</label>
-        <input
-            ref="inputRef"
-            :class="computedStyles"
-            :type="type"
-            :id="id || name"
-            :name="name"
-            :placeholder="placeholder"
-            :value="inputValue"
-            @input="updateModelValue"
-            @focus="focus = true"
-            @blur="focus = false"
-        />
-        <button
-            v-show="inputValue"
-            :class="computedTrailingButtonStyles"
-            @click="clearInput"
-        >
-            <fa icon="close" />
-        </button>
+    <div>
+        <div class="relative">
+            <label v-show="label" class="text-white/75" :for="id || name">{{
+                label
+            }}</label>
+            <input
+                ref="inputRef"
+                :class="computedStyles"
+                :type="type"
+                :id="id || name"
+                :name="name"
+                :placeholder="placeholder"
+                :value="inputValue"
+                @input="updateModelValue"
+                @focus="focus = true"
+                @blur="focus = false"
+            />
+            <button
+                v-show="inputValue"
+                :class="computedTrailingButtonStyles"
+                @click="clearInput"
+            >
+                <fa icon="close" />
+            </button>
+        </div>
+        <slot name="error"></slot>
     </div>
 </template>
 
