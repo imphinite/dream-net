@@ -1,10 +1,14 @@
 <template>
     <div class="relative">
-        <label v-show="label" class="text-white/75">{{ label }}</label>
+        <label v-show="label" class="text-white/75" :for="id || name">{{
+            label
+        }}</label>
         <input
             ref="inputRef"
-            :type="type"
             :class="computedStyles"
+            :type="type"
+            :id="id || name"
+            :name="name"
             :placeholder="placeholder"
             :value="inputValue"
             @input="updateModelValue"
@@ -26,7 +30,7 @@ import { ref, computed, watch } from 'vue'
 
 export default {
     name: 'dn-text-input',
-    emits: ['update:modelValue'],
+    emits: ['update:modelValue', 'focus', 'blur'],
     props: {
         modelValue: {
             type: [String, Number],
@@ -39,6 +43,12 @@ export default {
                 return ['text', 'email', 'password'].indexOf(value) !== -1
             },
         },
+        id: {
+            type: String,
+        },
+        name: {
+            type: String,
+        },
         label: {
             type: String,
             default: '',
@@ -50,7 +60,7 @@ export default {
     },
     setup(props, { emit }) {
         //-- styles
-        const BASE_STYLES = ['w-full', 'rounded-full', 'text-pink-500']
+        const BASE_STYLES = ['w-full', 'rounded-full', 'text-black/75']
 
         const focus = ref(false)
 
@@ -62,6 +72,8 @@ export default {
             return [
                 'absolute right-2 bottom-1/2 translate-y-1/2',
                 'rounded-full h-4/6 aspect-square',
+                'cursor-pointer',
+                'transition',
                 'bg-gray-600/75 hover:bg-black/75 active:bg-black',
                 'text-white',
             ]
@@ -83,6 +95,10 @@ export default {
 
         watch(inputValue, (newInputValue) => {
             emit('update:modelValue', newInputValue)
+        })
+
+        watch(focus, (newFocusValue) => {
+            emit(newFocusValue ? 'focus' : 'blur')
         })
 
         return {
