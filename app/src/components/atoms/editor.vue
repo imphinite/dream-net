@@ -1,5 +1,9 @@
 <template>
-    <quill-editor :theme="theme" v-model:content="content" />
+    <quill-editor
+        :theme="theme"
+        v-model:content="content"
+        :read-only="readOnly"
+    />
 </template>
 
 <script>

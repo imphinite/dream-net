@@ -1,7 +1,7 @@
 <template>
     <dn-text-input type="email" :id="id" name="email" v-model="modelValue">
         <template v-slot:error>
-            <div v-show="!isEmailValid" class="text-red-900/75">
+            <div v-show="!isEmailValid" class="text-red-400">
                 {{ validationErrorMessage }}
             </div>
         </template>
@@ -33,6 +33,7 @@ export default {
         const validationErrorMessage = 'Must be a valid email'
 
         watch(modelValue, (newValue) => {
+            isEmailValid.value = true
             if (Boolean(newValue)) {
                 isEmailValid.value = validateEmailInput(newValue)
             }

@@ -1,7 +1,7 @@
 <template>
     <dn-text-input type="text" :id="id" name="phone" v-model="modelValue">
         <template v-slot:error>
-            <div v-show="!isPhoneValid" class="text-red-900/75">
+            <div v-show="!isPhoneValid" class="text-red-400">
                 {{ validationErrorMessage }}
             </div>
         </template>
@@ -33,6 +33,7 @@ export default {
         const validationErrorMessage = 'Must be a valid phone number'
 
         watch(modelValue, (newValue) => {
+            isPhoneValid.value = true
             if (Boolean(newValue)) {
                 isPhoneValid.value = validatePhoneInput(newValue)
             }

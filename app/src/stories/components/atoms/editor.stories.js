@@ -31,3 +31,8 @@ const Template = (args, { argTypes }) => ({
 
 export const Default = Template.bind({})
 Default.args = {}
+
+export const ReadOnly = Template.bind({})
+ReadOnly.args = {
+    readOnly: true,
+}
