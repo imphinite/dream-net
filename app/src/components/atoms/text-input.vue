@@ -19,7 +19,7 @@
             <button
                 v-show="inputValue"
                 :class="computedTrailingButtonStyles"
-                @click="clearInput"
+                @click.prevent="clearInput"
             >
                 <fa icon="close" />
             </button>
@@ -63,7 +63,12 @@ export default {
     },
     setup(props, { emit }) {
         //-- styles
-        const BASE_STYLES = ['w-full', 'rounded-full', 'text-black/75']
+        const BASE_STYLES = [
+            'w-full',
+            'rounded-full',
+            'text-black/75',
+            'transition',
+        ]
 
         const focus = ref(false)
 

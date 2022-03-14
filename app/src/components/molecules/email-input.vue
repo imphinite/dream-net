@@ -1,7 +1,13 @@
 <template>
-    <dn-text-input type="email" :id="id" name="email" v-model="modelValue">
+    <dn-text-input
+        type="email"
+        :id="id"
+        name="email"
+        v-model="modelValue"
+        placeholder="Email"
+    >
         <template v-slot:error>
-            <div v-show="!isEmailValid" class="text-red-400">
+            <div v-show="!isEmailValid" :class="errorStyles">
                 {{ validationErrorMessage }}
             </div>
         </template>
@@ -26,7 +32,8 @@ export default {
             type: String,
         },
     },
-    setup(props) {
+    setup(props, { emit }) {
+        const errorStyles = ['px-4 py-1', 'text-sm text-red-400']
         const modelValue = toRef(props, 'modelValue')
         const isEmailValid = ref(true)
 
@@ -47,7 +54,13 @@ export default {
                 )
         }
 
+        // v-model
+        watch(modelValue, (newModelValue) => {
+            emit('update:modelValue', newModelValue)
+        })
+
         return {
+            errorStyles,
             isEmailValid,
             validationErrorMessage,
         }
