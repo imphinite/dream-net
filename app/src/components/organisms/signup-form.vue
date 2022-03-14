@@ -1,6 +1,9 @@
 <template>
     <form action="" method="post" :class="formStyles">
+        <div class="text-white text-xl font-bold self-center py-4">Sign Up</div>
+
         <!-- TODO: progress bar -->
+
         <div v-show="step == 1" class="text-white">
             <div :class="inputContainerStyles">
                 <dn-email-input v-model="formData.email" />
@@ -75,7 +78,6 @@ export default {
     props: {
         modelValue: {
             type: Object,
-            required: true,
         },
     },
     setup(props, { emit }) {
@@ -87,7 +89,13 @@ export default {
 
         // v-model
         const formData = ref({})
-        formData.value = props.modelValue
+        formData.value = props.modelValue || {
+            email: '',
+            password: '',
+            firstName: '',
+            lastName: '',
+            displayName: '',
+        }
         watch(formData.value, (newFormData) => {
             emit('update:modelValue', newFormData)
         })

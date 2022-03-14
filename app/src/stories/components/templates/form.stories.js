@@ -1,21 +1,21 @@
 import useActionEvents from '@sb/utils/use-action-events.js'
-import DnForm from '@ct/form.vue'
+import DnAuth from '@ct/auth.vue'
 
 export default {
-    title: 'Templates/Form',
-    component: DnForm,
+    title: 'Templates/Auth',
+    component: DnAuth,
 }
 
 const Template = (args, { argTypes }) => ({
     props: Object.keys(argTypes),
-    components: { DnForm },
+    components: { DnAuth },
     setup() {
         return {
             args,
             ...useActionEvents(argTypes),
         }
     },
-    template: '<dn-form v-bind="args" v-on="actionEvents"/>',
+    template: '<dn-auth v-bind="args" v-on="actionEvents"/>',
 })
 
 export const Default = Template.bind({})

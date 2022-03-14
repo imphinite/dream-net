@@ -1,5 +1,7 @@
 <template>
     <form action="" method="post" :class="formStyles">
+        <div class="text-white text-xl font-bold self-center py-4">Login</div>
+
         <div>
             <div :class="inputContainerStyles">
                 <dn-email-input v-model="formData.email" />
@@ -15,9 +17,12 @@
 
         <!-- Button group -->
         <div class="flex items-center justify-between">
-            <dn-button @click="$emit('forgot-password')"
-                >Forgot password?</dn-button
+            <button
+                class="text-blue-400"
+                @click.prevent="$emit('forgot-password')"
             >
+                Forgot password?
+            </button>
             <dn-button @click="$emit('submit', formData)">Login</dn-button>
         </div>
 
@@ -47,7 +52,6 @@ export default {
     props: {
         modelValue: {
             type: Object,
-            default: () => {},
         },
     },
     setup(props, { emit }) {
@@ -59,7 +63,10 @@ export default {
 
         // v-model
         const formData = ref({})
-        formData.value = props.modelValue
+        formData.value = props.modelValue || {
+            email: '',
+            password: '',
+        }
         watch(formData.value, (newFormData) => {
             emit('update:modelValue', newFormData)
         })
