@@ -1,15 +1,25 @@
 version: '3.8'
 services:
     core-api:
-        image: khromov/alpine-nginx-php8
+        # image: khromov/alpine-nginx-php8
+        build:
+            context: ./core-api
+            dockerfile: Dockerfile
         container_name: core_api
         ports:
-            - '${APP_PORT:-8090}:8080'
+            - '8090:80'
+        command: php -S core-api:80 -t /var/www/core-api/public
         volumes:
-            - ../services/core-api:/var/www/html
+            - ../services/core-api:/var/www/core-api
         depends_on:
             - app-database
-            # - redis
+            - redis
+
+    redis:
+        image: redis
+        container_name: app_redis
+        ports:
+            - '6379:6379'
 
     app-database:
         image: postgres
