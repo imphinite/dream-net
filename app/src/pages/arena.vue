@@ -36,7 +36,7 @@
 
 <script>
 import { reactive } from 'vue'
-import card from '../components/atoms/card.vue'
+import card from '@cm/card.vue'
 
 export default {
     components: {

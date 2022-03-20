@@ -6,6 +6,7 @@ RUN apk --no-cache add \
 php8 \
 php8-fpm \
 php8-pdo \
+php8-pdo_pgsql \
 php8-mbstring \
 php8-openssl
 
