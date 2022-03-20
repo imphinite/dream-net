@@ -19,21 +19,52 @@ const Template = (args, { argTypes }) => ({
     components: { DnNavigationDrawer },
     setup() {
         const active = ref(true)
+        const activeItem = ref(args.menuItems[1])
 
         return {
             args,
             ...useActionEvents(argTypes),
             active,
+            activeItem,
             Lights,
         }
     },
     template: `
         <div class="w-full h-full">
             <img class="absolute w-full h-full" :src="Lights" />
-            <dn-navigation-drawer v-bind="args" v-on="actionEvents" :model-value="active" @update:model-value="active=$event" />
+            <dn-navigation-drawer
+                v-bind="args"
+                v-on="actionEvents"
+                :model-value="active"
+                @update:model-value="active=$event"
+                v-model:active-item="activeItem"
+            />
         </div>
     `,
 })
 
 export const Default = Template.bind({})
-Default.args = {}
+Default.args = {
+    menuItems: [
+        {
+            icon: 'home',
+            label: 'Home',
+        },
+        {
+            icon: 'star',
+            label: 'Favorites',
+        },
+        {
+            icon: 'book',
+            label: 'History',
+        },
+        {
+            icon: 'gear',
+            label: 'Settings',
+        },
+        {
+            icon: 'user',
+            label: 'Sign out',
+        },
+    ],
+}

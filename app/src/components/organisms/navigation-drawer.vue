@@ -27,7 +27,7 @@
 
 <script>
 import favicon from '@/assets/favicon.png'
-import { ref, toRef, computed } from 'vue'
+import { ref, toRef, computed, watch } from 'vue'
 import DnIconButton from '@ca/icon-button.vue'
 import DnMenu from '@cm/menu.vue'
 import { onClickOutside } from '@vueuse/core'
@@ -47,11 +47,22 @@ export default {
             type: String,
             default: '',
         },
+        menuItems: {
+            type: Array,
+            default: () => [
+                {
+                    icon: 'home',
+                    label: 'Home',
+                },
+            ],
+        },
+        activeItem: {
+            type: Object,
+        },
     },
-    emits: ['update:modelValue'],
+    emits: ['update:modelValue', 'update:active-item'],
     data() {
         return {
-            activeMenuItem: null,
             favicon: favicon,
             links: [
                 {
@@ -61,28 +72,6 @@ export default {
                 {
                     name: 'about',
                     to: '/about',
-                },
-            ],
-            menuItems: [
-                {
-                    icon: 'home',
-                    label: 'Home',
-                },
-                {
-                    icon: 'star',
-                    label: 'Favorites',
-                },
-                {
-                    icon: 'book',
-                    label: 'History',
-                },
-                {
-                    icon: 'gear',
-                    label: 'Settings',
-                },
-                {
-                    icon: 'user',
-                    label: 'Sign out',
                 },
             ],
         }
@@ -126,11 +115,18 @@ export default {
             collapse()
         })
 
+        const activeMenuItem = ref()
+        activeMenuItem.value = props.activeItem
+        watch(activeMenuItem, (newActiveMenuItem) => {
+            emit('update:active-item', newActiveMenuItem)
+        })
+
         return {
             navbar,
             containerStyles,
             active,
             collapse,
+            activeMenuItem,
         }
     },
     methods: {},

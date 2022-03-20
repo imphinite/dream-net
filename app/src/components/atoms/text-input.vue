@@ -68,6 +68,7 @@ export default {
             'rounded-full',
             'text-black/75',
             'transition',
+            'border-2 border-white/75',
         ]
 
         const focus = ref(false)

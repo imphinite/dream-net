@@ -1,4 +1,6 @@
 //webpack.common.js
+require('dotenv').config()
+const webpack = require('webpack')
 const path = require('path')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -27,6 +29,9 @@ module.exports = {
         },
     },
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env': JSON.stringify(process.env),
+        }),
         new VueLoaderPlugin(), //Plug in for parsing and converting. vue files
         new HtmlWebpackPlugin({
             filename: 'index.html',

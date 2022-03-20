@@ -82,7 +82,7 @@ export default {
     },
     setup(props, { emit }) {
         const formStyles = computed(() => {
-            return ['flex flex-col', 'p-4']
+            return ['flex flex-col', 'w-full p-4']
         })
 
         const inputContainerStyles = ['h-20']
