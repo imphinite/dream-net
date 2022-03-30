@@ -1,16 +1,15 @@
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import useAxios from '@/composables/use-axios'
+import useStore from '@/store/use-store'
 
-const auth = ref()
+//-- Getters
+const { auth: authModule } = useStore()
+const isAuthenticated = computed(() => authModule.isAuthenticated)
 
-const isAuthenticated = computed(() => {
-    return Boolean(auth.access_token)
-})
-
+//-- Methods
 const axios = useAxios()
-
 const login = async ({ username, password }) => {
-    const { data } = await axios({
+    const authData = await axios({
         method: 'post',
         url: 'oauth/token',
         data: {
@@ -23,17 +22,35 @@ const login = async ({ username, password }) => {
         },
     })
 
-    auth.value = data
+    authModule.storeAuth(authData)
 }
 
-// TODO
-const register = () => {}
+const fetchSelfInfo = async () => {
+    const userData = await axios({
+        method: 'get',
+        url: 'self',
+    })
+
+    authModule.storeUserSelfInfo(userData)
+}
+
+const register = async ({ username, email, password }) => {
+    await axios({
+        method: 'post',
+        url: 'register',
+        data: {
+            username,
+            email,
+            password,
+        },
+    })
+}
 
 export default () => {
     return {
-        auth,
         isAuthenticated,
         login,
         register,
+        fetchSelfInfo,
     }
 }

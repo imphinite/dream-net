@@ -29,8 +29,8 @@
             </div>
             <div :class="inputContainerStyles">
                 <dn-text-input
-                    v-model="formData.displayname"
-                    placeholder="Diaplay name"
+                    v-model="formData.displayName"
+                    placeholder="Display name"
                 />
             </div>
         </div>

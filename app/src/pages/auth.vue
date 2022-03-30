@@ -10,16 +10,32 @@
             @signup-form="activeForm = forms.SIGNUP_FORM"
             @submit="handleLogin"
         />
+
+        <button @click="clearAuth">clear auth</button>
+        {{ isAuthenticated }}
+        {{ authModule.data }}
+
+        is loading {{ isLoading }}
     </section>
 </template>
 
 <script>
+//-- Libraries
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+
+//-- Components
 import DnLoginForm from '@co/login-form'
 import DnSignupForm from '@co/signup-form'
+
+//-- Store
+import useStore from '@/store/use-store'
+
+//-- Composables
 import useAuthentication from '@/composables/use-authentication'
 import useEnum from '@/composables/use-enum'
 import useGradients from '@/composables/use-gradients'
+import useLoading from '@/composables/use-loading'
 
 export default {
     components: {
@@ -31,7 +47,7 @@ export default {
         const { GRADIENTS } = useGradients({ hover: false })
         const containerStyles = [
             'flex flex-col',
-            'w-full h-screen p-4',
+            'w-full h-screen p-4 overflow-hidden',
             'bg-gradient-to-tr',
             GRADIENTS.CAN_YOU_FEEL_THE_LOVE_TONIGHT,
         ]
@@ -46,18 +62,36 @@ export default {
             return activeForm.value === forms.LOGIN_FORM
         })
 
-        const { login } = useAuthentication()
+        // Handle data
+        const { login, fetchSelfInfo, register } = useAuthentication()
+        const { auth: authModule } = useStore()
+        const { isAuthenticated, clearAuth } = authModule
+        const router = useRouter()
 
-        // TODO
-        const handleLogin = (event) => {
-            login({
-                username: 'mememe@qq.com',
-                password: '123456',
+        // Login and redirect to home
+        const handleLogin = async (event) => {
+            const { email, password } = event
+            await login({
+                username: email,
+                password,
             })
+
+            await fetchSelfInfo()
+
+            router.push({ name: 'Home' })
         }
 
-        // TODO
-        const handleSignup = () => {}
+        // Sign up
+        const handleSignup = async (event) => {
+            const { email, displayName, password } = event
+            await register({
+                email,
+                username: displayName,
+                password,
+            })
+
+            activeForm.value = forms.LOGIN_FORM
+        }
 
         return {
             containerStyles,
@@ -67,6 +101,10 @@ export default {
             isLoginFormActive,
             handleSignup,
             handleLogin,
+            isAuthenticated,
+            clearAuth,
+            authModule,
+            ...useLoading(),
         }
     },
 }
