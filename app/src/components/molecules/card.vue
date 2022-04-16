@@ -66,15 +66,15 @@ export default {
     },
     setup(props) {
         const BASE_STYLES = [
-            'flex flex-col border-2 border-black/50 p-2 w-full min-w-[80%]',
+            'flex flex-col border-2 border-white/75 p-2 w-full min-w-[80%]',
             'font-display text-white select-none',
         ]
 
         const { GRADIENTS } = useGradients()
 
         const BASE_BG = [
-            'bg-gradient-to-tr',
-            GRADIENTS.CAN_YOU_FEEL_THE_LOVE_TONIGHT,
+            // 'bg-gradient-to-tr',
+            // GRADIENTS.CAN_YOU_FEEL_THE_LOVE_TONIGHT,
         ]
 
         const computedStyles = computed(() => {

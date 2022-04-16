@@ -5,11 +5,13 @@
         />
 
         <section class="scrollbar-hidden" :class="bodySectionStyles">
-            <dn-card
-                v-for="(item, index) in 20"
-                :key="index"
-                class="snap-start mt-2"
-            />
+            <slot>
+                <dn-card
+                    v-for="(item, index) in 20"
+                    :key="index"
+                    class="snap-start mt-2"
+                />
+            </slot>
         </section>
 
         <dn-navigation-drawer v-model="showNavigationDrawer" />

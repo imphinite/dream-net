@@ -13,36 +13,40 @@
 import NavigationDrawer from '@co/navigation-drawer.vue'
 import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import useNavigationDrawer from '@/composables/use-navigation-drawer'
 
 export default {
     components: { NavigationDrawer },
     setup() {
-        const navDrawer = ref(false)
+        const { navDrawer, activeItem, navigationMenuItems } =
+            useNavigationDrawer()
 
-        // Generate navigation menu items from router config
-        const router = useRouter()
-        const ROUTE_ICON_MAPPING = {
-            Home: 'home',
-            Favorites: 'star',
-            History: 'book',
-            Settings: 'gear',
-            Logout: 'user',
-        }
-        const navigationMenuItems = ref()
-        navigationMenuItems.value = router.options.routes
-            .filter((route) => route.name !== 'Auth')
-            .map((route) => {
-                return {
-                    label: route.name,
-                    icon: ROUTE_ICON_MAPPING[route.name],
-                }
-            })
+        // const navDrawer = ref(false)
 
-        // Initialize active menu item
-        const activeItem = ref()
-        watch(activeItem, (newActiveItem) => {
-            router.push({ name: newActiveItem.label })
-        })
+        // // Generate navigation menu items from router config
+        // const router = useRouter()
+        // const ROUTE_ICON_MAPPING = {
+        //     Home: 'home',
+        //     Favorites: 'star',
+        //     History: 'book',
+        //     Settings: 'gear',
+        //     Logout: 'user',
+        // }
+        // const navigationMenuItems = ref()
+        // navigationMenuItems.value = router.options.routes
+        //     .filter((route) => route.name !== 'Auth')
+        //     .map((route) => {
+        //         return {
+        //             label: route.name,
+        //             icon: ROUTE_ICON_MAPPING[route.name],
+        //         }
+        //     })
+
+        // // Initialize active menu item
+        // const activeItem = ref()
+        // watch(activeItem, (newActiveItem) => {
+        //     router.push({ name: newActiveItem.label })
+        // })
 
         return {
             navDrawer,

@@ -36,6 +36,7 @@ import useAuthentication from '@/composables/use-authentication'
 import useEnum from '@/composables/use-enum'
 import useGradients from '@/composables/use-gradients'
 import useLoading from '@/composables/use-loading'
+import { useRoute } from 'vue-router'
 
 export default {
     components: {
@@ -91,6 +92,13 @@ export default {
             })
 
             activeForm.value = forms.LOGIN_FORM
+        }
+
+        // If logout route
+        const route = useRoute()
+        if (route.path === '/logout') {
+            activeForm.value = forms.LOGIN_FORM
+            clearAuth()
         }
 
         return {
