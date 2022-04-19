@@ -2,20 +2,16 @@
     <section :class="containerStyles">
         <dn-signup-form
             v-if="isSignupFormActive"
+            :disabled="isLoading"
             @login-form="activeForm = forms.LOGIN_FORM"
             @submit="handleSignup"
         />
         <dn-login-form
             v-if="isLoginFormActive"
+            :disabled="isLoading"
             @signup-form="activeForm = forms.SIGNUP_FORM"
             @submit="handleLogin"
         />
-
-        <button @click="clearAuth">clear auth</button>
-        {{ isAuthenticated }}
-        {{ authModule.data }}
-
-        is loading {{ isLoading }}
     </section>
 </template>
 
@@ -96,9 +92,8 @@ export default {
 
         // If logout route
         const route = useRoute()
-        if (route.path === '/logout') {
+        if (route.path === '/login') {
             activeForm.value = forms.LOGIN_FORM
-            clearAuth()
         }
 
         return {

@@ -25,7 +25,6 @@ export default {
             'flex flex-col justify-center items-center',
             'absolute top-0 left-0 w-screen h-screen overflow-hidden',
             'font-bold text-white',
-            'pointer-events-none',
             'z-100',
         ]
 
@@ -38,7 +37,7 @@ export default {
         //-- refs
         const active = toRef(props, 'modelValue')
         watch(active, (newActive) => {
-            emit('update:modelValue watcher', newActive)
+            emit('update:modelValue', newActive)
         })
 
         //-- computed

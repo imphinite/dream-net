@@ -4,13 +4,14 @@
 
         <div>
             <div :class="inputContainerStyles">
-                <dn-email-input v-model="formData.email" />
+                <dn-email-input v-model="formData.email" :disabled="disabled" />
             </div>
             <div :class="inputContainerStyles">
                 <dn-text-input
                     v-model="formData.password"
                     type="password"
                     placeholder="Password"
+                    :disabled="disabled"
                 />
             </div>
         </div>
@@ -52,6 +53,10 @@ export default {
     props: {
         modelValue: {
             type: Object,
+        },
+        disabled: {
+            type: Boolean,
+            default: false,
         },
     },
     setup(props, { emit }) {

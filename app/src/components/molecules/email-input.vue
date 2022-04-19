@@ -5,6 +5,7 @@
         name="email"
         v-model="modelValue"
         placeholder="Email"
+        :disabled="disabled"
     >
         <template v-slot:error>
             <div v-show="!isEmailValid" :class="errorStyles">
@@ -30,6 +31,10 @@ export default {
         },
         id: {
             type: String,
+        },
+        disabled: {
+            type: Boolean,
+            default: false,
         },
     },
     setup(props, { emit }) {

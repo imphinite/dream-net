@@ -12,12 +12,13 @@
                 :name="name"
                 :placeholder="placeholder"
                 :value="inputValue"
+                :disabled="disabled"
                 @input="updateModelValue"
                 @focus="focus = true"
                 @blur="focus = false"
             />
             <button
-                v-show="inputValue"
+                v-show="inputValue && focus"
                 :class="computedTrailingButtonStyles"
                 @click.prevent="clearInput"
             >
@@ -59,6 +60,10 @@ export default {
         placeholder: {
             type: String,
             default: 'Type something...',
+        },
+        disabled: {
+            type: Boolean,
+            default: false,
         },
     },
     setup(props, { emit }) {

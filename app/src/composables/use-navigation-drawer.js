@@ -17,7 +17,7 @@ export default () => {
     const router = useRouter()
 
     navigationMenuItems.value = router.options.routes
-        .filter((route) => route.name !== 'Auth')
+        .filter((route) => !(route.name == 'Login' || route.name == 'Signup'))
         .map((route) => {
             return {
                 label: route.name,

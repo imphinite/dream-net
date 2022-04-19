@@ -4,7 +4,7 @@ import useStore from '@/store/use-store'
 
 //-- Getters
 const { auth: authModule } = useStore()
-const isAuthenticated = computed(() => authModule.isAuthenticated)
+const isAuthenticated = computed(() => authModule.isAuthenticated.value)
 
 //-- Methods
 const axios = useAxios()

@@ -5,12 +5,26 @@ import About from '@/pages/about.vue'
 import Tailwind from '@/pages/tailwind.vue'
 import Arena from '@/pages/arena.vue'
 import useAuthentication from '@/composables/use-authentication'
+import useStore from '@/store/use-store'
+
+const clearAuthBeforeEnterAuthRoutes = () => {
+    const { auth: authModule } = useStore()
+    const { clearAuth } = authModule
+    clearAuth()
+}
 
 const routes = [
     {
         path: '/sign-up',
-        name: 'Auth',
+        name: 'Signup',
         component: Auth,
+        beforeEnter: [clearAuthBeforeEnterAuthRoutes],
+    },
+    {
+        path: '/login',
+        name: 'Login',
+        component: Auth,
+        beforeEnter: [clearAuthBeforeEnterAuthRoutes],
     },
     {
         path: '/',
@@ -35,7 +49,9 @@ const routes = [
     {
         path: '/logout',
         name: 'Logout',
-        component: Auth,
+        redirect: () => {
+            return '/login'
+        },
     },
 ]
 
@@ -45,10 +61,12 @@ const router = createRouter({
 })
 
 // Redirect to auth page if not authenticated
-router.beforeEach((to, from) => {
+router.beforeEach((to) => {
     const { isAuthenticated } = useAuthentication()
-    if (!isAuthenticated.value && to.name != 'Auth') {
-        return { name: 'Auth' }
+    const isAuthRoute = to.name === 'Signup' || to.name === 'Login'
+
+    if (!isAuthenticated.value && !isAuthRoute) {
+        return { name: 'Login' }
     }
 })
 

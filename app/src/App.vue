@@ -5,53 +5,30 @@
             v-model:active-item="activeItem"
             :menu-items="navigationMenuItems"
         />
+        <loader v-model="loading" />
         <router-view></router-view>
     </div>
 </template>
 
 <script>
 import NavigationDrawer from '@co/navigation-drawer.vue'
-import { ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
+import Loader from '@co/loader.vue'
 import useNavigationDrawer from '@/composables/use-navigation-drawer'
+import useLoading from '@/composables/use-loading'
 
 export default {
-    components: { NavigationDrawer },
+    components: { NavigationDrawer, Loader },
     setup() {
         const { navDrawer, activeItem, navigationMenuItems } =
             useNavigationDrawer()
 
-        // const navDrawer = ref(false)
-
-        // // Generate navigation menu items from router config
-        // const router = useRouter()
-        // const ROUTE_ICON_MAPPING = {
-        //     Home: 'home',
-        //     Favorites: 'star',
-        //     History: 'book',
-        //     Settings: 'gear',
-        //     Logout: 'user',
-        // }
-        // const navigationMenuItems = ref()
-        // navigationMenuItems.value = router.options.routes
-        //     .filter((route) => route.name !== 'Auth')
-        //     .map((route) => {
-        //         return {
-        //             label: route.name,
-        //             icon: ROUTE_ICON_MAPPING[route.name],
-        //         }
-        //     })
-
-        // // Initialize active menu item
-        // const activeItem = ref()
-        // watch(activeItem, (newActiveItem) => {
-        //     router.push({ name: newActiveItem.label })
-        // })
+        const { loading } = useLoading()
 
         return {
             navDrawer,
             activeItem,
             navigationMenuItems,
+            loading,
         }
     },
 }

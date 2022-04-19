@@ -6,13 +6,14 @@
 
         <div v-show="step == 1" class="text-white">
             <div :class="inputContainerStyles">
-                <dn-email-input v-model="formData.email" />
+                <dn-email-input v-model="formData.email" :disabled="disabled" />
             </div>
             <div :class="inputContainerStyles">
                 <dn-text-input
                     v-model="formData.password"
                     type="password"
                     placeholder="Password"
+                    :disabled="disabled"
                 />
             </div>
         </div>
@@ -21,16 +22,19 @@
                 <dn-text-input
                     v-model="formData.firstName"
                     placeholder="First name"
+                    :disabled="disabled"
                 />
                 <dn-text-input
                     v-model="formData.lastName"
                     placeholder="Last name"
+                    :disabled="disabled"
                 />
             </div>
             <div :class="inputContainerStyles">
                 <dn-text-input
                     v-model="formData.displayName"
                     placeholder="Display name"
+                    :disabled="disabled"
                 />
             </div>
         </div>
@@ -78,6 +82,10 @@ export default {
     props: {
         modelValue: {
             type: Object,
+        },
+        disabled: {
+            type: Boolean,
+            default: false,
         },
     },
     setup(props, { emit }) {
