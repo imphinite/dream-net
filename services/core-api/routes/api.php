@@ -23,3 +23,14 @@ Route::middleware('auth:passport')->get('/user', function (Request $request) {
 });
 Route::post('/register', [RegisterController::class, 'register']);
 Route::get('/self', [UserController::class, 'self']);
+
+// Posts
+
+
+// Comments
+
+
+// Likes
+
+
+// Favorites
