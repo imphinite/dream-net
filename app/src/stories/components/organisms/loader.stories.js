@@ -7,9 +7,6 @@ export default {
     component: DnLoader,
     // More on argTypes: https://storybook.js.org/docs/vue/api/argtypes
     argTypes: {
-        // modelValue: {
-        //     table: { disable: true },
-        // },
         'update:modelValue': {
             table: { disable: true },
         },
@@ -23,8 +20,7 @@ const Template = (args, { argTypes }) => ({
     props: Object.keys(DnLoader),
     components: { DnLoader },
     setup() {
-        const active = ref(args.modelValue)
-        // active.value =
+        const active = ref(typeof args.modelValue === 'undefined' ? true : args.modelValue)
 
         return {
             args,

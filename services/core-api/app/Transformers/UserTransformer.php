@@ -47,10 +47,10 @@ class UserTransformer extends TransformerAbstract
      *
      * @return \League\Fractal\Resource\Collection
      */
-    public function includeComments(Post $post, ParamBag $params = null)
+    public function includePosts(User $user, ParamBag $params = null)
     {
         if ($params === null) {
-            $comments = $post->comments;
+            $posts = $user->posts;
         } else {
             // Optional params validation
             $usedParams = array_keys(iterator_to_array($params));
@@ -66,26 +66,25 @@ class UserTransformer extends TransformerAbstract
             list($limit, $offset) = $params->get('limit');
             list($orderCol, $orderBy) = $params->get('order');
 
-            $comments = $post->comments
+            $posts = $user->posts
                 ->take($limit)
                 ->skip($offset)
                 ->orderBy($orderCol, $orderBy)
                 ->get();
         }
 
-        return $this->collection($comments, new CommentTransformer);
+        return $this->collection($posts, new PostTransformer);
     }
     
-
     /**
      * Include Comments
      *
      * @return \League\Fractal\Resource\Collection
      */
-    public function includeComments(Post $post, ParamBag $params = null)
+    public function includeComments(User $user, ParamBag $params = null)
     {
         if ($params === null) {
-            $comments = $post->comments;
+            $comments = $user->comments;
         } else {
             // Optional params validation
             $usedParams = array_keys(iterator_to_array($params));
@@ -101,7 +100,7 @@ class UserTransformer extends TransformerAbstract
             list($limit, $offset) = $params->get('limit');
             list($orderCol, $orderBy) = $params->get('order');
 
-            $comments = $post->comments
+            $comments = $user->comments
                 ->take($limit)
                 ->skip($offset)
                 ->orderBy($orderCol, $orderBy)

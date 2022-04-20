@@ -1,9 +1,7 @@
 <template>
     <div>
         <div class="relative">
-            <label v-show="label" class="text-white/75" :for="id || name">{{
-                label
-            }}</label>
+            <label v-show="label" class="text-white/75" :for="id || name">{{ label }}</label>
             <input
                 ref="inputRef"
                 :class="computedStyles"
@@ -20,6 +18,7 @@
             <button
                 v-show="inputValue && focus"
                 :class="computedTrailingButtonStyles"
+                tabindex="-1"
                 @click.prevent="clearInput"
             >
                 <fa icon="close" />
