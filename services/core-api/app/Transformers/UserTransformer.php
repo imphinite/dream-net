@@ -3,7 +3,7 @@
 namespace App\Transformers;
 
 use League\Fractal\TransformerAbstract;
-use App\Model\User;
+use App\Models\User;
 
 class UserTransformer extends TransformerAbstract
 {
@@ -37,8 +37,8 @@ class UserTransformer extends TransformerAbstract
     {
         return [
             'id'        => $user->id,
-            'name'      => $user->title,
-            'email'     => $user->body,
+            'name'      => $user->name,
+            'email'     => $user->email,
         ];
     }
     

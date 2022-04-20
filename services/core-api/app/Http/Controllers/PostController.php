@@ -4,15 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use League\Fractal\Manager;
+use League\Fractal\Resource\Collection;
+use App\Transformers\PostTransformer;
 
 class PostController extends Controller
 {
+    private $fractal;
+
     /**
      * Create a new UserController instance.
      */
     public function __construct()
     {
         $this->middleware('auth:api');
+        
+        $this->fractal = new Manager();
     }
 
     /**
@@ -24,8 +31,14 @@ class PostController extends Controller
     {
         $user = Auth::user();
         $posts = $user->posts;
-        dd($posts);
-        return $user->posts();
+
+        $result = fractal()
+            ->collection($posts)
+            ->transformWith(new PostTransformer())
+            ->includeAuthor()
+            ->toArray();
+            
+        return response()->json($result);
     }
 
     /**

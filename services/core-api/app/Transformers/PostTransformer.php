@@ -4,7 +4,7 @@ namespace App\Transformers;
 
 use League\Fractal\TransformerAbstract;
 use League\Fractal\ParamBag;
-use App\Model\Post;
+use App\Models\Post;
 
 class PostTransformer extends TransformerAbstract
 {
