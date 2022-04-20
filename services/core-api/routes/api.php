@@ -32,20 +32,18 @@ Route::controller(PostController::class)->group(function () {
     Route::get('/posts', 'index');
     Route::post('/posts', 'store');
     Route::get('/posts/{id}', 'show');
-    Route::put('/posts/{id}', 'edit');
     Route::patch('/posts/{id}', 'update');
     Route::delete('/posts/{id}', 'destroy');
 });
 
-// // Comments
-// Route::controller(CommentController::class)->group(function () {
-//     Route::get('/comments', 'index');
-//     Route::get('/comments/{id}', 'show');
-//     Route::post('/comments', 'store');
-//     Route::put('/comments/{id}', 'edit');
-//     Route::patch('/comments/{id}', 'update');
-//     Route::delete('/comments/{id}', 'destroy');
-// });
+// Comments
+Route::controller(CommentController::class)->group(function () {
+    Route::get('/comments', 'index');
+    Route::post('/comments', 'store');
+    Route::get('/comments/{id}', 'show');
+    Route::patch('/comments/{id}', 'update');
+    Route::delete('/comments/{id}', 'destroy');
+});
 
 // Likes
 

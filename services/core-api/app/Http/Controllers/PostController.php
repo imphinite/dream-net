@@ -32,19 +32,25 @@ class PostController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
+        // Filters
+        $user_id = Request::input('user_id', null);
 
         // Pagination
         $currentCursor = Request::input('cursor', null);
         $previousCursor = Request::input('previous', null);
         $limit = Request::input('limit', 10);
-        if ($currentCursor) {
-            // Query
-            $posts = Post::where('id', '>', $currentCursor)->latest()->take($limit)->get();
-        } else {
-            // Query
-            $posts = Post::latest()->take($limit)->get();
+        
+        // Query
+        $query = Post::latest()->take($limit);
+        if ($user_id) {
+            $query = $query->where('user_id', $user_id);
         }
+        if ($currentCursor) {
+            $query = $query->where('id', '>', $currentCursor);
+        }
+
+        // Get data
+        $posts = $query->get();
 
         // Save pagination cursor
         $newCursor = $posts->last()->id;
@@ -69,7 +75,18 @@ class PostController extends Controller
      */
     public function store(HttpRequest $request)
     {
-        //
+        $post = new Post();
+        $post->title = Request::input('title', null);
+        $post->body = Request::input('body', null);
+        $post->mood = Request::input('mood', null);
+        $post->locale = Request::input('locale', null);
+        $post->moderation_flag = Request::input('moderationFlag', null);
+        $post->anonymous = Request::input('anonymous', false);
+
+        // Associate new post to the current user
+        Auth::user()->posts()->save($post);
+
+        return response()->json(['result' => 'success'], 200);
     }
 
     /**
@@ -80,18 +97,16 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
-    }
+        $post = Post::find($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        // Transform models
+        $result = fractal()
+            ->item($post)
+            ->transformWith(new PostTransformer())
+            ->includeAuthor()
+            ->toArray();
+
+        return $result;
     }
 
     /**
@@ -103,7 +118,17 @@ class PostController extends Controller
      */
     public function update(HttpRequest $request, $id)
     {
-        //
+        $post = Post::find($id);
+
+        $post->title = Request::input('title', null);
+        $post->body = Request::input('body', null);
+        $post->mood = Request::input('mood', null);
+        $post->anonymous = Request::input('anonymous', false);
+
+        // Associate new post to the current user
+        $post->save();
+
+        return response()->json(['result' => 'success'], 200);
     }
 
     /**
@@ -114,6 +139,6 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // TODO soft delete
     }
 }
