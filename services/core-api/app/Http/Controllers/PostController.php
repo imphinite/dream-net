@@ -3,9 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+    /**
+     * Create a new UserController instance.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +22,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+        $posts = $user->posts;
+        dd($posts);
+        return $user->posts();
     }
 
     /**
