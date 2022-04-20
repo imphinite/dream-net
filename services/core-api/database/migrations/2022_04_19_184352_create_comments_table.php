@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->text('body');
+            $table->string('moderation_flag')->nullable();
+            $table->boolean('anonymous')->default(false);
             $table->timestamps();
         });
 

@@ -15,7 +15,12 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
+            $table->string('title', 255);
             $table->mediumText('body');
+            $table->string('mood')->nullable();
+            $table->string('locale')->nullable();
+            $table->string('moderation_flag')->nullable();
+            $table->boolean('anonymous')->default(false);
             $table->timestamps();
         });
 
