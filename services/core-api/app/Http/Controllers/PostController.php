@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
+use League\Fractal\Pagination\Cursor;
 use App\Transformers\PostTransformer;
+use App\Models\Post;
 
 class PostController extends Controller
 {
@@ -30,25 +33,32 @@ class PostController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $posts = $user->posts;
 
+        // Pagination
+        $currentCursor = Request::input('cursor', null);
+        $previousCursor = Request::input('previous', null);
+        $limit = Request::input('limit', 10);
+        if ($currentCursor) {
+            // Query
+            $posts = Post::where('id', '>', $currentCursor)->latest()->take($limit)->get();
+        } else {
+            // Query
+            $posts = Post::latest()->take($limit)->get();
+        }
+
+        // Save pagination cursor
+        $newCursor = $posts->last()->id;
+        $cursor = new Cursor($currentCursor, $previousCursor, $newCursor, $posts->count());
+
+        // Transform models
         $result = fractal()
             ->collection($posts)
             ->transformWith(new PostTransformer())
             ->includeAuthor()
+            ->withCursor($cursor)
             ->toArray();
-            
-        return response()->json($result);
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json($result);
     }
 
     /**
@@ -57,7 +67,7 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(HttpRequest $request)
     {
         //
     }
@@ -91,7 +101,7 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(HttpRequest $request, $id)
     {
         //
     }

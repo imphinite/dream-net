@@ -30,8 +30,8 @@ Route::get('/self', [UserController::class, 'self']);
 // Route::get('/posts', [PostController::class, 'index']);
 Route::controller(PostController::class)->group(function () {
     Route::get('/posts', 'index');
-    Route::get('/posts/{id}', 'show');
     Route::post('/posts', 'store');
+    Route::get('/posts/{id}', 'show');
     Route::put('/posts/{id}', 'edit');
     Route::patch('/posts/{id}', 'update');
     Route::delete('/posts/{id}', 'destroy');
