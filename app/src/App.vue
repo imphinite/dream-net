@@ -5,8 +5,8 @@
             v-model:active-item="activeItem"
             :menu-items="navigationMenuItems"
         />
-        <loader v-model="loading" />
         <router-view></router-view>
+        <loader v-model="loading" />
     </div>
 </template>
 

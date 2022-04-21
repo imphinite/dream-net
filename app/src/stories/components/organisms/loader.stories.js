@@ -20,7 +20,9 @@ const Template = (args, { argTypes }) => ({
     props: Object.keys(DnLoader),
     components: { DnLoader },
     setup() {
-        const active = ref(typeof args.modelValue === 'undefined' ? true : args.modelValue)
+        const active = ref(
+            typeof args.modelValue === 'undefined' ? true : args.modelValue
+        )
 
         return {
             args,

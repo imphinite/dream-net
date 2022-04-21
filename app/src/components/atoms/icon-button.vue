@@ -58,7 +58,7 @@ export default {
                     'focus:ring-2 focus:ring-yellow-light',
                 ],
                 transparent: [
-                    'bg-transparent text-white/90 border-white/90 bg-black/25',
+                    'bg-transparent text-white/90 border-white/90 bg-gray-700/25',
                     'hover:bg-black/50',
                     'active:bg-black/75 active:text-white/50 active:border-white/50',
                     'focus:ring-2 focus:ring-yellow-light',

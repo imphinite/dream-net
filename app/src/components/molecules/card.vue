@@ -1,7 +1,7 @@
 <template>
     <div :class="computedStyles">
         <!-- title block -->
-        <div class="card-title font-bold uppercase text-2xl">title</div>
+        <div class="card-title font-bold text-2xl">{{ title }}</div>
 
         <!-- content block -->
         <dn-editor v-if="hasContent" :content="content" :read-only="true" />
@@ -66,7 +66,7 @@ export default {
     },
     setup(props) {
         const BASE_STYLES = [
-            'flex flex-col border-2 border-white/75 p-2 w-full min-w-[80%]',
+            'flex flex-col border-y border-white/25 p-2 w-full min-w-[80%]',
             'font-display text-white select-none',
         ]
 
