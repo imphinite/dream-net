@@ -1,11 +1,17 @@
-import { createRouter, createWebHistory } from 'vue-router'
+//-- Libraries
+import { createRouter, createWebHashHistory } from 'vue-router'
+
+//-- Composables
+import useStore from '@/store/use-store'
+import useAuthentication from '@/composables/use-authentication'
+
+//-- Pages
 import Auth from '@/pages/auth.vue'
 import Home from '@/pages/home.vue'
-import About from '@/pages/about.vue'
-import Tailwind from '@/pages/tailwind.vue'
-import Arena from '@/pages/arena.vue'
-import useAuthentication from '@/composables/use-authentication'
-import useStore from '@/store/use-store'
+import Favorites from '@/pages/favorites.vue'
+import History from '@/pages/history.vue'
+import Settings from '@/pages/settings.vue'
+import Post from '@/pages/post.vue'
 
 const clearAuthBeforeEnterAuthRoutes = () => {
     const { auth: authModule } = useStore()
@@ -30,21 +36,38 @@ const routes = [
         path: '/',
         name: 'Home',
         component: Home,
+        meta: {
+            navigatable: true,
+        },
+    },
+    {
+        path: '/posts/:id',
+        name: 'Post',
+        component: Post,
     },
     {
         path: '/favorites',
         name: 'Favorites',
-        component: About,
+        component: Favorites,
+        meta: {
+            navigatable: true,
+        },
     },
     {
         path: '/history',
         name: 'History',
-        component: Tailwind,
+        component: History,
+        meta: {
+            navigatable: true,
+        },
     },
     {
         path: '/settings',
         name: 'Settings',
-        component: Arena,
+        component: Settings,
+        meta: {
+            navigatable: true,
+        },
     },
     {
         path: '/logout',
@@ -52,11 +75,14 @@ const routes = [
         redirect: () => {
             return '/login'
         },
+        meta: {
+            navigatable: true,
+        },
     },
 ]
 
 const router = createRouter({
-    history: createWebHistory(),
+    history: createWebHashHistory(),
     routes,
 })
 

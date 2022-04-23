@@ -17,7 +17,7 @@ export default () => {
     const router = useRouter()
 
     navigationMenuItems.value = router.options.routes
-        .filter((route) => !(route.name == 'Login' || route.name == 'Signup'))
+        .filter((route) => route?.meta?.navigatable)
         .map((route) => {
             return {
                 label: route.name,
