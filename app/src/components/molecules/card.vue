@@ -1,7 +1,13 @@
 <template>
     <div :class="computedStyles">
         <!-- title block -->
-        <div class="card-title font-bold text-2xl">{{ title }}</div>
+        <div
+            v-if="title"
+            class="card-title font-bold text-2xl"
+            @click="$emit('title-click')"
+        >
+            {{ title }}
+        </div>
 
         <!-- content block -->
         <dn-editor v-if="hasContent" :content="content" :read-only="true" />
@@ -20,20 +26,22 @@
                     ><fa icon="star"
                 /></dn-icon-button>
             </div>
-            <dn-button @click="$emit('comment-button-click')"
-                >Comment</dn-button
-            >
+            <dn-icon-button class="ml-2" @click="$emit('comment-button-click')"
+                ><fa icon="comment"
+            /></dn-icon-button>
         </div>
     </div>
 </template>
 
 <script>
+//-- Libraries
+import _ from 'lodash'
 import { computed } from 'vue'
+
+//-- Components
 import DnButton from '@ca/button.vue'
 import DnIconButton from '@ca/icon-button.vue'
 import DnEditor from '@ca/editor.vue'
-import _ from 'lodash'
-import useGradients from '@/composables/use-gradients'
 
 export default {
     name: 'dn-card',
@@ -42,7 +50,12 @@ export default {
         DnIconButton,
         DnEditor,
     },
-    emits: ['heart-button-click', 'star-button-click', 'comment-button-click'],
+    emits: [
+        'heart-button-click',
+        'star-button-click',
+        'comment-button-click',
+        'title-click',
+    ],
     props: {
         preset: {
             type: String,
@@ -51,13 +64,16 @@ export default {
                 return ['primary', 'secondary'].indexOf(value) !== -1
             },
         },
+        dim: {
+            type: Boolean,
+            default: false,
+        },
         rounded: {
             type: Boolean,
             default: false,
         },
         title: {
             type: String,
-            default: 'title',
         },
         content: {
             type: Object,
@@ -70,12 +86,7 @@ export default {
             'font-display text-white select-none',
         ]
 
-        const { GRADIENTS } = useGradients()
-
-        const BASE_BG = [
-            // 'bg-gradient-to-tr',
-            // GRADIENTS.CAN_YOU_FEEL_THE_LOVE_TONIGHT,
-        ]
+        const BASE_BG = [props.dim && 'bg-black/25']
 
         const computedStyles = computed(() => {
             return [BASE_STYLES, BASE_BG, props.rounded && 'rounded-xl']
