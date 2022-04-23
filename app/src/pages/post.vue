@@ -53,7 +53,14 @@ export default {
         const postId = route.params.id
 
         setActivePost({ postId })
-        fetchComments({ postId: activePost.value.id })
+
+        // Fetch posts from API
+        if (
+            !Boolean(activePostComments.value?.comments) ||
+            activePostComments.value?.comments.length == 0
+        ) {
+            fetchComments({ postId: activePost.value.id })
+        }
 
         return {
             navDrawer,

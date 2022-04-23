@@ -15,11 +15,7 @@
         </div>
 
         <div class="navbar-body w-full flex flex-col grow py-2">
-            <dn-menu
-                v-model="activeMenuItem"
-                :items="menuItems"
-                @click="collapse"
-            />
+            <dn-menu v-model="activeMenuItem" :items="menuItems" />
         </div>
         <div
             class="navbar-footer w-full p-2 text-right font-normal text-sm text-gray-400"
@@ -30,10 +26,14 @@
 </template>
 
 <script>
+//-- Libraries
 import { ref, toRef, computed, watch } from 'vue'
+import { onClickOutside } from '@vueuse/core'
+import { useRouter } from 'vue-router'
+
+//-- Components
 import DnIconButton from '@ca/icon-button.vue'
 import DnMenu from '@cm/menu.vue'
-import { onClickOutside } from '@vueuse/core'
 
 export default {
     name: 'dn-navigation-drawer',
@@ -101,8 +101,14 @@ export default {
 
         const activeMenuItem = ref()
         activeMenuItem.value = props.activeItem
+
+        const router = useRouter()
         watch(activeMenuItem, (newActiveMenuItem) => {
             emit('update:active-item', newActiveMenuItem)
+
+            if (router) {
+                router.push({ name: newActiveMenuItem.label })
+            }
         })
 
         return {

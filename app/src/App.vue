@@ -11,6 +11,10 @@
 </template>
 
 <script>
+//-- Libraries
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
 //-- Components
 import NavigationDrawer from '@co/navigation-drawer.vue'
 import Loader from '@co/loader.vue'
@@ -22,10 +26,29 @@ import useLoading from '@/composables/use-loading'
 export default {
     components: { NavigationDrawer, Loader },
     setup() {
-        const { navDrawer, activeItem, navigationMenuItems } =
-            useNavigationDrawer()
-
         const { loading } = useLoading()
+
+        const { navDrawer, activeItem } = useNavigationDrawer()
+
+        // Generate navigation menu items from router config
+        const router = useRouter()
+        const ROUTE_ICON_MAPPING = {
+            Home: 'home',
+            Favorites: 'star',
+            History: 'book',
+            Settings: 'gear',
+            Logout: 'user',
+        }
+        const navigationMenuItems = ref()
+        navigationMenuItems.value = router.options.routes
+            .filter((route) => route?.meta?.navigatable)
+            .map((route) => {
+                return {
+                    label: route.name,
+                    icon: ROUTE_ICON_MAPPING[route.name],
+                    meta: route.meta,
+                }
+            })
 
         return {
             navDrawer,
