@@ -15,7 +15,11 @@
         </div>
 
         <div class="navbar-body w-full flex flex-col grow py-2">
-            <dn-menu v-model="activeMenuItem" :items="menuItems" />
+            <dn-menu
+                v-model="activeMenuItem"
+                :items="menuItems"
+                @click="collapse"
+            />
         </div>
         <div
             class="navbar-footer w-full p-2 text-right font-normal text-sm text-gray-400"
@@ -26,7 +30,6 @@
 </template>
 
 <script>
-import favicon from '@/assets/favicon.png'
 import { ref, toRef, computed, watch } from 'vue'
 import DnIconButton from '@ca/icon-button.vue'
 import DnMenu from '@cm/menu.vue'
@@ -61,21 +64,6 @@ export default {
         },
     },
     emits: ['update:modelValue', 'update:active-item'],
-    data() {
-        return {
-            favicon: favicon,
-            links: [
-                {
-                    name: 'home',
-                    to: '/',
-                },
-                {
-                    name: 'about',
-                    to: '/about',
-                },
-            ],
-        }
-    },
     setup(props, { emit }) {
         const BASE_STYLES = [
             'flex flex-col justify-between items-center divide-y divide-slate-500/50',
@@ -85,11 +73,7 @@ export default {
             'transition-all ease-in-out duration-500',
         ]
 
-        const BG_STYLES = [
-            // 'bg-gradient-to-tr from-gray-900/25 via-gray-800/25 to-gray-500/50',
-            'backdrop-blur-md',
-            'shadow-lg',
-        ]
+        const BG_STYLES = ['backdrop-blur-md', 'shadow-lg']
 
         const active = toRef(props, 'modelValue')
         const transitionStyles = computed(() => {
