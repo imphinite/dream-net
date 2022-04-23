@@ -1,20 +1,27 @@
 <template>
-    <article :class="containerStyles">
-        <dn-header
-            @menu-button-click="showNavigationDrawer = !showNavigationDrawer"
-        />
+    <article ref="page" :class="containerStyles">
+        <dn-header @menu-button-click="toggleNavigationDrawer" />
 
-        <section class="scrollbar-hidden" :class="bodySectionStyles">
+        <section
+            ref="swipeTarget"
+            :style="{ left, opacity }"
+            class="scrollbar-hidden"
+            :class="bodySectionStyles"
+        >
             <slot>
-                <dn-card
-                    v-for="(item, index) in 20"
-                    :key="index"
-                    class="snap-start mt-2"
-                />
+                <div class="flex flex-col justify-center items-center h-2/3">
+                    <div class="text-white text-xl">
+                        Oops! No content found..
+                    </div>
+                    <div
+                        class="text-sky-300 text-md m-4"
+                        @click="$emit('reload')"
+                    >
+                        Try refreshing?
+                    </div>
+                </div>
             </slot>
         </section>
-
-        <dn-navigation-drawer v-model="showNavigationDrawer" />
     </article>
 </template>
 
@@ -29,47 +36,117 @@
 </style>
 
 <script>
-import { computed } from 'vue'
+//-- Libraries
+import { ref, computed } from 'vue'
+import { useSwipe, useElementSize } from '@vueuse/core'
+
+//-- Components
 import DnHeader from '@cm/header.vue'
 import DnNavigationDrawer from '@co/navigation-drawer.vue'
 import DnCard from '@cm/card.vue'
 
+//-- Composables
+import useGradients from '@/composables/use-gradients'
+
 export default {
     name: 'dn-page',
     components: { DnHeader, DnNavigationDrawer, DnCard },
-    props: {},
-    data() {
-        return {
-            showNavigationDrawer: false,
-        }
+    emits: ['toggle-navigation-drawer', 'swipe-end', 'reload'],
+    props: {
+        swipable: {
+            type: Boolean,
+            default: false,
+        },
     },
-    setup() {
+    setup(props, { emit }) {
         const CONTAINER_STYLES = [
             'relative',
             'flex flex-col',
             'w-screen h-screen overflow-hidden',
-            'bg-black/50',
+        ]
+
+        const { GRADIENTS } = useGradients({ hover: false })
+        const BG_STYLES = [
+            'bg-gradient-to-tr',
+            GRADIENTS.CAN_YOU_FEEL_THE_LOVE_TONIGHT,
         ]
 
         const containerStyles = computed(() => {
-            return [CONTAINER_STYLES]
+            return [CONTAINER_STYLES, BG_STYLES]
         })
 
         const BODY_SECTION_STYLES = [
             'absolute',
-            'w-full h-screen pt-12',
+            'w-full h-[calc(100vh-3rem)] pt-12',
             'snap-y overflow-y-scroll scroll-smooth box-content scroll-py-14',
+            'bg-black/25',
         ]
 
         const bodySectionStyles = computed(() => {
             return [BODY_SECTION_STYLES]
         })
 
+        // Swipe
+        const page = ref(null)
+        const swipeTarget = ref(null)
+        const { width: pageWidth } = useElementSize(swipeTarget)
+
+        const left = ref('0')
+        const opacity = ref(1)
+
+        const { isSwiping, lengthX } = useSwipe(page, {
+            onSwipe() {
+                if (!props.swipable) return
+
+                if (pageWidth.value) {
+                    if (lengthX.value < 0) {
+                        const length = Math.abs(lengthX.value)
+                        left.value = `${length}px`
+                        opacity.value = 1.1 - length / pageWidth.value
+                    } else {
+                        left.value = '0'
+                        opacity.value = 1
+                    }
+                }
+            },
+            onSwipeEnd() {
+                if (!props.swipable) return
+
+                if (
+                    lengthX.value < 0 &&
+                    pageWidth.value &&
+                    Math.abs(lengthX.value) / pageWidth.value >= 0.5
+                ) {
+                    left.value = '100%'
+                    opacity.value = 0
+
+                    emit('swipe-end')
+                } else {
+                    left.value = '0'
+                    opacity.value = 1
+                }
+            },
+        })
+
         return {
+            // refs
+            page,
+            swipeTarget,
+
+            // styles
             containerStyles,
             bodySectionStyles,
+
+            // swipe
+            left,
+            opacity,
+            isSwiping,
         }
     },
-    methods: {},
+    methods: {
+        toggleNavigationDrawer() {
+            this.$emit('toggle-navigation-drawer')
+        },
+    },
 }
 </script>
