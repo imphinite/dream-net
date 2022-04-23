@@ -19,6 +19,9 @@ const myFeed = ref({
     meta: {},
 })
 
+// Id reference of a post
+const activePost = ref(null)
+
 //-- Getters
 const posts = computed(() => {
     return data.value.posts
@@ -42,6 +45,10 @@ const computedMyFeed = computed(() => {
     }
 })
 
+const computedActivePost = computed(() => {
+    return data.value.posts[activePost.value] || {}
+})
+
 //-- Methods
 // Storage
 const storePost = (postData) => {
@@ -58,12 +65,15 @@ const updatePost = (postData) => {
         storePost(postData)
     }
 
-    data.value.posts[postData.id].title = postData.title
-    data.value.posts[postData.id].body = postData.body
-    data.value.posts[postData.id].mood = postData.mood
-    data.value.posts[postData.id].locale = postData.locale
-    data.value.posts[postData.id].moderation_flag = postData.moderation_flag
-    data.value.posts[postData.id].anonymous = postData.anonymous
+    const { id, title, body, mood, locale, moderationFlag, anonymous } =
+        postData
+
+    data.value.posts[id].title = title
+    data.value.posts[id].body = body
+    data.value.posts[id].mood = mood
+    data.value.posts[id].locale = locale
+    data.value.posts[id].moderationFlag = moderationFlag
+    data.value.posts[id].anonymous = anonymous
 }
 
 const storePostCollection = (postsData) => {
@@ -82,9 +92,11 @@ const clearPostStorage = () => {
 
 // Feeds
 const savePostReferencesToHomeFeed = (feedData) => {
-    homeFeed.value.posts = _.concat(
-        homeFeed.value.posts,
-        feedData.data.map((post) => post.id)
+    homeFeed.value.posts = _.uniq(
+        _.concat(
+            homeFeed.value.posts,
+            feedData.data.map((post) => post.id)
+        )
     )
     homeFeed.value.meta = feedData.meta
 }
@@ -94,6 +106,11 @@ const savePostReferencesToMyFeed = (feedData) => {
         feedData.data.map((post) => post.id)
     )
     myFeed.value.meta = feedData.meta
+}
+
+// Post
+const setActivePost = ({ postId }) => {
+    activePost.value = postId
 }
 
 //-- API
@@ -116,12 +133,16 @@ export default {
     posts,
     homeFeed: computedHomeFeed,
     myFeed: computedMyFeed,
+    activePost: computedActivePost,
 
     storePost,
     updatePost,
     storePostCollection,
     clearPost,
     clearPostStorage,
+
+    // Post
+    setActivePost,
 
     // API
     fetchHomeFeedPosts,
