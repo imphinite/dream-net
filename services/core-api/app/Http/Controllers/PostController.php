@@ -80,7 +80,7 @@ class PostController extends Controller
         $post->body = Request::input('body', null);
         $post->mood = Request::input('mood', null);
         $post->locale = Request::input('locale', null);
-        $post->moderation_flag = Request::input('moderationFlag', null);
+        $post->moderation_flag = Request::input('moderation_flag', null);
         $post->anonymous = Request::input('anonymous', false);
 
         // Associate new post to the current user
@@ -125,7 +125,7 @@ class PostController extends Controller
         $post->mood = Request::input('mood', null);
         $post->anonymous = Request::input('anonymous', false);
 
-        // Associate new post to the current user
+        // Update this post
         $post->save();
 
         return response()->json(['result' => 'success'], 200);
