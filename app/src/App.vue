@@ -11,8 +11,11 @@
 </template>
 
 <script>
+//-- Components
 import NavigationDrawer from '@co/navigation-drawer.vue'
 import Loader from '@co/loader.vue'
+
+//-- Composables
 import useNavigationDrawer from '@/composables/use-navigation-drawer'
 import useLoading from '@/composables/use-loading'
 
