@@ -1,6 +1,9 @@
 <template>
     <article ref="page" :class="containerStyles">
-        <dn-header @menu-button-click="toggleNavigationDrawer" />
+        <dn-header
+            @menu-button-click="$emit('toggle-navigation-drawer')"
+            @plus-button-click="onPlusButtonClick"
+        />
 
         <section
             ref="swipeTarget"
@@ -10,13 +13,10 @@
         >
             <slot>
                 <div class="flex flex-col justify-center items-center h-2/3">
-                    <div class="text-white text-xl">
+                    <div class="text-white text-md">
                         Oops! No content found..
                     </div>
-                    <div
-                        class="text-sky-300 text-md m-4"
-                        @click="$emit('reload')"
-                    >
+                    <div class="text-sky-300 text-md" @click="$emit('reload')">
                         Try refreshing?
                     </div>
                 </div>
@@ -51,7 +51,12 @@ import useGradients from '@/composables/use-gradients'
 export default {
     name: 'dn-page',
     components: { DnHeader, DnNavigationDrawer, DnCard },
-    emits: ['toggle-navigation-drawer', 'swipe-end', 'reload'],
+    emits: [
+        'toggle-navigation-drawer',
+        'plus-button-click',
+        'swipe-end',
+        'reload',
+    ],
     props: {
         swipable: {
             type: Boolean,
@@ -144,8 +149,11 @@ export default {
         }
     },
     methods: {
-        toggleNavigationDrawer() {
-            this.$emit('toggle-navigation-drawer')
+        onPlusButtonClick() {
+            this.$emit('plus-button-click')
+            if (this.$router) {
+                this.$router.push({ name: 'Compose' })
+            }
         },
     },
 }

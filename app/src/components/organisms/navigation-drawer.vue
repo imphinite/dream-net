@@ -108,6 +108,7 @@ export default {
 
             if (router) {
                 router.push({ name: newActiveMenuItem.label })
+                collapse()
             }
         })
 

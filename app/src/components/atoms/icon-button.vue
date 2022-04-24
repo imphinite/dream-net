@@ -36,7 +36,7 @@ export default {
     },
     setup(props) {
         const BASE_STYLES =
-            'flex items-center justify-center font-display border-2 rounded-full transition'
+            'flex items-center justify-center font-display border-none rounded-full transition'
 
         //-- refs
         const preset = toRef(props, 'preset')

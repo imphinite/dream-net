@@ -12,6 +12,14 @@
         >
             <h1 class="text-white text-xl ml-2 font-bold">Dreamnet</h1>
         </div>
+
+        <div class="flex h-full items-center">
+            <dn-icon-button
+                icon="plus"
+                preset="transparent"
+                @click="$emit('plus-button-click', $event)"
+            />
+        </div>
     </header>
 </template>
 
@@ -23,7 +31,7 @@ import DnIconButton from '@ca/icon-button.vue'
 export default {
     name: 'dn-header',
     components: { DnButton, DnIconButton },
-    emits: ['menu-button-click'],
+    emits: ['menu-button-click', 'plus-button-click'],
     props: {
         user: {
             type: Object,

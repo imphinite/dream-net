@@ -12,6 +12,7 @@ import Favorites from '@/pages/favorites.vue'
 import History from '@/pages/history.vue'
 import Settings from '@/pages/settings.vue'
 import Post from '@/pages/post.vue'
+import Compose from '@/pages/compose.vue'
 
 const clearAuthBeforeEnterAuthRoutes = () => {
     const { auth: authModule } = useStore()
@@ -44,6 +45,11 @@ const routes = [
         path: '/posts/:id',
         name: 'Post',
         component: Post,
+    },
+    {
+        path: '/compose',
+        name: 'Compose',
+        component: Compose,
     },
     {
         path: '/favorites',
