@@ -1,8 +1,8 @@
 <template>
     <div :class="computedStyles">
         <quill-editor
-            :theme="computedTheme"
             v-model:content="contentDelta"
+            :theme="computedTheme"
             :read-only="readOnly"
             @focus="focus = true"
             @blur="focus = false"

@@ -86,7 +86,14 @@ class PostController extends Controller
         // Associate new post to the current user
         Auth::user()->posts()->save($post);
 
-        return response()->json(['result' => 'success'], 200);
+        // Transform models
+        $result = fractal()
+            ->item($post)
+            ->transformWith(new PostTransformer())
+            ->includeAuthor()
+            ->toArray();
+
+        return response()->json($result);
     }
 
     /**

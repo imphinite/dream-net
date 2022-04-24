@@ -8,8 +8,9 @@
             :key="index"
             class="snap-start mt-2"
             :title="post.title"
-            :content="getContentFromPostBody(post.body)"
+            :content="getContent(post.body)"
             @title-click="goToPost(post)"
+            @comment-button-click="goToPost(post)"
         />
     </dn-page>
 </template>
@@ -58,10 +59,18 @@ export default {
         }
     },
     methods: {
-        getContentFromPostBody(postBody) {
-            return {
-                ops: [{ insert: postBody }],
+        getContent(body) {
+            let content, delta
+            try {
+                delta = JSON.parse(body)
+                content = delta
+            } catch (err) {
+                content = {
+                    ops: [{ insert: body }],
+                }
             }
+
+            return content
         },
         goToPost(post) {
             this.router.push(`/posts/${post.id}`)

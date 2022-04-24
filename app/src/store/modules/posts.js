@@ -91,7 +91,7 @@ const clearPostStorage = () => {
 }
 
 // Feeds
-const savePostReferencesToHomeFeed = (feedData) => {
+const storePostReferencesToHomeFeed = (feedData) => {
     homeFeed.value.posts = _.uniq(
         _.concat(
             homeFeed.value.posts,
@@ -100,7 +100,7 @@ const savePostReferencesToHomeFeed = (feedData) => {
     )
     homeFeed.value.meta = feedData.meta
 }
-const savePostReferencesToMyFeed = (feedData) => {
+const storePostReferencesToMyFeed = (feedData) => {
     myFeed.value.posts = _.concat(
         myFeed.value.posts,
         feedData.data.map((post) => post.id)
@@ -121,11 +121,32 @@ const fetchHomeFeedPosts = async () => {
         url: 'posts',
     })
 
-    // Save post data in storage
+    // Store post data in storage
     storePostCollection(response.data)
 
     // Update post references
-    savePostReferencesToHomeFeed(response)
+    storePostReferencesToHomeFeed(response)
+}
+
+const savePost = async ({ title, body, mood, anonymous }) => {
+    const response = await axios({
+        method: 'post',
+        url: 'posts',
+        data: {
+            title,
+            body,
+            mood,
+            anonymous,
+        },
+    })
+
+    // Store post data in storage
+    storePost(response.data)
+
+    // Prepend this post's id to Home feed (TODO: and My feed)
+    homeFeed.value.posts.unshift(response.data.id)
+
+    return response.data
 }
 
 export default {
@@ -146,4 +167,5 @@ export default {
 
     // API
     fetchHomeFeedPosts,
+    savePost,
 }

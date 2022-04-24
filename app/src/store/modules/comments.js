@@ -85,7 +85,7 @@ const clearCommentStorage = () => {
 }
 
 // Feeds
-const saveCommentReferences = ({ commentCollectionData, postId }) => {
+const storeCommentReferences = ({ commentCollectionData, postId }) => {
     // Initialize relationship if non-existing on the client side
     if (!Boolean(postCommentRelationships.value?.[postId])) {
         postCommentRelationships.value[postId] = {
@@ -116,11 +116,11 @@ const fetchComments = async ({ postId }) => {
         },
     })
 
-    // Save post data in storage
+    // Store post data in storage
     storeCommentCollection(response.data)
 
     // Update post references
-    saveCommentReferences({ commentCollectionData: response, postId })
+    storeCommentReferences({ commentCollectionData: response, postId })
 }
 
 export default {

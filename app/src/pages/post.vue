@@ -71,9 +71,17 @@ export default {
 
     methods: {
         getContent(body) {
-            return {
-                ops: [{ insert: body }],
+            let content, delta
+            try {
+                delta = JSON.parse(body)
+                content = delta
+            } catch (err) {
+                content = {
+                    ops: [{ insert: body }],
+                }
             }
+
+            return content
         },
         goToHomePage() {
             this.$router.push({ name: 'Home' })
