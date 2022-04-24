@@ -42,7 +42,6 @@ import _ from 'lodash'
 import { toRef, computed, watch } from 'vue'
 
 //-- Components
-import DnButton from '@ca/button.vue'
 import DnIconButton from '@ca/icon-button.vue'
 import DnEditor from '@ca/editor.vue'
 import DnTextInput from '@ca/text-input'
@@ -50,7 +49,6 @@ import DnTextInput from '@ca/text-input'
 export default {
     name: 'dn-composer',
     components: {
-        DnButton,
         DnIconButton,
         DnEditor,
         DnTextInput,
@@ -59,17 +57,6 @@ export default {
     props: {
         modelValue: {
             type: Object,
-        },
-        preset: {
-            type: String,
-            default: 'primary',
-            validator: (value) => {
-                return ['primary', 'secondary'].indexOf(value) !== -1
-            },
-        },
-        rounded: {
-            type: Boolean,
-            default: false,
         },
         title: {
             type: Boolean,

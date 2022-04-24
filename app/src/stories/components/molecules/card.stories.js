@@ -20,7 +20,7 @@ const Template = (args, { argTypes }) => ({
 
 export const Compact = Template.bind({})
 Compact.args = {
-    readOnly: true,
+    title: 'Card Title',
     content: {
         ops: [
             { insert: 'Gandalf', attributes: { bold: true } },

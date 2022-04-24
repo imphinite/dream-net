@@ -11,7 +11,8 @@ const Template = (args, { argTypes }) => ({
     props: Object.keys(argTypes),
     components: { DnEmailInput },
     setup() {
-        const email = ref('input')
+        const email = ref()
+        email.value = args.modelValue
 
         return {
             args,

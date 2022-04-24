@@ -10,7 +10,7 @@
         </div>
 
         <!-- content block -->
-        <dn-editor v-if="hasContent" v-model="content" />
+        <dn-editor v-if="hasContent" v-model="content" read-only />
         <div v-else class="card-body text-sm line-clamp-2">
             No content loaded.
         </div>
@@ -38,14 +38,12 @@ import _ from 'lodash'
 import { computed } from 'vue'
 
 //-- Components
-import DnButton from '@ca/button.vue'
 import DnIconButton from '@ca/icon-button.vue'
 import DnEditor from '@ca/editor.vue'
 
 export default {
     name: 'dn-card',
     components: {
-        DnButton,
         DnIconButton,
         DnEditor,
     },

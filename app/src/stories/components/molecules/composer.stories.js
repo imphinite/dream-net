@@ -1,4 +1,4 @@
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import useActionEvents from '@sb/utils/use-action-events.js'
 import DnComposer from '@cm/composer.vue'
 
@@ -13,11 +13,6 @@ const Template = (args, { argTypes }) => ({
     setup() {
         const modelValue = ref({})
         modelValue.value = args.modelValue
-        // ops: [
-        //     { insert: 'Gandalf', attributes: { bold: true } },
-        //     { insert: ' the ' },
-        //     { insert: 'Grey', attributes: { color: '#cccccc' } },
-        // ],
 
         return {
             args,
@@ -33,33 +28,28 @@ const Template = (args, { argTypes }) => ({
             @update:model-value="modelValue=$event"
         />
     `,
-    // template: '<dn-composer v-bind="args" v-on="actionEvents"/>',
 })
+
+const content = {
+    ops: [
+        { insert: 'Gandalf', attributes: { bold: true } },
+        { insert: ' the ' },
+        { insert: 'Grey', attributes: { color: '#cccccc' } },
+    ],
+}
 
 export const PostComposer = Template.bind({})
 PostComposer.args = {
     title: true,
     modelValue: {
         title: 'Title',
-        content: {
-            ops: [
-                { insert: 'Gandalf', attributes: { bold: true } },
-                { insert: ' the ' },
-                { insert: 'Grey', attributes: { color: '#cccccc' } },
-            ],
-        },
+        content,
     },
 }
 
 export const CommentComposer = Template.bind({})
 CommentComposer.args = {
     modelValue: {
-        content: {
-            ops: [
-                { insert: 'Gandalf', attributes: { bold: true } },
-                { insert: ' the ' },
-                { insert: 'Grey', attributes: { color: '#cccccc' } },
-            ],
-        },
+        content,
     },
 }
