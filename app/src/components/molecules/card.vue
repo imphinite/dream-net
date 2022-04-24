@@ -18,16 +18,32 @@
         <!-- footer block -->
         <div class="card-footer flex justify-between pt-2">
             <div class="flex justify-between">
-                <dn-icon-button @click="$emit('heart-button-click')"
+                <dn-icon-button
+                    v-if="interactions.like"
+                    @click="$emit('heart-button-click')"
                     ><fa icon="heart"
                 /></dn-icon-button>
-                <dn-icon-button class="ml-2" @click="$emit('star-button-click')"
+                <dn-icon-button
+                    v-if="interactions.favor"
+                    class="ml-2"
+                    @click="$emit('star-button-click')"
                     ><fa icon="star"
                 /></dn-icon-button>
             </div>
-            <dn-icon-button class="ml-2" @click="$emit('comment-button-click')"
-                ><fa icon="comment"
-            /></dn-icon-button>
+            <div class="flex justify-between">
+                <dn-icon-button
+                    v-if="interactions.dislike"
+                    class="ml-2"
+                    @click="$emit('dislike-button-click')"
+                    ><fa icon="heart-crack"
+                /></dn-icon-button>
+                <dn-icon-button
+                    v-if="interactions.reply"
+                    class="ml-2"
+                    @click="$emit('reply-button-click')"
+                    ><fa icon="comment"
+                /></dn-icon-button>
+            </div>
         </div>
     </div>
 </template>
@@ -48,10 +64,11 @@ export default {
         DnEditor,
     },
     emits: [
+        'title-click',
         'heart-button-click',
         'star-button-click',
-        'comment-button-click',
-        'title-click',
+        'dislike-button-click',
+        'reply-button-click',
     ],
     props: {
         preset: {
@@ -75,6 +92,17 @@ export default {
         content: {
             type: Object,
             default: () => {},
+        },
+        interactions: {
+            type: Object,
+            default: () => {
+                return {
+                    like: true,
+                    favor: true,
+                    dislike: false,
+                    reply: false,
+                }
+            },
         },
     },
     setup(props) {

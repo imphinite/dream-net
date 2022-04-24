@@ -9,8 +9,14 @@
             class="snap-start mt-2"
             :title="post.title"
             :content="getContent(post.body)"
+            :interactions="{
+                like: true,
+                favor: true,
+                dislike: false,
+                reply: true,
+            }"
             @title-click="goToPost(post)"
-            @comment-button-click="goToPost(post)"
+            @reply-button-click="makingCommentsToPost(post)"
         />
     </dn-page>
 </template>
@@ -74,6 +80,9 @@ export default {
         },
         goToPost(post) {
             this.router.push(`/posts/${post.id}`)
+        },
+        makingCommentsToPost(post) {
+            this.router.push(`/posts/${post.id}?composer=true`)
         },
     },
 }

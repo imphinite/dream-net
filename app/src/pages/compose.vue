@@ -47,8 +47,6 @@ export default {
             }
         },
         async handleSubmit(event) {
-            console.log('handleSubmit', event)
-
             const { title, content } = event
             const newPost = await this.savePost({
                 title,

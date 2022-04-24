@@ -10,6 +10,21 @@
             class="snap-start mt-2"
             :title="activePost.title"
             :content="getContent(activePost.body)"
+            :interactions="{
+                like: true,
+                favor: true,
+                dislike: false,
+                reply: true,
+            }"
+            @reply-button-click="showComposer = !showComposer"
+        />
+
+        <dn-composer
+            v-if="showComposer"
+            ref="composer"
+            v-model="formData"
+            @cancel="showComposer = false"
+            @submit="handleSubmit"
         />
 
         <!-- Comments -->
@@ -19,17 +34,25 @@
             class="snap-start mt-2"
             dim
             :content="getContent(comment.body)"
+            :interactions="{
+                like: true,
+                favor: true,
+                dislike: true,
+                reply: false,
+            }"
         />
     </dn-page>
 </template>
 
 <script>
 //-- Libraries
+import { ref, nextTick, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 
 //-- Components
 import DnCard from '@cm/card.vue'
 import DnPage from '@ct/page.vue'
+import DnComposer from '@cm/composer.vue'
 
 //-- Store
 import useStore from '@/store/use-store'
@@ -39,7 +62,7 @@ import useNavigationDrawer from '@/composables/use-navigation-drawer'
 
 export default {
     name: 'dn-post',
-    components: { DnCard, DnPage },
+    components: { DnCard, DnPage, DnComposer },
     setup() {
         const { navDrawer } = useNavigationDrawer()
 
@@ -51,6 +74,31 @@ export default {
         // Get active post id from route
         const route = useRoute()
         const postId = route.params.id
+
+        // Composer
+        const composer = ref()
+        const showComposer = ref(false)
+        showComposer.value = Boolean(route?.query?.composer)
+        const focusComposer = () => {
+            nextTick(() => {
+                composer.value.$el.querySelector('.ql-editor').focus()
+            })
+        }
+
+        onMounted(() => {
+            if (showComposer.value) {
+                focusComposer()
+            }
+        })
+        watch(showComposer, (newShowComposer) => {
+            if (newShowComposer) {
+                focusComposer()
+            }
+        })
+
+        const formData = ref({
+            content: {},
+        })
 
         setActivePost({ postId })
 
@@ -64,6 +112,9 @@ export default {
 
         return {
             navDrawer,
+            composer,
+            showComposer,
+            formData,
             activePost,
             activePostComments,
         }
@@ -85,6 +136,19 @@ export default {
         },
         goToHomePage() {
             this.$router.push({ name: 'Home' })
+        },
+        async handleSubmit(event) {
+            console.log('handleSubmit', event)
+
+            const { content } = event
+            // const newPost = await this.saveComment({
+            //     title,
+            //     body: JSON.stringify(content),
+            // })
+
+            // if (this.$router) {
+            //     this.$router.push(`/posts/${newPost.id}`)
+            // }
         },
     },
 }

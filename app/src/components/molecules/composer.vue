@@ -1,7 +1,7 @@
 <template>
     <form action="" method="post" :class="formStyles">
         <!-- Title -->
-        <div v-if="title" class="my-2">
+        <div v-if="title" class="mb-4">
             <dn-text-input
                 v-model="formData.title"
                 dim
@@ -11,7 +11,7 @@
         </div>
 
         <!-- Editor -->
-        <div class="my-2">
+        <div class="mb-2">
             <dn-editor
                 v-model="formData.content"
                 theme="bubble"
@@ -21,7 +21,7 @@
         </div>
 
         <!-- Button group -->
-        <div class="flex items-center justify-between my-2">
+        <div class="flex items-center justify-between mt-2">
             <dn-icon-button
                 icon="arrow-left"
                 @click="$emit('cancel')"
@@ -69,7 +69,7 @@ export default {
     },
     setup(props, { emit }) {
         const formStyles = computed(() => {
-            return ['flex flex-col', 'p-4']
+            return ['flex flex-col', 'p-2', 'border-y border-white/25']
         })
 
         // v-model
