@@ -18,7 +18,7 @@
                 @blur="focus = false"
             />
             <button
-                v-show="inputValue && focus"
+                v-show="inputValue"
                 :class="computedTrailingButtonStyles"
                 tabindex="-1"
                 @click.prevent="clearInput"
@@ -48,6 +48,10 @@ export default {
                 return ['text', 'email', 'password'].indexOf(value) !== -1
             },
         },
+        rounded: {
+            type: Boolean,
+            default: false,
+        },
         id: {
             type: String,
         },
@@ -62,6 +66,10 @@ export default {
             type: String,
             default: 'Type something...',
         },
+        dim: {
+            type: Boolean,
+            default: false,
+        },
         disabled: {
             type: Boolean,
             default: false,
@@ -71,16 +79,27 @@ export default {
         //-- styles
         const BASE_STYLES = [
             'w-full',
-            'rounded-full',
-            'text-black/75',
             'transition',
-            'border-2 border-white/75',
+            'border-none focus:border-none',
+            'focus:ring-2',
+            // 'focus-visible:outline-none',
         ]
 
-        const focus = ref(false)
+        const computedColors = computed(() => {
+            return [
+                props.dim ? 'text-white' : 'text-black/75',
+                // props.dim ? 'border-none focus:border-none' : '',
+                props.dim ? 'bg-black/25' : 'bg-white',
+                props.dim ? 'focus:ring-white/75' : 'focus:ring-[#2563eb]',
+            ]
+        })
 
         const computedStyles = computed(() => {
-            return [BASE_STYLES]
+            return [
+                BASE_STYLES,
+                computedColors.value,
+                props.rounded ? 'rounded-full' : 'rounded',
+            ]
         })
 
         const computedTrailingButtonStyles = computed(() => {
@@ -112,6 +131,7 @@ export default {
             emit('update:modelValue', newInputValue)
         })
 
+        const focus = ref(false)
         watch(focus, (newFocusValue) => {
             emit(newFocusValue ? 'focus' : 'blur')
         })

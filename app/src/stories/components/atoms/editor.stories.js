@@ -1,6 +1,6 @@
 import useActionEvents from '@sb/utils/use-action-events.js'
 import DnEditor from '@ca/editor.vue'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 
 export default {
     title: 'Atoms/Editor',
@@ -12,6 +12,7 @@ const Template = (args, { argTypes }) => ({
     components: { DnEditor },
     setup() {
         const modelValue = ref({})
+        modelValue.value = args.modelValue
 
         return {
             args,
@@ -29,10 +30,28 @@ const Template = (args, { argTypes }) => ({
     `,
 })
 
+const modelValue = {
+    ops: [
+        { insert: 'Gandalf', attributes: { bold: true } },
+        { insert: ' the ' },
+        { insert: 'Grey', attributes: { color: '#cccccc' } },
+    ],
+}
+
 export const Default = Template.bind({})
-Default.args = {}
+Default.args = {
+    modelValue,
+}
+
+export const Bubble = Template.bind({})
+Bubble.args = {
+    theme: 'bubble',
+    dim: true,
+    modelValue,
+}
 
 export const ReadOnly = Template.bind({})
 ReadOnly.args = {
     readOnly: true,
+    modelValue,
 }

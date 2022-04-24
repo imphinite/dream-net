@@ -10,10 +10,9 @@
         </div>
 
         <!-- content block -->
-        <dn-editor v-if="hasContent" :content="content" :read-only="true" />
+        <dn-editor v-if="hasContent" v-model="content" />
         <div v-else class="card-body text-sm line-clamp-2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut.
+            No content loaded.
         </div>
 
         <!-- footer block -->
