@@ -156,13 +156,12 @@ export default {
     myFeed: computedMyFeed,
     activePost: computedActivePost,
 
+    // Local storage
     storePost,
     updatePost,
     storePostCollection,
     clearPost,
     clearPostStorage,
-
-    // Post
     setActivePost,
 
     // API

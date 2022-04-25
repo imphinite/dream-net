@@ -123,11 +123,31 @@ const fetchComments = async ({ postId }) => {
     storeCommentReferences({ commentCollectionData: response, postId })
 }
 
+const saveComment = async ({ postId, body }) => {
+    const response = await axios({
+        method: 'post',
+        url: 'comments',
+        data: {
+            post_id: postId,
+            body,
+        },
+    })
+
+    // Store comment data in storage
+    storeComment(response.data)
+
+    // Prepend this comment's id to the post comment thread
+    postCommentRelationships.value[postId].comments.unshift(response.data.id)
+
+    return response.data
+}
+
 export default {
     data,
     comments,
     activePostComments: computedActivePostComments,
 
+    // Local storage
     storeComment,
     updateComment,
     storeCommentCollection,
@@ -136,4 +156,5 @@ export default {
 
     // API
     fetchComments,
+    saveComment,
 }

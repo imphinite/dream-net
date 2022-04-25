@@ -10,7 +10,12 @@
         </div>
 
         <!-- content block -->
-        <dn-editor v-if="hasContent" v-model="content" read-only />
+        <dn-editor
+            v-if="hasContent"
+            v-model="content"
+            theme="bubble"
+            read-only
+        />
         <div v-else class="card-body text-sm line-clamp-2">
             No content loaded.
         </div>

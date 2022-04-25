@@ -2,9 +2,16 @@
     <header :class="containerStyles">
         <div class="flex h-full items-center">
             <dn-icon-button
+                v-if="interactions.menu"
                 icon="bars"
                 preset="transparent"
                 @click="$emit('menu-button-click', $event)"
+            />
+            <dn-icon-button
+                v-if="interactions.back"
+                icon="arrow-left"
+                preset="transparent"
+                @click="$emit('back-button-click', $event)"
             />
         </div>
         <div
@@ -15,6 +22,7 @@
 
         <div class="flex h-full items-center">
             <dn-icon-button
+                v-if="interactions.plus"
                 icon="plus"
                 preset="transparent"
                 @click="$emit('plus-button-click', $event)"
@@ -31,10 +39,18 @@ import DnIconButton from '@ca/icon-button.vue'
 export default {
     name: 'dn-header',
     components: { DnButton, DnIconButton },
-    emits: ['menu-button-click', 'plus-button-click'],
+    emits: ['back-button-click', 'menu-button-click', 'plus-button-click'],
     props: {
         user: {
             type: Object,
+        },
+        interactions: {
+            type: Object,
+            default: () => ({
+                back: true,
+                menu: true,
+                plus: true,
+            }),
         },
     },
     setup() {

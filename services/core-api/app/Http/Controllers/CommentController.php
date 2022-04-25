@@ -90,7 +90,15 @@ class CommentController extends Controller
         // Associate new post to the current user
         Auth::user()->comments()->save($comment);
 
-        return response()->json(['result' => 'success'], 200);
+        // Transform models
+        $result = fractal()
+            ->item($comment)
+            ->transformWith(new CommentTransformer())
+            ->includeAuthor()
+            ->includePost()
+            ->toArray();
+
+        return response()->json($result);
     }
 
     /**

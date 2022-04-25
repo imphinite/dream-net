@@ -1,6 +1,8 @@
 <template>
     <article ref="page" :class="containerStyles">
         <dn-header
+            :interactions="interactions"
+            @back-button-click="onBackButtonClick"
             @menu-button-click="$emit('toggle-navigation-drawer')"
             @plus-button-click="onPlusButtonClick"
         />
@@ -53,6 +55,7 @@ export default {
     components: { DnHeader, DnNavigationDrawer, DnCard },
     emits: [
         'toggle-navigation-drawer',
+        'back-button-click',
         'plus-button-click',
         'swipe-end',
         'reload',
@@ -61,6 +64,14 @@ export default {
         swipable: {
             type: Boolean,
             default: false,
+        },
+        interactions: {
+            type: Object,
+            default: () => ({
+                back: false,
+                menu: true,
+                plus: true,
+            }),
         },
     },
     setup(props, { emit }) {
@@ -149,6 +160,12 @@ export default {
         }
     },
     methods: {
+        onBackButtonClick() {
+            this.$emit('back-button-click')
+            if (this.$router) {
+                this.$router.go(-1)
+            }
+        },
         onPlusButtonClick() {
             this.$emit('plus-button-click')
             if (this.$router) {

@@ -1,6 +1,7 @@
 <template>
     <div :class="computedStyles">
         <quill-editor
+            ref="quill"
             v-model:content="contentDelta"
             :theme="computedTheme"
             :read-only="readOnly"
@@ -43,6 +44,8 @@ export default {
     },
     emits: ['update:modelValue', 'focus', 'blur'],
     setup(props, { emit }) {
+        const quill = ref()
+
         //-- Styles
         const focus = ref(false)
         watch(focus, (newFocusValue) => {
@@ -80,7 +83,11 @@ export default {
         contentDelta.value = new Delta(content.value)
 
         watch(content, (newContent) => {
-            contentDelta.value = new Delta(newContent)
+            if (props.readOnly) {
+                quill.value.setContents(new Delta(newContent))
+            } else {
+                contentDelta.value = new Delta(newContent)
+            }
         })
 
         // Every time content Delta changes, get JSON and update modelValue
@@ -97,6 +104,7 @@ export default {
         })
 
         return {
+            quill,
             computedStyles,
             computedTheme,
             contentDelta,

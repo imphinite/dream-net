@@ -1,7 +1,11 @@
 <template>
     <dn-page
         ref="page"
-        swipable
+        :interactions="{
+            back: true,
+            menu: false,
+            plus: true,
+        }"
         @toggle-navigation-drawer="navDrawer = !navDrawer"
         @swipe-end="goToHomePage"
     >
@@ -69,22 +73,34 @@ export default {
         // Handle data
         const { posts: postModule, comments: commentModule } = useStore()
         const { activePost, setActivePost } = postModule
-        const { fetchComments, activePostComments } = commentModule
+        const { fetchComments, activePostComments, saveComment } = commentModule
 
         // Get active post id from route
         const route = useRoute()
         const postId = route.params.id
 
+        // Fetch posts from API
+        setActivePost({ postId })
+        if (
+            !Boolean(activePostComments.value?.comments) ||
+            activePostComments.value?.comments.length == 0
+        ) {
+            fetchComments({ postId: activePost.value.id })
+        }
+
         // Composer
         const composer = ref()
         const showComposer = ref(false)
         showComposer.value = Boolean(route?.query?.composer)
+        const formData = ref({
+            content: {},
+        })
+
         const focusComposer = () => {
             nextTick(() => {
                 composer.value.$el.querySelector('.ql-editor').focus()
             })
         }
-
         onMounted(() => {
             if (showComposer.value) {
                 focusComposer()
@@ -96,20 +112,6 @@ export default {
             }
         })
 
-        const formData = ref({
-            content: {},
-        })
-
-        setActivePost({ postId })
-
-        // Fetch posts from API
-        if (
-            !Boolean(activePostComments.value?.comments) ||
-            activePostComments.value?.comments.length == 0
-        ) {
-            fetchComments({ postId: activePost.value.id })
-        }
-
         return {
             navDrawer,
             composer,
@@ -117,6 +119,8 @@ export default {
             formData,
             activePost,
             activePostComments,
+            postId,
+            saveComment,
         }
     },
 
@@ -138,17 +142,13 @@ export default {
             this.$router.push({ name: 'Home' })
         },
         async handleSubmit(event) {
-            console.log('handleSubmit', event)
-
             const { content } = event
-            // const newPost = await this.saveComment({
-            //     title,
-            //     body: JSON.stringify(content),
-            // })
+            await this.saveComment({
+                postId: this.postId,
+                body: JSON.stringify(content),
+            })
 
-            // if (this.$router) {
-            //     this.$router.push(`/posts/${newPost.id}`)
-            // }
+            this.showComposer = false
         },
     },
 }
