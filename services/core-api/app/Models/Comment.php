@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Contracts\Likeable;
+use App\Models\Concerns\Likes;
 
-class Comment extends Model
+class Comment extends Model implements Likeable
 {
-    use HasFactory;
+    use HasFactory, Likes;
     
     /**
      * Get the author of this post.

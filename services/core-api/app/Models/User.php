@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use App\Contracts\Likeable;
+use App\Models\Like;
 
 class User extends Authenticatable
 {
@@ -56,5 +59,60 @@ class User extends Authenticatable
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * All likes by the user.
+     */
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    /**
+     * Perform like on the Likeable model
+     */
+    public function like(Likeable $likeable): self
+    {
+        if ($this->hasLiked($likeable)) {
+            return $this;
+        }
+
+        (new Like())
+            ->user()->associate($this)
+            ->likeable()->associate($likeable)
+            ->save();
+
+        return $this;
+    }
+    
+    /**
+     * Perform unlike on the Likeable model
+     */
+    public function unlike(Likeable $likeable): self
+    {
+        if (! $this->hasLiked($likeable)) {
+            return $this;
+        }
+
+        $likeable->likes()
+            ->whereHas('user', fn($q) => $q->whereId($this->id))
+            ->delete();
+
+        return $this;
+    }
+
+    /**
+     * Check if user has liked/unliked on the Likeable model
+     */
+    public function hasLiked(Likeable $likeable): bool
+    {
+        if (!$likeable->exists) {
+            return false;
+        }
+
+        return $likeable->likes()
+            ->whereHas('user', fn($q) =>  $q->whereId($this->id))
+            ->exists();
     }
 }
