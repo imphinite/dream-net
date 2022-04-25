@@ -3,6 +3,7 @@
 namespace App\Transformers;
 
 use League\Fractal\TransformerAbstract;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Comment;
 
 class CommentTransformer extends TransformerAbstract
@@ -38,6 +39,7 @@ class CommentTransformer extends TransformerAbstract
             'body'      => $comment->body,
             'moderationFlag' => $comment->moderation_flag,
             'anonymous' => $comment->anonymous,
+            'liked'     => Auth::user() ? Auth::user()->hasLiked($comment) : null,
             'createdAt' => $comment->created_at,
             'updatedAt' => $comment->updated_at,
         ];

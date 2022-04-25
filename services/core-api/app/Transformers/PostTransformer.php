@@ -4,6 +4,7 @@ namespace App\Transformers;
 
 use League\Fractal\TransformerAbstract;
 use League\Fractal\ParamBag;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
 
 class PostTransformer extends TransformerAbstract
@@ -44,6 +45,7 @@ class PostTransformer extends TransformerAbstract
             'locale'    => $post->locale,
             'moderationFlag' => $post->moderation_flag,
             'anonymous' => $post->anonymous,
+            'liked'     => Auth::user() ? Auth::user()->hasLiked($post) : null,
             'createdAt' => $post->created_at,
             'updatedAt' => $post->updated_at,
         ];
