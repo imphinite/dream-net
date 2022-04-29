@@ -12,6 +12,7 @@
         <!-- Post -->
         <dn-card
             class="snap-start mt-2"
+            :loading="postLoading"
             :title="activePost.title"
             :content="getContent(activePost.body)"
             :interactions="{
@@ -20,7 +21,9 @@
                 dislike: false,
                 reply: true,
             }"
+            v-bind="getUserInteractionsForPost(activePost)"
             @reply-button-click="showComposer = !showComposer"
+            @heart-button-click="togglePostLike(activePost)"
         />
 
         <dn-composer
@@ -37,6 +40,7 @@
             :key="index"
             class="snap-start mt-2"
             dim
+            :loading="commentsloadingTracker[comment.id]"
             :content="getContent(comment.body)"
             :interactions="{
                 like: true,
@@ -44,13 +48,15 @@
                 dislike: true,
                 reply: false,
             }"
+            v-bind="getUserInteractionsForComment(comment)"
+            @heart-button-click="toggleCommentLike(comment)"
         />
     </dn-page>
 </template>
 
 <script>
 //-- Libraries
-import { ref, nextTick, watch, onMounted } from 'vue'
+import { ref, reactive, nextTick, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 
 //-- Components
@@ -71,9 +77,14 @@ export default {
         const { navDrawer } = useNavigationDrawer()
 
         // Handle data
-        const { posts: postModule, comments: commentModule } = useStore()
+        const {
+            posts: postModule,
+            comments: commentModule,
+            likes: likeModule,
+        } = useStore()
         const { activePost, setActivePost } = postModule
         const { fetchComments, activePostComments, saveComment } = commentModule
+        const { updatePostLike } = likeModule
 
         // Get active post id from route
         const route = useRoute()
@@ -112,6 +123,17 @@ export default {
             }
         })
 
+        // Likes
+        // Sync activePost-like relationship in case post data is read from localStorage
+        updatePostLike({
+            postId: activePost.value.id,
+            like: activePost.value.liked,
+        })
+
+        // Loading trackers
+        const postLoading = ref(false)
+        const commentsloadingTracker = reactive({})
+
         return {
             navDrawer,
             composer,
@@ -121,6 +143,9 @@ export default {
             activePostComments,
             postId,
             saveComment,
+            ...likeModule,
+            postLoading,
+            commentsloadingTracker,
         }
     },
 
@@ -149,6 +174,52 @@ export default {
             })
 
             this.showComposer = false
+        },
+        async togglePostLike(post) {
+            const postId = post.id
+
+            this.postLoading = true
+
+            try {
+                if (!this.hasLikedPost({ postId })) {
+                    await this.savePostLike({ postId })
+                    return
+                }
+
+                await this.deletePostLike({ postId })
+            } finally {
+                this.postLoading = false
+            }
+        },
+        getUserInteractionsForPost(post) {
+            return {
+                liked: this.hasLikedPost({ postId: post.id }),
+                favored: true,
+                disliked: true,
+            }
+        },
+        async toggleCommentLike(comment) {
+            const commentId = comment.id
+
+            this.commentsloadingTracker[commentId] = true
+
+            try {
+                if (!this.hasLikedComment({ commentId })) {
+                    await this.saveCommentLike({ commentId })
+                    return
+                }
+
+                await this.deleteCommentLike({ commentId })
+            } finally {
+                this.commentsloadingTracker[commentId] = false
+            }
+        },
+        getUserInteractionsForComment(comment) {
+            return {
+                liked: this.hasLikedComment({ commentId: comment.id }),
+                favored: true,
+                disliked: true,
+            }
         },
     },
 }

@@ -25,12 +25,18 @@
             <div class="flex justify-between">
                 <dn-icon-button
                     v-if="interactions.like"
+                    icon-selected-color="pink"
+                    :selected="liked"
+                    :disabled="loading"
                     @click="$emit('heart-button-click')"
                     ><fa icon="heart"
                 /></dn-icon-button>
                 <dn-icon-button
                     v-if="interactions.favor"
                     class="ml-2"
+                    icon-selected-color="yellow"
+                    :selected="favored"
+                    :disabled="loading"
                     @click="$emit('star-button-click')"
                     ><fa icon="star"
                 /></dn-icon-button>
@@ -39,12 +45,16 @@
                 <dn-icon-button
                     v-if="interactions.dislike"
                     class="ml-2"
+                    icon-selected-color="red"
+                    :selected="disliked"
+                    :disabled="loading"
                     @click="$emit('dislike-button-click')"
                     ><fa icon="heart-crack"
                 /></dn-icon-button>
                 <dn-icon-button
                     v-if="interactions.reply"
                     class="ml-2"
+                    :disabled="loading"
                     @click="$emit('reply-button-click')"
                     ><fa icon="comment"
                 /></dn-icon-button>
@@ -52,6 +62,12 @@
         </div>
     </div>
 </template>
+
+<style scoped>
+.card-title {
+    text-shadow: 0 0 4px black;
+}
+</style>
 
 <script>
 //-- Libraries
@@ -108,6 +124,22 @@ export default {
                     reply: false,
                 }
             },
+        },
+        liked: {
+            type: Boolean,
+            default: false,
+        },
+        favored: {
+            type: Boolean,
+            default: false,
+        },
+        disliked: {
+            type: Boolean,
+            default: false,
+        },
+        loading: {
+            type: Boolean,
+            default: false,
         },
     },
     setup(props) {

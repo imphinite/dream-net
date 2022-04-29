@@ -1,7 +1,13 @@
+//-- Libraries
+import _ from 'lodash'
 import { ref, computed } from 'vue'
 import { useStorage } from '@vueuse/core'
+
+//-- Store
+import likeModule from './likes'
+
+//-- Composables
 import useAxios from '@/composables/use-axios'
-import _ from 'lodash'
 
 //-- Centralized data storage
 const data = useStorage('posts', {
@@ -65,7 +71,7 @@ const updatePost = (postData) => {
         storePost(postData)
     }
 
-    const { id, title, body, mood, locale, moderationFlag, anonymous } =
+    const { id, title, body, mood, locale, moderationFlag, anonymous, liked } =
         postData
 
     data.value.posts[id].title = title
@@ -74,6 +80,7 @@ const updatePost = (postData) => {
     data.value.posts[id].locale = locale
     data.value.posts[id].moderationFlag = moderationFlag
     data.value.posts[id].anonymous = anonymous
+    data.value.posts[id].liked = liked
 }
 
 const storePostCollection = (postsData) => {
@@ -113,12 +120,33 @@ const setActivePost = ({ postId }) => {
     activePost.value = postId
 }
 
+// Likes
+const storePostCollectionLikes = (postCollection) => {
+    const likedPosts = getLikedPosts(postCollection)
+    const nonLikedPosts = _.difference(
+        postCollection.map((post) => post.id),
+        likedPosts
+    )
+
+    nonLikedPosts.forEach((id) => {
+        likeModule.updatePostLike({ postId: id, like: false })
+    })
+    likedPosts.forEach((id) => {
+        likeModule.updatePostLike({ postId: id, like: true })
+    })
+}
+
+const getLikedPosts = (postCollection) => {
+    return postCollection.filter((post) => post.liked).map((post) => post.id)
+}
+
 //-- API
 const axios = useAxios()
 const fetchHomeFeedPosts = async () => {
     const response = await axios({
         method: 'get',
         url: 'posts',
+        globalLoading: true,
     })
 
     // Store post data in storage
@@ -126,6 +154,9 @@ const fetchHomeFeedPosts = async () => {
 
     // Update post references
     storePostReferencesToHomeFeed(response)
+
+    // Update post like relationships
+    storePostCollectionLikes(response.data)
 }
 
 const savePost = async ({ title, body, mood, anonymous }) => {
@@ -138,6 +169,7 @@ const savePost = async ({ title, body, mood, anonymous }) => {
             mood,
             anonymous,
         },
+        globalLoading: true,
     })
 
     // Store post data in storage

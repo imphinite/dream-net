@@ -5,6 +5,7 @@ import { useStorage } from '@vueuse/core'
 
 //-- Store
 import postModule from './posts'
+import likeModule from './likes'
 
 //-- Composables
 import useAxios from '@/composables/use-axios'
@@ -105,6 +106,28 @@ const storeCommentReferences = ({ commentCollectionData, postId }) => {
     postCommentRelationships.value[postId].meta = commentCollectionData.meta
 }
 
+// Likes
+const storeCommentCollectionLikes = (commentCollection) => {
+    const likedComments = getLikedComments(commentCollection)
+    const nonLikedComments = _.difference(
+        commentCollection.map((comment) => comment.id),
+        likedComments
+    )
+
+    nonLikedComments.forEach((id) => {
+        likeModule.updateCommentLike({ commentId: id, like: false })
+    })
+    likedComments.forEach((id) => {
+        likeModule.updateCommentLike({ commentId: id, like: true })
+    })
+}
+
+const getLikedComments = (commentCollection) => {
+    return commentCollection
+        .filter((comment) => comment.liked)
+        .map((comment) => comment.id)
+}
+
 //-- API
 const axios = useAxios()
 const fetchComments = async ({ postId }) => {
@@ -121,6 +144,9 @@ const fetchComments = async ({ postId }) => {
 
     // Update post references
     storeCommentReferences({ commentCollectionData: response, postId })
+
+    // Update comment like relationships
+    storeCommentCollectionLikes(response.data)
 }
 
 const saveComment = async ({ postId, body }) => {
@@ -131,6 +157,7 @@ const saveComment = async ({ postId, body }) => {
             post_id: postId,
             body,
         },
+        globalLoading: true,
     })
 
     // Store comment data in storage

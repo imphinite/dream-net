@@ -8,11 +8,15 @@ export default {
     argTypes: {
         preset: {
             control: { type: 'select' },
-            options: ['primary', 'secondary'],
+            options: ['primary', 'secondary', 'transparent'],
         },
         size: {
             control: { type: 'select' },
             options: ['small', 'medium', 'large'],
+        },
+        iconSelectedStyles: {
+            control: { type: 'select' },
+            options: ['pink', 'yellow', 'red'],
         },
     },
 }
@@ -21,6 +25,8 @@ export default {
 const Template = (args, { argTypes }) => ({
     props: Object.keys(argTypes),
     setup() {
+        console.log('args.selected', args.selected)
+
         return {
             args,
         }

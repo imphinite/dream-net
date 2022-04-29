@@ -1,5 +1,5 @@
 <template>
-    <button type="button" :class="computedStyles">
+    <button type="button" :class="computedStyles" :disabled="disabled">
         <slot>
             <fa :icon="icon" />
         </slot>
@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { toRef, computed } from 'vue'
+import { toRef, computed, watch } from 'vue'
 
 export default {
     name: 'dn-icon-button',
@@ -33,6 +33,20 @@ export default {
                 return ['small', 'medium', 'large'].indexOf(value) !== -1
             },
         },
+        selected: {
+            type: Boolean,
+            default: false,
+        },
+        iconSelectedColor: {
+            type: String,
+            validator: function (value) {
+                return ['pink', 'yellow', 'red'].indexOf(value) !== -1
+            },
+        },
+        disabled: {
+            type: Boolean,
+            default: false,
+        },
     },
     setup(props) {
         const BASE_STYLES =
@@ -41,8 +55,25 @@ export default {
         //-- refs
         const preset = toRef(props, 'preset')
         const size = toRef(props, 'size')
+        const selected = toRef(props, 'selected')
+        const iconSelectedColor = toRef(props, 'iconSelectedColor')
 
         //-- computed
+        const computedIconSelectedColor = computed(() => {
+            const selectedColorActive =
+                selected.value && Boolean(iconSelectedColor.value)
+
+            const iconColorMapping = {
+                pink: 'text-pink-400',
+                yellow: 'text-yellow-400',
+                red: 'text-red-400',
+            }
+
+            return selectedColorActive
+                ? iconColorMapping[iconSelectedColor.value]
+                : ''
+        })
+
         const computedPresetStyles = computed(() => {
             const presetStyleMapping = {
                 primary: [
@@ -58,7 +89,8 @@ export default {
                     'focus:ring-2 focus:ring-yellow-light',
                 ],
                 transparent: [
-                    'bg-transparent text-white/90 border-white/90 bg-gray-700/25',
+                    'bg-transparent border-white/90 bg-gray-700/25',
+                    computedIconSelectedColor.value || 'text-white/90',
                     'hover:bg-black/50',
                     'active:bg-black/75 active:text-white/50 active:border-white/50',
                     'focus:ring-2 focus:ring-yellow-light',

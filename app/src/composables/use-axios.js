@@ -12,7 +12,9 @@ const instance = axios.create({
 // Request interceptor
 instance.interceptors.request.use(
     async (config) => {
-        loading.value = true
+        if (config.globalLoading) {
+            loading.value = true
+        }
 
         // Set auth bearer token to header
         const { auth: authModule } = useStore()

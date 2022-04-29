@@ -7,6 +7,7 @@
             v-for="(post, index) in homeFeed.posts"
             :key="index"
             class="snap-start mt-2"
+            :loading="loadingTracker[post.id]"
             :title="post.title"
             :content="getContent(post.body)"
             :interactions="{
@@ -15,14 +16,17 @@
                 dislike: false,
                 reply: true,
             }"
+            v-bind="getUserInteractionsForPost(post)"
             @title-click="goToPost(post)"
             @reply-button-click="makingCommentsToPost(post)"
+            @heart-button-click="togglePostLike(post)"
         />
     </dn-page>
 </template>
 
 <script>
 //-- Libraries
+import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 
 //-- Components
@@ -47,8 +51,9 @@ export default {
         const router = useRouter()
 
         // Handle data
-        const { posts: postModule } = useStore()
+        const { posts: postModule, likes: likeModule } = useStore()
         const { homeFeed, fetchHomeFeedPosts } = postModule
+        const { savePostLike, deletePostLike, hasLikedPost } = likeModule
 
         // Fetch posts from API
         if (
@@ -58,10 +63,17 @@ export default {
             fetchHomeFeedPosts()
         }
 
+        // Loading tracker
+        const loadingTracker = reactive({})
+
         return {
             navDrawer,
             router,
             homeFeed,
+            savePostLike,
+            deletePostLike,
+            hasLikedPost,
+            loadingTracker,
         }
     },
     methods: {
@@ -83,6 +95,29 @@ export default {
         },
         makingCommentsToPost(post) {
             this.router.push(`/posts/${post.id}?composer=true`)
+        },
+        async togglePostLike(post) {
+            const postId = post.id
+
+            this.loadingTracker[postId] = true
+
+            try {
+                if (!this.hasLikedPost({ postId })) {
+                    await this.savePostLike({ postId })
+                    return
+                }
+
+                await this.deletePostLike({ postId })
+            } finally {
+                this.loadingTracker[postId] = false
+            }
+        },
+        getUserInteractionsForPost(post) {
+            return {
+                liked: this.hasLikedPost({ postId: post.id }),
+                favored: true,
+                disliked: true,
+            }
         },
     },
 }
