@@ -20,6 +20,7 @@
             @title-click="goToPost(post)"
             @reply-button-click="makingCommentsToPost(post)"
             @heart-button-click="togglePostLike(post)"
+            @star-button-click="togglePostFavor(post)"
         />
     </dn-page>
 </template>
@@ -51,9 +52,12 @@ export default {
         const router = useRouter()
 
         // Handle data
-        const { posts: postModule, likes: likeModule } = useStore()
+        const {
+            posts: postModule,
+            likes: likeModule,
+            favors: favorModule,
+        } = useStore()
         const { homeFeed, fetchHomeFeedPosts } = postModule
-        const { savePostLike, deletePostLike, hasLikedPost } = likeModule
 
         // Fetch posts from API
         if (
@@ -70,9 +74,8 @@ export default {
             navDrawer,
             router,
             homeFeed,
-            savePostLike,
-            deletePostLike,
-            hasLikedPost,
+            ...likeModule,
+            ...favorModule,
             loadingTracker,
         }
     },
@@ -112,10 +115,26 @@ export default {
                 this.loadingTracker[postId] = false
             }
         },
+        async togglePostFavor(post) {
+            const postId = post.id
+
+            this.loadingTracker[postId] = true
+
+            try {
+                if (!this.hasFavoredPost({ postId })) {
+                    await this.savePostFavor({ postId })
+                    return
+                }
+
+                await this.deletePostFavor({ postId })
+            } finally {
+                this.loadingTracker[postId] = false
+            }
+        },
         getUserInteractionsForPost(post) {
             return {
                 liked: this.hasLikedPost({ postId: post.id }),
-                favored: true,
+                favored: this.hasFavoredPost({ postId: post.id }),
                 disliked: true,
             }
         },

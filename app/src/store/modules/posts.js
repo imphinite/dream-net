@@ -5,6 +5,7 @@ import { useStorage } from '@vueuse/core'
 
 //-- Store
 import likeModule from './likes'
+import favorModule from './favors'
 
 //-- Composables
 import useAxios from '@/composables/use-axios'
@@ -140,6 +141,26 @@ const getLikedPosts = (postCollection) => {
     return postCollection.filter((post) => post.liked).map((post) => post.id)
 }
 
+// Favors
+const storePostCollectionFavors = (postCollection) => {
+    const favoredPosts = getFavoredPosts(postCollection)
+    const nonFavoredPosts = _.difference(
+        postCollection.map((post) => post.id),
+        favoredPosts
+    )
+
+    nonFavoredPosts.forEach((id) => {
+        favorModule.updatePostFavor({ postId: id, favor: false })
+    })
+    favoredPosts.forEach((id) => {
+        favorModule.updatePostFavor({ postId: id, favor: true })
+    })
+}
+
+const getFavoredPosts = (postCollection) => {
+    return postCollection.filter((post) => post.favored).map((post) => post.id)
+}
+
 //-- API
 const axios = useAxios()
 const fetchHomeFeedPosts = async () => {
@@ -157,6 +178,9 @@ const fetchHomeFeedPosts = async () => {
 
     // Update post like relationships
     storePostCollectionLikes(response.data)
+
+    // Update post favor relationships
+    storePostCollectionFavors(response.data)
 }
 
 const savePost = async ({ title, body, mood, anonymous }) => {

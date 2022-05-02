@@ -4,6 +4,7 @@ import userModule from './modules/users'
 import postModule from './modules/posts'
 import commentModule from './modules/comments'
 import likeModule from './modules/likes'
+import favorModule from './modules/favors'
 
 export default () => {
     return {
@@ -12,5 +13,6 @@ export default () => {
         posts: postModule,
         comments: commentModule,
         likes: likeModule,
+        favors: favorModule,
     }
 }

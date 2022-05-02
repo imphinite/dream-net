@@ -24,6 +24,7 @@
             v-bind="getUserInteractionsForPost(activePost)"
             @reply-button-click="showComposer = !showComposer"
             @heart-button-click="togglePostLike(activePost)"
+            @star-button-click="togglePostFavor(activePost)"
         />
 
         <dn-composer
@@ -50,6 +51,7 @@
             }"
             v-bind="getUserInteractionsForComment(comment)"
             @heart-button-click="toggleCommentLike(comment)"
+            @star-button-click="toggleCommentFavor(comment)"
         />
     </dn-page>
 </template>
@@ -81,10 +83,12 @@ export default {
             posts: postModule,
             comments: commentModule,
             likes: likeModule,
+            favors: favorModule,
         } = useStore()
         const { activePost, setActivePost } = postModule
         const { fetchComments, activePostComments, saveComment } = commentModule
         const { updatePostLike } = likeModule
+        const { updatePostFavor } = favorModule
 
         // Get active post id from route
         const route = useRoute()
@@ -130,6 +134,13 @@ export default {
             like: activePost.value.liked,
         })
 
+        // Favors
+        // Sync activePost-favor relationship in case post data is read from localStorage
+        updatePostFavor({
+            postId: activePost.value.id,
+            favor: activePost.value.favored,
+        })
+
         // Loading trackers
         const postLoading = ref(false)
         const commentsloadingTracker = reactive({})
@@ -144,6 +155,7 @@ export default {
             postId,
             saveComment,
             ...likeModule,
+            ...favorModule,
             postLoading,
             commentsloadingTracker,
         }
@@ -191,10 +203,26 @@ export default {
                 this.postLoading = false
             }
         },
+        async togglePostFavor(post) {
+            const postId = post.id
+
+            this.postLoading = true
+
+            try {
+                if (!this.hasFavoredPost({ postId })) {
+                    await this.savePostFavor({ postId })
+                    return
+                }
+
+                await this.deletePostFavor({ postId })
+            } finally {
+                this.postLoading = false
+            }
+        },
         getUserInteractionsForPost(post) {
             return {
                 liked: this.hasLikedPost({ postId: post.id }),
-                favored: true,
+                favored: this.hasFavoredPost({ postId: post.id }),
                 disliked: true,
             }
         },
@@ -214,10 +242,26 @@ export default {
                 this.commentsloadingTracker[commentId] = false
             }
         },
+        async toggleCommentFavor(comment) {
+            const commentId = comment.id
+
+            this.commentsloadingTracker[commentId] = true
+
+            try {
+                if (!this.hasFavoredComment({ commentId })) {
+                    await this.saveCommentFavor({ commentId })
+                    return
+                }
+
+                await this.deleteCommentFavor({ commentId })
+            } finally {
+                this.commentsloadingTracker[commentId] = false
+            }
+        },
         getUserInteractionsForComment(comment) {
             return {
                 liked: this.hasLikedComment({ commentId: comment.id }),
-                favored: true,
+                favored: this.hasFavoredComment({ commentId: comment.id }),
                 disliked: true,
             }
         },

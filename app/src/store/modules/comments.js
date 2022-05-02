@@ -6,6 +6,7 @@ import { useStorage } from '@vueuse/core'
 //-- Store
 import postModule from './posts'
 import likeModule from './likes'
+import favorModule from './favors'
 
 //-- Composables
 import useAxios from '@/composables/use-axios'
@@ -128,6 +129,28 @@ const getLikedComments = (commentCollection) => {
         .map((comment) => comment.id)
 }
 
+// Favors
+const storeCommentCollectionFavors = (commentCollection) => {
+    const favoredComments = getFavoredComments(commentCollection)
+    const nonFavoredComments = _.difference(
+        commentCollection.map((comment) => comment.id),
+        favoredComments
+    )
+
+    nonFavoredComments.forEach((id) => {
+        favorModule.updateCommentFavor({ commentId: id, favor: false })
+    })
+    favoredComments.forEach((id) => {
+        favorModule.updateCommentFavor({ commentId: id, favor: true })
+    })
+}
+
+const getFavoredComments = (commentCollection) => {
+    return commentCollection
+        .filter((comment) => comment.favored)
+        .map((comment) => comment.id)
+}
+
 //-- API
 const axios = useAxios()
 const fetchComments = async ({ postId }) => {
@@ -147,6 +170,9 @@ const fetchComments = async ({ postId }) => {
 
     // Update comment like relationships
     storeCommentCollectionLikes(response.data)
+
+    // Update comment favor relationships
+    storeCommentCollectionFavors(response.data)
 }
 
 const saveComment = async ({ postId, body }) => {
