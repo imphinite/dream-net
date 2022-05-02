@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Laravel\Passport\Passport;
 use App\Contracts\Likeable;
+use App\Contracts\Favorable;
 use App\Models\User;
 
 class AuthServiceProvider extends ServiceProvider
@@ -57,6 +58,33 @@ class AuthServiceProvider extends ServiceProvider
 
             if (!$user->hasLiked($likeable)) {
                 return Response::deny("Cannot unlike without liking first");
+            }
+
+            return Response::allow();
+        });
+
+        
+        // $user->can('favor', $post)
+        Gate::define('favor', function (User $user, Favorable $favorable) {
+            if (!$favorable->exists) {
+                return Response::deny("Cannot favor an object that doesn't exists");
+            }
+
+            if ($user->hasFavored($favorable)) {
+                return Response::deny("Cannot favor the same thing twice");
+            }
+
+            return Response::allow();
+        });
+
+        // $user->can('unfavor', $post)
+        Gate::define('unfavor', function (User $user, Favorable $favorable) {
+            if (!$favorable->exists) {
+                return Response::deny("Cannot unfavor an object that doesn't exists");
+            }
+
+            if (!$user->hasFavored($favorable)) {
+                return Response::deny("Cannot unfavor without favoring first");
             }
 
             return Response::allow();

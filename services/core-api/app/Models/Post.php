@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Contracts\Likeable;
+use App\Contracts\Favorable;
 use App\Models\Concerns\Likes;
+use App\Models\Concerns\Favorites;
 
-class Post extends Model implements Likeable
+class Post extends Model implements Likeable, Favorable
 {
-    use HasFactory, Likes;
+    use HasFactory, Likes, Favorites;
 
     /**
      * Get the author of this post.

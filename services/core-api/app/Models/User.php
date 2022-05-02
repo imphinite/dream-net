@@ -9,7 +9,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use App\Contracts\Likeable;
+use App\Contracts\Favorable;
 use App\Models\Like;
+use App\Models\Favorite;
 
 class User extends Authenticatable
 {
@@ -112,6 +114,62 @@ class User extends Authenticatable
         }
 
         return $likeable->likes()
+            ->whereHas('user', fn($q) =>  $q->whereId($this->id))
+            ->exists();
+    }
+
+
+    /**
+     * All favorites by the user.
+     */
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    /**
+     * Perform favor action on the Favorable model
+     */
+    public function favor(Favorable $favorable): self
+    {
+        if ($this->hasFavored($favorable)) {
+            return $this;
+        }
+
+        (new Favorite())
+            ->user()->associate($this)
+            ->favorable()->associate($favorable)
+            ->save();
+
+        return $this;
+    }
+    
+    /**
+     * Perform unfavor action on the Favorable model
+     */
+    public function unfavor(Favorable $favorable): self
+    {
+        if (! $this->hasFavored($favorable)) {
+            return $this;
+        }
+
+        $favorable->favorites()
+            ->whereHas('user', fn($q) => $q->whereId($this->id))
+            ->delete();
+
+        return $this;
+    }
+
+    /**
+     * Check if user has favored/unfavored on the Favorable model
+     */
+    public function hasFavored(Favorable $favorable): bool
+    {
+        if (!$favorable->exists) {
+            return false;
+        }
+
+        return $favorable->favorites()
             ->whereHas('user', fn($q) =>  $q->whereId($this->id))
             ->exists();
     }

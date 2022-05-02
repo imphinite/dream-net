@@ -46,6 +46,7 @@ class PostTransformer extends TransformerAbstract
             'moderationFlag' => $post->moderation_flag,
             'anonymous' => $post->anonymous,
             'liked'     => Auth::user() ? Auth::user()->hasLiked($post) : null,
+            'favored'   => Auth::user() ? Auth::user()->hasFavored($post) : null,
             'createdAt' => $post->created_at,
             'updatedAt' => $post->updated_at,
         ];

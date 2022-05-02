@@ -40,6 +40,7 @@ class CommentTransformer extends TransformerAbstract
             'moderationFlag' => $comment->moderation_flag,
             'anonymous' => $comment->anonymous,
             'liked'     => Auth::user() ? Auth::user()->hasLiked($comment) : null,
+            'favored'   => Auth::user() ? Auth::user()->hasFavored($comment) : null,
             'createdAt' => $comment->created_at,
             'updatedAt' => $comment->updated_at,
         ];

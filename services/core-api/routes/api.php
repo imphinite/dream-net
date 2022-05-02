@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\FavorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,3 +54,7 @@ Route::controller(LikeController::class)->group(function () {
 });
 
 // Favorites
+Route::controller(FavorController::class)->group(function () {
+    Route::post('/favor', 'favor');
+    Route::delete('/favor', 'unfavor');
+});
