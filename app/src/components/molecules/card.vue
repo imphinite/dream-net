@@ -3,7 +3,7 @@
         <!-- title block -->
         <div
             v-if="title"
-            class="card-title font-bold text-2xl"
+            class="card-title font-bold text-2xl bg-white/10 rounded px-2 py-1"
             @click="$emit('title-click')"
         >
             {{ title }}

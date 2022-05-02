@@ -5,6 +5,7 @@
             :key="index"
             :icon="item.icon"
             :label="item.label"
+            :background="item.background"
             :active="isItemActive(index)"
             @click="selectItem(index)"
         ></dn-menu-item>
@@ -41,7 +42,7 @@ export default {
         const BASE_BG = ['bg-transparent']
 
         const computedStyles = computed(() => {
-            return [BASE_STYLES, BASE_BG]
+            return [BASE_STYLES, BASE_BG, 'space-y-2']
         })
 
         // Select item

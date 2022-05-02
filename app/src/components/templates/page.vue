@@ -48,7 +48,7 @@ import DnNavigationDrawer from '@co/navigation-drawer.vue'
 import DnCard from '@cm/card.vue'
 
 //-- Composables
-import useGradients from '@/composables/use-gradients'
+import useTheme from '@/composables/use-theme'
 
 export default {
     name: 'dn-page',
@@ -81,14 +81,13 @@ export default {
             'w-screen h-screen overflow-hidden',
         ]
 
-        const { GRADIENTS } = useGradients({ hover: false })
-        const BG_STYLES = [
-            'bg-gradient-to-tr',
-            GRADIENTS.CAN_YOU_FEEL_THE_LOVE_TONIGHT,
-        ]
+        const { themeStyles } = useTheme()
+        const computedBgStyles = computed(() => {
+            return ['bg-gradient-to-tr', themeStyles.value]
+        })
 
         const containerStyles = computed(() => {
-            return [CONTAINER_STYLES, BG_STYLES]
+            return [CONTAINER_STYLES, computedBgStyles.value]
         })
 
         const BODY_SECTION_STYLES = [
