@@ -1,10 +1,6 @@
 //-- Libraries
 import _ from 'lodash'
-import { ref, computed } from 'vue'
-
-//-- Store
-// import postModule from './posts'
-// import commentModule from './comments'
+import { ref } from 'vue'
 
 //-- Composables
 import useAxios from '@/composables/use-axios'
