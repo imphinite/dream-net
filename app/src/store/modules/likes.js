@@ -103,7 +103,11 @@ const saveCommentLike = async ({ commentId }) => {
             globalLoading: false,
         })
     } catch (error) {
-        updateCommentLike({ commentId, like: false })
+        if (error.status === 403) {
+            updateCommentLike({ commentId, favor: true })
+        } else {
+            updateCommentLike({ commentId, favor: false })
+        }
     }
 
     return true
@@ -121,7 +125,11 @@ const deleteCommentLike = async ({ commentId }) => {
             },
         })
     } catch (error) {
-        updateCommentLike({ commentId, like: true })
+        if (error.status === 403) {
+            updateCommentLike({ commentId, favor: false })
+        } else {
+            updateCommentLike({ commentId, favor: true })
+        }
     }
 
     return true

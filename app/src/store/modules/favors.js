@@ -103,7 +103,11 @@ const saveCommentFavor = async ({ commentId }) => {
             globalLoading: false,
         })
     } catch (error) {
-        updateCommentFavor({ commentId, favor: false })
+        if (error.status === 403) {
+            updateCommentFavor({ commentId, favor: true })
+        } else {
+            updateCommentFavor({ commentId, favor: false })
+        }
     }
 
     return true
@@ -121,7 +125,11 @@ const deleteCommentFavor = async ({ commentId }) => {
             },
         })
     } catch (error) {
-        updateCommentFavor({ commentId, favor: true })
+        if (error.status === 403) {
+            updateCommentFavor({ commentId, favor: false })
+        } else {
+            updateCommentFavor({ commentId, favor: true })
+        }
     }
 
     return true
