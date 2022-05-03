@@ -72,16 +72,7 @@ const updatePost = (postData) => {
         storePost(postData)
     }
 
-    const { id, title, body, mood, locale, moderationFlag, anonymous, liked } =
-        postData
-
-    data.value.posts[id].title = title
-    data.value.posts[id].body = body
-    data.value.posts[id].mood = mood
-    data.value.posts[id].locale = locale
-    data.value.posts[id].moderationFlag = moderationFlag
-    data.value.posts[id].anonymous = anonymous
-    data.value.posts[id].liked = liked
+    data.value.posts[postData.id] = postData
 }
 
 const storePostCollection = (postsData) => {
@@ -124,6 +115,7 @@ const setActivePost = ({ postId }) => {
 // Likes
 const storePostCollectionLikes = (postCollection) => {
     const likedPosts = getLikedPosts(postCollection)
+
     const nonLikedPosts = _.difference(
         postCollection.map((post) => post.id),
         likedPosts
@@ -183,6 +175,25 @@ const fetchHomeFeedPosts = async () => {
     storePostCollectionFavors(response.data)
 }
 
+const fetchPost = async ({ postId }) => {
+    const response = await axios({
+        method: 'get',
+        url: `posts/${postId}`,
+        globalLoading: false,
+    })
+
+    updatePost(response.data)
+
+    likeModule.updatePostLike({
+        postId: response.data.id,
+        like: response.data.liked,
+    })
+    favorModule.updatePostFavor({
+        postId: response.data.id,
+        favor: response.data.favored,
+    })
+}
+
 const savePost = async ({ title, body, mood, anonymous }) => {
     const response = await axios({
         method: 'post',
@@ -222,5 +233,6 @@ export default {
 
     // API
     fetchHomeFeedPosts,
+    fetchPost,
     savePost,
 }

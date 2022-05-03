@@ -34,11 +34,16 @@ instance.interceptors.request.use(
 )
 
 // Response interceptor
-instance.interceptors.response.use((response) => {
-    loading.value = false
+instance.interceptors.response.use(
+    (response) => {
+        loading.value = false
 
-    return response.data
-})
+        return response.data
+    },
+    (error) => {
+        return Promise.reject(error.response)
+    }
+)
 
 export default () => {
     return instance

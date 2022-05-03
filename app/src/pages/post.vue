@@ -21,7 +21,9 @@
                 dislike: false,
                 reply: true,
             }"
-            v-bind="getUserInteractionsForPost(activePost)"
+            :liked="meLiked"
+            :favored="meFavored"
+            :disliked="meDisliked"
             @reply-button-click="showComposer = !showComposer"
             @heart-button-click="togglePostLike(activePost)"
             @star-button-click="togglePostFavor(activePost)"
@@ -58,7 +60,7 @@
 
 <script>
 //-- Libraries
-import { ref, reactive, nextTick, watch, onMounted } from 'vue'
+import { ref, reactive, nextTick, watch, watchEffect, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 
 //-- Components
@@ -85,17 +87,19 @@ export default {
             likes: likeModule,
             favors: favorModule,
         } = useStore()
-        const { activePost, setActivePost } = postModule
+        const { activePost, setActivePost, fetchPost } = postModule
         const { fetchComments, activePostComments, saveComment } = commentModule
-        const { updatePostLike } = likeModule
-        const { updatePostFavor } = favorModule
+        const { hasLikedPost } = likeModule
+        const { hasFavoredPost } = favorModule
 
         // Get active post id from route
         const route = useRoute()
         const postId = route.params.id
 
-        // Fetch posts from API
+        // Fetch post from API
         setActivePost({ postId })
+        fetchPost({ postId })
+
         if (
             !Boolean(activePostComments.value?.comments) ||
             activePostComments.value?.comments.length == 0
@@ -127,18 +131,28 @@ export default {
             }
         })
 
-        // Likes
-        // Sync activePost-like relationship in case post data is read from localStorage
-        updatePostLike({
+        // Initialize saved user's interactions
+        const meLiked = ref(false)
+        const meFavored = ref(false)
+        const meDisliked = ref(false)
+
+        likeModule.updatePostLike({
             postId: activePost.value.id,
             like: activePost.value.liked,
         })
-
-        // Favors
-        // Sync activePost-favor relationship in case post data is read from localStorage
-        updatePostFavor({
+        favorModule.updatePostFavor({
             postId: activePost.value.id,
             favor: activePost.value.favored,
+        })
+
+        watchEffect(() => {
+            meLiked.value = hasLikedPost({
+                postId: activePost.value.id,
+            })
+            meFavored.value = hasFavoredPost({
+                postId: activePost.value.id,
+            })
+            meDisliked.value = true
         })
 
         // Loading trackers
@@ -151,6 +165,9 @@ export default {
             showComposer,
             formData,
             activePost,
+            meLiked,
+            meFavored,
+            meDisliked,
             activePostComments,
             postId,
             saveComment,
@@ -217,13 +234,6 @@ export default {
                 await this.deletePostFavor({ postId })
             } finally {
                 this.postLoading = false
-            }
-        },
-        getUserInteractionsForPost(post) {
-            return {
-                liked: this.hasLikedPost({ postId: post.id }),
-                favored: this.hasFavoredPost({ postId: post.id }),
-                disliked: true,
             }
         },
         async toggleCommentLike(comment) {

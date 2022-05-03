@@ -58,7 +58,11 @@ const savePostFavor = async ({ postId }) => {
             globalLoading: false,
         })
     } catch (error) {
-        updatePostFavor({ postId, favor: false })
+        if (error.status === 403) {
+            updatePostFavor({ postId, favor: true })
+        } else {
+            updatePostFavor({ postId, favor: false })
+        }
     }
 
     return true
@@ -76,7 +80,11 @@ const deletePostFavor = async ({ postId }) => {
             },
         })
     } catch (error) {
-        updatePostFavor({ postId, favor: true })
+        if (error.status === 403) {
+            updatePostFavor({ postId, favor: false })
+        } else {
+            updatePostFavor({ postId, favor: true })
+        }
     }
 
     return true
