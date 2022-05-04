@@ -29,6 +29,9 @@
         />
 
         <!-- Comments -->
+        <div v-if="loadingComments" class="w-full text-center text-white p-16">
+            <fa class="fa-spin text-4xl" icon="spinner" />
+        </div>
         <dn-card
             v-for="(comment, index) in activePostComments.comments"
             :key="index"
@@ -87,11 +90,15 @@ export default {
         setActivePost({ postId })
         fetchPost({ postId })
 
+        const loadingComments = ref(false)
         if (
             !Boolean(activePostComments.value?.comments) ||
             activePostComments.value?.comments.length == 0
         ) {
-            fetchComments({ postId: activePost.value.id })
+            loadingComments.value = true
+            fetchComments({ postId: activePost.value.id }).then(() => {
+                loadingComments.value = false
+            })
         }
 
         // Composer
@@ -187,6 +194,7 @@ export default {
             ...favorModule,
             postState,
             commentState,
+            loadingComments,
         }
     },
 
