@@ -12,18 +12,9 @@
         <!-- Post -->
         <dn-card
             class="snap-start mt-2"
-            :loading="postLoading"
             :title="activePost.title"
             :content="getContent(activePost.body)"
-            :interactions="{
-                like: true,
-                favor: true,
-                dislike: false,
-                reply: true,
-            }"
-            :liked="meLiked"
-            :favored="meFavored"
-            :disliked="meDisliked"
+            :state="postState"
             @reply-button-click="showComposer = !showComposer"
             @heart-button-click="togglePostLike(activePost)"
             @star-button-click="togglePostFavor(activePost)"
@@ -43,15 +34,8 @@
             :key="index"
             class="snap-start mt-2"
             dim
-            :loading="commentsloadingTracker[comment.id]"
             :content="getContent(comment.body)"
-            :interactions="{
-                like: true,
-                favor: true,
-                dislike: true,
-                reply: false,
-            }"
-            v-bind="getUserInteractionsForComment(comment)"
+            :state="commentState[comment.id]"
             @heart-button-click="toggleCommentLike(comment)"
             @star-button-click="toggleCommentFavor(comment)"
         />
@@ -73,12 +57,14 @@ import useStore from '@/store/use-store'
 
 //-- Composables
 import useNavigationDrawer from '@/composables/use-navigation-drawer'
+import useInteractionState from '@/composables/use-interaction-state'
 
 export default {
     name: 'dn-post',
     components: { DnCard, DnPage, DnComposer },
     setup() {
         const { navDrawer } = useNavigationDrawer()
+        const { buildInteractionState } = useInteractionState()
 
         // Handle data
         const {
@@ -89,8 +75,9 @@ export default {
         } = useStore()
         const { activePost, setActivePost, fetchPost } = postModule
         const { fetchComments, activePostComments, saveComment } = commentModule
-        const { hasLikedPost } = likeModule
-        const { hasFavoredPost } = favorModule
+        const { hasLikedPost, hasLikedComment, updatePostLike } = likeModule
+        const { hasFavoredPost, hasFavoredComment, updatePostFavor } =
+            favorModule
 
         // Get active post id from route
         const route = useRoute()
@@ -131,11 +118,14 @@ export default {
             }
         })
 
-        // Initialize saved user's interactions
-        const meLiked = ref(false)
-        const meFavored = ref(false)
-        const meDisliked = ref(false)
-
+        // Interaction state of post
+        const state = buildInteractionState({
+            like: true,
+            favor: true,
+            dislike: false,
+            reply: true,
+        })
+        const postState = reactive(state)
         likeModule.updatePostLike({
             postId: activePost.value.id,
             like: activePost.value.liked,
@@ -144,20 +134,45 @@ export default {
             postId: activePost.value.id,
             favor: activePost.value.favored,
         })
-
         watchEffect(() => {
-            meLiked.value = hasLikedPost({
+            postState.like.active = hasLikedPost({
                 postId: activePost.value.id,
             })
-            meFavored.value = hasFavoredPost({
+            postState.favor.active = hasFavoredPost({
                 postId: activePost.value.id,
             })
-            meDisliked.value = true
+            postState.dislike.active = true
         })
 
-        // Loading trackers
-        const postLoading = ref(false)
-        const commentsloadingTracker = reactive({})
+        // Interaction state of each comment item
+        const commentState = reactive({})
+        watchEffect(() => {
+            if (activePostComments.value.comments) {
+                activePostComments.value.comments.forEach((comments) => {
+                    const commentId = comments.id
+
+                    // Initialize
+                    if (!(commentId in commentState)) {
+                        const state = buildInteractionState({
+                            like: true,
+                            favor: true,
+                            dislike: true,
+                            reply: false,
+                        })
+
+                        commentState[commentId] = reactive(state)
+                    }
+
+                    // Updates
+                    commentState[commentId].like.active = hasLikedComment({
+                        commentId,
+                    })
+                    commentState[commentId].favor.active = hasFavoredComment({
+                        commentId,
+                    })
+                })
+            }
+        })
 
         return {
             navDrawer,
@@ -165,16 +180,13 @@ export default {
             showComposer,
             formData,
             activePost,
-            meLiked,
-            meFavored,
-            meDisliked,
             activePostComments,
             postId,
             saveComment,
             ...likeModule,
             ...favorModule,
-            postLoading,
-            commentsloadingTracker,
+            postState,
+            commentState,
         }
     },
 
@@ -206,8 +218,7 @@ export default {
         },
         async togglePostLike(post) {
             const postId = post.id
-
-            this.postLoading = true
+            this.postState.like.loading = true
 
             try {
                 if (!this.hasLikedPost({ postId })) {
@@ -217,13 +228,12 @@ export default {
 
                 await this.deletePostLike({ postId })
             } finally {
-                this.postLoading = false
+                this.postState.like.loading = false
             }
         },
         async togglePostFavor(post) {
             const postId = post.id
-
-            this.postLoading = true
+            this.postState.favor.loading = true
 
             try {
                 if (!this.hasFavoredPost({ postId })) {
@@ -233,13 +243,12 @@ export default {
 
                 await this.deletePostFavor({ postId })
             } finally {
-                this.postLoading = false
+                this.postState.favor.loading = false
             }
         },
         async toggleCommentLike(comment) {
             const commentId = comment.id
-
-            this.commentsloadingTracker[commentId] = true
+            this.commentState[commentId].like.loading = true
 
             try {
                 if (!this.hasLikedComment({ commentId })) {
@@ -249,13 +258,12 @@ export default {
 
                 await this.deleteCommentLike({ commentId })
             } finally {
-                this.commentsloadingTracker[commentId] = false
+                this.commentState[commentId].like.loading = false
             }
         },
         async toggleCommentFavor(comment) {
             const commentId = comment.id
-
-            this.commentsloadingTracker[commentId] = true
+            this.commentState[commentId].favor.loading = true
 
             try {
                 if (!this.hasFavoredComment({ commentId })) {
@@ -265,14 +273,7 @@ export default {
 
                 await this.deleteCommentFavor({ commentId })
             } finally {
-                this.commentsloadingTracker[commentId] = false
-            }
-        },
-        getUserInteractionsForComment(comment) {
-            return {
-                liked: this.hasLikedComment({ commentId: comment.id }),
-                favored: this.hasFavoredComment({ commentId: comment.id }),
-                disliked: true,
+                this.commentState[commentId].favor.loading = false
             }
         },
     },

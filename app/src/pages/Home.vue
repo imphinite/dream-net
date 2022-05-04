@@ -7,27 +7,20 @@
             v-for="(post, index) in homeFeed.posts"
             :key="index"
             class="snap-start mt-2"
-            :loading="loadingTracker[post.id]"
             :title="post.title"
             :content="getContent(post.body)"
-            :interactions="{
-                like: true,
-                favor: true,
-                dislike: false,
-                reply: true,
-            }"
-            v-bind="getUserInteractionsForPost(post)"
+            :state="postState[post.id]"
             @title-click="goToPost(post)"
-            @reply-button-click="makingCommentsToPost(post)"
             @heart-button-click="togglePostLike(post)"
             @star-button-click="togglePostFavor(post)"
+            @reply-button-click="makingCommentsToPost(post)"
         />
     </dn-page>
 </template>
 
 <script>
 //-- Libraries
-import { reactive } from 'vue'
+import { reactive, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 
 //-- Components
@@ -41,12 +34,14 @@ import useStore from '@/store/use-store'
 
 //-- Composables
 import useNavigationDrawer from '@/composables/use-navigation-drawer'
+import useInteractionState from '@/composables/use-interaction-state'
 
 export default {
     name: 'dn-home',
     components: { DnHeader, DnNavigationDrawer, DnCard, DnPage },
     setup() {
         const { navDrawer } = useNavigationDrawer()
+        const { buildInteractionState } = useInteractionState()
 
         // Handle routing
         const router = useRouter()
@@ -58,6 +53,8 @@ export default {
             favors: favorModule,
         } = useStore()
         const { homeFeed, fetchHomeFeedPosts } = postModule
+        const { hasLikedPost } = likeModule
+        const { hasFavoredPost } = favorModule
 
         // Fetch posts from API
         if (
@@ -67,8 +64,29 @@ export default {
             fetchHomeFeedPosts()
         }
 
-        // Loading tracker
-        const loadingTracker = reactive({})
+        // State of each post item
+        const postState = reactive({})
+        watchEffect(() => {
+            homeFeed.value.posts.forEach((post) => {
+                const postId = post.id
+
+                // Initialize
+                if (!(postId in postState)) {
+                    const state = buildInteractionState({
+                        like: true,
+                        favor: true,
+                        dislike: false,
+                        reply: true,
+                    })
+
+                    postState[postId] = reactive(state)
+                }
+
+                // Updates
+                postState[postId].like.active = hasLikedPost({ postId })
+                postState[postId].favor.active = hasFavoredPost({ postId })
+            })
+        })
 
         return {
             navDrawer,
@@ -76,7 +94,7 @@ export default {
             homeFeed,
             ...likeModule,
             ...favorModule,
-            loadingTracker,
+            postState,
         }
     },
     methods: {
@@ -101,8 +119,7 @@ export default {
         },
         async togglePostLike(post) {
             const postId = post.id
-
-            this.loadingTracker[postId] = true
+            this.postState[postId].like.loading = true
 
             try {
                 if (!this.hasLikedPost({ postId })) {
@@ -112,13 +129,12 @@ export default {
 
                 await this.deletePostLike({ postId })
             } finally {
-                this.loadingTracker[postId] = false
+                this.postState[postId].like.loading = false
             }
         },
         async togglePostFavor(post) {
             const postId = post.id
-
-            this.loadingTracker[postId] = true
+            this.postState[postId].favor.loading = true
 
             try {
                 if (!this.hasFavoredPost({ postId })) {
@@ -128,14 +144,7 @@ export default {
 
                 await this.deletePostFavor({ postId })
             } finally {
-                this.loadingTracker[postId] = false
-            }
-        },
-        getUserInteractionsForPost(post) {
-            return {
-                liked: this.hasLikedPost({ postId: post.id }),
-                favored: this.hasFavoredPost({ postId: post.id }),
-                disliked: true,
+                this.postState[postId].favor.loading = false
             }
         },
     },

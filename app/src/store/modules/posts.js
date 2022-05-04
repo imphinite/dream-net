@@ -158,7 +158,7 @@ const axios = useAxios()
 const fetchHomeFeedPosts = async () => {
     const response = await axios({
         method: 'get',
-        url: 'posts',
+        url: 'posts?limit=2',
         globalLoading: true,
     })
 

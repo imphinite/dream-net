@@ -24,37 +24,37 @@
         <div class="card-footer flex justify-between pt-2">
             <div class="flex justify-between">
                 <dn-icon-button
-                    v-if="interactions.like"
+                    v-if="state.like.enabled"
                     icon-selected-color="pink"
-                    :selected="liked"
-                    :disabled="loading"
-                    @click="$emit('heart-button-click')"
+                    :selected="state.like.active"
+                    :disabled="state.like.loading"
+                    @click="$emit('heart-button-click', state)"
                     ><fa icon="heart"
                 /></dn-icon-button>
                 <dn-icon-button
-                    v-if="interactions.favor"
+                    v-if="state.favor.enabled"
                     class="ml-2"
                     icon-selected-color="yellow"
-                    :selected="favored"
-                    :disabled="loading"
-                    @click="$emit('star-button-click')"
+                    :selected="state.favor.active"
+                    :disabled="state.favor.loading"
+                    @click="$emit('star-button-click', state)"
                     ><fa icon="star"
                 /></dn-icon-button>
             </div>
             <div class="flex justify-between">
                 <dn-icon-button
-                    v-if="interactions.dislike"
+                    v-if="state.dislike.enabled"
                     class="ml-2"
                     icon-selected-color="red"
-                    :selected="disliked"
-                    :disabled="loading"
-                    @click="$emit('dislike-button-click')"
+                    :selected="state.dislike.active"
+                    :disabled="state.dislike.loading"
+                    @click="$emit('dislike-button-click', state)"
                     ><fa icon="heart-crack"
                 /></dn-icon-button>
                 <dn-icon-button
-                    v-if="interactions.reply"
+                    v-if="state.reply.enabled"
                     class="ml-2"
-                    :disabled="loading"
+                    :disabled="state.reply.loading"
                     @click="$emit('reply-button-click')"
                     ><fa icon="comment"
                 /></dn-icon-button>
@@ -77,6 +77,11 @@ import { computed } from 'vue'
 //-- Components
 import DnIconButton from '@ca/icon-button.vue'
 import DnEditor from '@ca/editor.vue'
+
+//-- Composables
+import useInteractionState from '@/composables/use-interaction-state'
+
+const { buildInteractionState } = useInteractionState()
 
 export default {
     name: 'dn-card',
@@ -125,21 +130,11 @@ export default {
                 }
             },
         },
-        liked: {
-            type: Boolean,
-            default: false,
-        },
-        favored: {
-            type: Boolean,
-            default: false,
-        },
-        disliked: {
-            type: Boolean,
-            default: false,
-        },
-        loading: {
-            type: Boolean,
-            default: false,
+        state: {
+            type: Object,
+            default: () => {
+                return buildInteractionState()
+            },
         },
     },
     setup(props) {
