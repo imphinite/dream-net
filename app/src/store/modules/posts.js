@@ -155,11 +155,16 @@ const getFavoredPosts = (postCollection) => {
 
 //-- API
 const axios = useAxios()
-const fetchHomeFeedPosts = async () => {
+const fetchHomeFeedPosts = async (
+    { cursor, globalLoading } = { globalLoading: true }
+) => {
     const response = await axios({
         method: 'get',
-        url: 'posts?limit=2',
-        globalLoading: true,
+        url: 'posts',
+        params: {
+            cursor,
+        },
+        globalLoading,
     })
 
     // Store post data in storage

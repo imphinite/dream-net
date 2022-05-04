@@ -8,6 +8,7 @@
         }"
         @toggle-navigation-drawer="navDrawer = !navDrawer"
         @swipe-end="goToHomePage"
+        @load-more="loadMoreComments"
     >
         <!-- Post -->
         <dn-card
@@ -181,6 +182,9 @@ export default {
             }
         })
 
+        // Load more
+        const loadingMore = ref(false)
+
         return {
             navDrawer,
             composer,
@@ -195,6 +199,8 @@ export default {
             postState,
             commentState,
             loadingComments,
+            fetchComments,
+            loadingMore,
         }
     },
 
@@ -282,6 +288,22 @@ export default {
                 await this.deleteCommentFavor({ commentId })
             } finally {
                 this.commentState[commentId].favor.loading = false
+            }
+        },
+        async loadMoreComments() {
+            if (!Boolean(this.activePostComments?.meta?.cursor?.next)) {
+                return
+            }
+
+            this.loadingMore = true
+
+            try {
+                await this.fetchComments({
+                    postId: this.activePost.id,
+                    cursor: this.activePostComments.meta.cursor.next,
+                })
+            } finally {
+                this.loadingMore = false
             }
         },
     },

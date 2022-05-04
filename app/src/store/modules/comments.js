@@ -153,12 +153,13 @@ const getFavoredComments = (commentCollection) => {
 
 //-- API
 const axios = useAxios()
-const fetchComments = async ({ postId }) => {
+const fetchComments = async ({ postId, cursor }) => {
     const response = await axios({
         method: 'get',
         url: 'comments',
         params: {
             post_id: postId,
+            cursor,
         },
     })
 

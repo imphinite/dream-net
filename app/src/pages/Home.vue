@@ -2,6 +2,7 @@
     <dn-page
         @toggle-navigation-drawer="navDrawer = !navDrawer"
         @reload="$router.go()"
+        @load-more="loadMorePosts"
     >
         <dn-card
             v-for="(post, index) in homeFeed.posts"
@@ -20,7 +21,7 @@
 
 <script>
 //-- Libraries
-import { reactive, watchEffect } from 'vue'
+import { ref, reactive, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 
 //-- Components
@@ -88,6 +89,9 @@ export default {
             })
         })
 
+        // Load more
+        const loadingMore = ref(false)
+
         return {
             navDrawer,
             router,
@@ -95,6 +99,8 @@ export default {
             ...likeModule,
             ...favorModule,
             postState,
+            fetchHomeFeedPosts,
+            loadingMore,
         }
     },
     methods: {
@@ -145,6 +151,18 @@ export default {
                 await this.deletePostFavor({ postId })
             } finally {
                 this.postState[postId].favor.loading = false
+            }
+        },
+        async loadMorePosts() {
+            this.loadingMore = true
+
+            try {
+                await this.fetchHomeFeedPosts({
+                    cursor: this.homeFeed.meta.cursor.next,
+                    globalLoading: false,
+                })
+            } finally {
+                this.loadingMore = false
             }
         },
     },

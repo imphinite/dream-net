@@ -46,7 +46,7 @@ class PostController extends Controller
             $query = $query->where('user_id', $user_id);
         }
         if ($currentCursor) {
-            $query = $query->where('id', '>', $currentCursor);
+            $query = $query->where('id', '<', $currentCursor);
         }
 
         // Get data

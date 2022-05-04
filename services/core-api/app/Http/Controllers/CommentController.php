@@ -50,7 +50,7 @@ class CommentController extends Controller
             $query = $query->where('post_id', $post_id);
         }
         if ($currentCursor) {
-            $query = $query->where('id', '>', $currentCursor);
+            $query = $query->where('id', '<', $currentCursor);
         }
 
         // Get data

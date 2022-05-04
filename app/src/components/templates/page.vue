@@ -14,7 +14,10 @@
             :class="bodySectionStyles"
         >
             <slot>
-                <div class="flex flex-col justify-center items-center h-2/3">
+                <div
+                    v-if="!isLoading"
+                    class="flex flex-col justify-center items-center h-2/3"
+                >
                     <div class="text-white text-md">
                         Oops! No content found..
                     </div>
@@ -40,7 +43,7 @@
 <script>
 //-- Libraries
 import { ref, computed } from 'vue'
-import { useSwipe, useElementSize } from '@vueuse/core'
+import { useSwipe, useElementSize, useInfiniteScroll } from '@vueuse/core'
 
 //-- Components
 import DnHeader from '@cm/header.vue'
@@ -49,6 +52,7 @@ import DnCard from '@cm/card.vue'
 
 //-- Composables
 import useTheme from '@/composables/use-theme'
+import useLoading from '@/composables/use-loading'
 
 export default {
     name: 'dn-page',
@@ -59,6 +63,7 @@ export default {
         'plus-button-click',
         'swipe-end',
         'reload',
+        'load-more',
     ],
     props: {
         swipable: {
@@ -143,6 +148,17 @@ export default {
             },
         })
 
+        const { isLoading } = useLoading()
+
+        useInfiniteScroll(
+            swipeTarget,
+            () => {
+                // load more
+                emit('load-more')
+            },
+            { distance: 10 }
+        )
+
         return {
             // refs
             page,
@@ -156,6 +172,9 @@ export default {
             left,
             opacity,
             isSwiping,
+
+            // loading
+            isLoading,
         }
     },
     methods: {
