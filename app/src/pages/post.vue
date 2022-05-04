@@ -126,11 +126,11 @@ export default {
             reply: true,
         })
         const postState = reactive(state)
-        likeModule.updatePostLike({
+        updatePostLike({
             postId: activePost.value.id,
             like: activePost.value.liked,
         })
-        favorModule.updatePostFavor({
+        updatePostFavor({
             postId: activePost.value.id,
             favor: activePost.value.favored,
         })
