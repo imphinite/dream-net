@@ -1,10 +1,12 @@
 <template>
     <article ref="page" :class="containerStyles">
         <dn-header
+            v-if="header"
             :interactions="interactions"
             @back-button-click="onBackButtonClick"
             @menu-button-click="$emit('toggle-navigation-drawer')"
             @plus-button-click="onPlusButtonClick"
+            @title-click="$emit('reload')"
         />
 
         <section
@@ -77,6 +79,10 @@ export default {
                 menu: true,
                 plus: true,
             }),
+        },
+        header: {
+            type: Boolean,
+            default: true,
         },
     },
     setup(props, { emit }) {
@@ -156,7 +162,7 @@ export default {
                 // load more
                 emit('load-more')
             },
-            { distance: 10 }
+            { distance: 500 }
         )
 
         return {

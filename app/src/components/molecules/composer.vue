@@ -7,7 +7,18 @@
                 dim
                 placeholder="Your post's title here"
                 :disabled="disabled"
-            />
+            >
+                <template v-slot:error>
+                    <span
+                        v-if="titleError"
+                        class="text-red-400 text-shadow text-sm px-2"
+                        >{{
+                            titleError.message ||
+                            'Oops, an unknown error occurred'
+                        }}</span
+                    >
+                </template>
+            </dn-text-input>
         </div>
 
         <!-- Editor -->
@@ -18,6 +29,12 @@
                 :read-only="disabled"
                 :dim="true"
             />
+
+            <span
+                v-if="contentError"
+                class="text-red-400 text-shadow text-sm px-2"
+                >{{ contentError.message || 'Oops, an unknown error occurred' }}
+            </span>
         </div>
 
         <!-- Button group -->
@@ -66,6 +83,12 @@ export default {
             type: Boolean,
             default: false,
         },
+        error: {
+            type: Object,
+            default: () => {
+                return {}
+            },
+        },
     },
     setup(props, { emit }) {
         const formStyles = computed(() => {
@@ -78,9 +101,24 @@ export default {
             emit('update:modelValue', newFormData)
         })
 
+        const titleError = computed(() => {
+            if (!('title' in props.error)) {
+                return false
+            }
+            return props.error.title
+        })
+        const contentError = computed(() => {
+            if (!('content' in props.error)) {
+                return false
+            }
+            return props.error.content
+        })
+
         return {
             formStyles,
             formData,
+            titleError,
+            contentError,
         }
     },
 }

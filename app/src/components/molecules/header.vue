@@ -16,6 +16,7 @@
         </div>
         <div
             class="absolute bottom-1/2 right-1/2 translate-x-1/2 translate-y-1/2"
+            @click="$emit('title-click')"
         >
             <h1 class="text-white text-xl ml-2 font-bold">Dreamnet</h1>
         </div>
@@ -39,7 +40,12 @@ import DnIconButton from '@ca/icon-button.vue'
 export default {
     name: 'dn-header',
     components: { DnButton, DnIconButton },
-    emits: ['back-button-click', 'menu-button-click', 'plus-button-click'],
+    emits: [
+        'back-button-click',
+        'menu-button-click',
+        'plus-button-click',
+        'title-click',
+    ],
     props: {
         user: {
             type: Object,

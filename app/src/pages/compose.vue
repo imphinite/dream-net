@@ -3,6 +3,7 @@
         <dn-composer
             v-model="formData"
             title
+            :error="error"
             @cancel="goBack"
             @submit="handleSubmit"
         />
@@ -11,7 +12,7 @@
 
 <script>
 //-- Libraries
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 //-- Components
 import DnPage from '@ct/page.vue'
@@ -34,10 +35,20 @@ export default {
         const { posts: postModule } = useStore()
         const { savePost } = postModule
 
+        const error = ref({})
+        const hasFormError = computed(() => {
+            if (!_.isEmpty(error.value)) {
+                return true
+            }
+            return false
+        })
+
         return {
             ...useNavigationDrawer(),
             formData,
             savePost,
+            error,
+            hasFormError,
         }
     },
     methods: {
@@ -46,8 +57,26 @@ export default {
                 this.$router.go(-1)
             }
         },
+        validateForm(input) {
+            const { title, content } = input
+            this.error = {}
+
+            if (!Boolean(title)) {
+                _.set(this.error, 'title.message', 'Must provide a title')
+            }
+
+            if (_.isEmpty(content)) {
+                _.set(this.error, 'content.message', 'Content is too short')
+            }
+        },
         async handleSubmit(event) {
             const { title, content } = event
+
+            this.validateForm(event)
+            if (this.hasFormError) {
+                return
+            }
+
             const newPost = await this.savePost({
                 title,
                 body: JSON.stringify(content),

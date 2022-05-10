@@ -1,18 +1,20 @@
 <template>
-    <section :class="containerStyles">
-        <dn-signup-form
-            v-if="isSignupFormActive"
-            :disabled="isLoading"
-            @login-form="activeForm = forms.LOGIN_FORM"
-            @submit="handleSignup"
-        />
-        <dn-login-form
-            v-if="isLoginFormActive"
-            :disabled="isLoading"
-            @signup-form="activeForm = forms.SIGNUP_FORM"
-            @submit="handleLogin"
-        />
-    </section>
+    <dn-page :header="false">
+        <section :class="containerStyles">
+            <dn-signup-form
+                v-if="isSignupFormActive"
+                :disabled="isLoading"
+                @login-form="activeForm = forms.LOGIN_FORM"
+                @submit="handleSignup"
+            />
+            <dn-login-form
+                v-if="isLoginFormActive"
+                :disabled="isLoading"
+                @signup-form="activeForm = forms.SIGNUP_FORM"
+                @submit="handleLogin"
+            />
+        </section>
+    </dn-page>
 </template>
 
 <script>
@@ -23,6 +25,7 @@ import { useRouter } from 'vue-router'
 //-- Components
 import DnLoginForm from '@co/login-form'
 import DnSignupForm from '@co/signup-form'
+import DnPage from '@ct/page.vue'
 
 //-- Store
 import useStore from '@/store/use-store'
@@ -30,7 +33,6 @@ import useStore from '@/store/use-store'
 //-- Composables
 import useAuthentication from '@/composables/use-authentication'
 import useEnum from '@/composables/use-enum'
-import useGradients from '@/composables/use-gradients'
 import useLoading from '@/composables/use-loading'
 import { useRoute } from 'vue-router'
 
@@ -38,15 +40,13 @@ export default {
     components: {
         DnLoginForm,
         DnSignupForm,
+        DnPage,
     },
     setup() {
         // Styles
-        const { GRADIENTS } = useGradients({ hover: false })
         const containerStyles = [
             'flex flex-col',
-            'w-full h-screen p-4 overflow-hidden',
-            'bg-gradient-to-tr',
-            GRADIENTS.CAN_YOU_FEEL_THE_LOVE_TONIGHT,
+            'w-full h-full p-4 overflow-hidden',
         ]
 
         // Forms
