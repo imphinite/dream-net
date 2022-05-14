@@ -58,10 +58,7 @@ export default {
         const { hasFavoredPost } = favorModule
 
         // Fetch posts from API
-        if (
-            !Boolean(homeFeed.value?.posts) ||
-            homeFeed.value?.posts.length == 0
-        ) {
+        if (!homeFeed.value?.posts || homeFeed.value?.posts.length == 0) {
             fetchHomeFeedPosts()
         }
 

@@ -46,7 +46,7 @@ export default {
 
         watch(modelValue, (newValue) => {
             isEmailValid.value = true
-            if (Boolean(newValue)) {
+            if (newValue) {
                 isEmailValid.value = validateEmailInput(newValue)
             }
         })

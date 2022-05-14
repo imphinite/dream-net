@@ -30,7 +30,7 @@ const comments = computed(() => {
 })
 
 const computedActivePostComments = computed(() => {
-    if (!Boolean(postModule?.activePost?.value)) {
+    if (!postModule?.activePost?.value) {
         return {
             comments: [],
             meta: {},
@@ -52,7 +52,7 @@ const computedActivePostComments = computed(() => {
 // Storage
 const storeComment = (commentData) => {
     // Init if not existing
-    if (!Boolean(data.value?.comments)) {
+    if (!data.value?.comments) {
         data.value.comments = {}
     }
 
@@ -60,7 +60,7 @@ const storeComment = (commentData) => {
 }
 
 const updateComment = (commentData) => {
-    if (!Boolean(data.value?.comments?.[commentData.id])) {
+    if (!data.value?.comments?.[commentData.id]) {
         storeComment(commentData)
     }
 
@@ -89,7 +89,7 @@ const clearCommentStorage = () => {
 // Feeds
 const storeCommentReferences = ({ commentCollectionData, postId }) => {
     // Initialize relationship if non-existing on the client side
-    if (!Boolean(postCommentRelationships.value?.[postId])) {
+    if (!postCommentRelationships.value?.[postId]) {
         postCommentRelationships.value[postId] = {
             // Comment Id collection
             comments: [],

@@ -93,7 +93,7 @@ export default {
 
         const loadingComments = ref(false)
         if (
-            !Boolean(activePostComments.value?.comments) ||
+            !activePostComments.value?.comments ||
             activePostComments.value?.comments.length == 0
         ) {
             loadingComments.value = true
@@ -291,7 +291,7 @@ export default {
             }
         },
         async loadMoreComments() {
-            if (!Boolean(this.activePostComments?.meta?.cursor?.next)) {
+            if (!this.activePostComments?.meta?.cursor?.next) {
                 return
             }
 

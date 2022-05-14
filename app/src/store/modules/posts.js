@@ -60,7 +60,7 @@ const computedActivePost = computed(() => {
 // Storage
 const storePost = (postData) => {
     // Init if not existing
-    if (!Boolean(data.value?.posts)) {
+    if (!data.value?.posts) {
         data.value.posts = {}
     }
 
@@ -68,7 +68,7 @@ const storePost = (postData) => {
 }
 
 const updatePost = (postData) => {
-    if (!Boolean(data.value?.posts?.[postData.id])) {
+    if (!data.value?.posts?.[postData.id]) {
         storePost(postData)
     }
 

@@ -61,7 +61,7 @@ export default {
             const { title, content } = input
             this.error = {}
 
-            if (!Boolean(title)) {
+            if (!title) {
                 _.set(this.error, 'title.message', 'Must provide a title')
             }
 

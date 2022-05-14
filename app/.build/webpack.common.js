@@ -36,7 +36,6 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: 'index.html',
-            path: '[name].[contenthash].js',
             inject: true,
             // Compress HTML
             minify: {

@@ -34,7 +34,7 @@ export default {
 
         watch(modelValue, (newValue) => {
             isPhoneValid.value = true
-            if (Boolean(newValue)) {
+            if (newValue) {
                 isPhoneValid.value = validatePhoneInput(newValue)
             }
         })

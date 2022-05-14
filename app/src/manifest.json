@@ -1,0 +1,23 @@
+{
+    "name": "DreamNet",
+    "short_name": "DNet",
+    "description": "Find your soulmate",
+    "dir": "auto",
+    "lang": "English",
+    "crossorigin": "use-credentials",
+    "icons": [
+        {
+            "src": "",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        }
+    ],
+    "display": "standalone",
+    "scope": "/app/",
+    "orientation": "natural",
+    "background_color": "#456BD9",
+    "theme_color": "red",
+    "start_url": "index.html",
+    "categories": ["social", "romance", "science", "psychology"]
+}
