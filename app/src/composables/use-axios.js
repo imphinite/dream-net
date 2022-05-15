@@ -26,7 +26,6 @@ instance.interceptors.request.use(
         return config
     },
     (error) => {
-        delete config.headers['Authorization']
         loading.value = false
 
         return Promise.reject(error)

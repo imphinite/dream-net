@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { toRef, computed, watch } from 'vue'
+import { toRef, computed } from 'vue'
 
 export default {
     name: 'dn-icon-button',

@@ -34,12 +34,11 @@
 
 <script>
 import { computed } from 'vue'
-import DnButton from '@ca/button.vue'
 import DnIconButton from '@ca/icon-button.vue'
 
 export default {
     name: 'dn-header',
-    components: { DnButton, DnIconButton },
+    components: { DnIconButton },
     emits: [
         'back-button-click',
         'menu-button-click',

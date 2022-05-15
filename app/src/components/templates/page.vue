@@ -49,8 +49,6 @@ import { useSwipe, useElementSize, useInfiniteScroll } from '@vueuse/core'
 
 //-- Components
 import DnHeader from '@cm/header.vue'
-import DnNavigationDrawer from '@co/navigation-drawer.vue'
-import DnCard from '@cm/card.vue'
 
 //-- Composables
 import useTheme from '@/composables/use-theme'
@@ -58,7 +56,7 @@ import useLoading from '@/composables/use-loading'
 
 export default {
     name: 'dn-page',
-    components: { DnHeader, DnNavigationDrawer, DnCard },
+    components: { DnHeader },
     emits: [
         'toggle-navigation-drawer',
         'back-button-click',

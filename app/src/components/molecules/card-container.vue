@@ -17,7 +17,7 @@
 export default {
     name: 'card-container',
     props: {},
-    setup(props) {},
+    setup() {},
     methods: {
         onClick() {
             /**

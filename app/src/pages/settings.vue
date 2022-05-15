@@ -9,7 +9,6 @@
 
 <script>
 //-- Libraries
-import _ from 'lodash'
 import { ref, watch } from 'vue'
 
 //-- Components

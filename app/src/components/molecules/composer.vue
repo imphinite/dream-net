@@ -55,7 +55,6 @@
 
 <script>
 //-- Libraries
-import _ from 'lodash'
 import { toRef, computed, watch } from 'vue'
 
 //-- Components

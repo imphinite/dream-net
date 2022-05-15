@@ -29,7 +29,7 @@ export default {
             default: null,
         },
         items: {
-            type: Object,
+            type: Array,
             default: () => [],
         },
     },

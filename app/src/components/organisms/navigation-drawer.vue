@@ -99,8 +99,7 @@ export default {
             collapse()
         })
 
-        const activeMenuItem = ref()
-        activeMenuItem.value = props.activeItem
+        const activeMenuItem = ref(props.activeItem)
 
         const router = useRouter()
         watch(activeMenuItem, (newActiveMenuItem) => {

@@ -115,8 +115,7 @@ export default {
 
         //-- data
         const inputRef = ref()
-        const inputValue = ref()
-        inputValue.value = props.modelValue
+        const inputValue = ref(props.modelValue)
 
         const updateModelValue = () => {
             inputValue.value = inputRef.value.value
