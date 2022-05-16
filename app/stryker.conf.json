@@ -12,7 +12,12 @@
         "plugins": [],
         "excludedMutations": []
     },
-    "ignorePatterns": [],
+    "ignorePatterns": [
+        "src/main.js",
+        "src/service-worker.js",
+        "src/registerServiceWorker.js",
+        "src/**/*.stories.js"
+    ],
     "tempDirName_comment": "Jest doesn't play nice with the default (.stryker-tmp).",
     "tempDirName": ".cache/stryker-tmp",
     "reporters": ["progress", "html", "json"],

@@ -27,4 +27,4 @@ pnpm-debug.log*
 stryker-tmp
 
 # Tests
-**/tests/_reports/
+**/tests/_reports/*

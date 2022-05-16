@@ -6,9 +6,9 @@
         "prod": "serve dist -p 4000",
         "lint": "./node_modules/.bin/vue-cli-service lint",
         "lint:fix": "./node_modules/.bin/vue-cli-service lint --fix",
-        "test:unit": "./node_modules/.bin/jest --config tests/jest.config.js",
+        "test:unit": "./node_modules/.bin/jest --config tests/jest.config.js --coverage",
         "test:mutation": "cross-env BABEL_ENV=test VUE_CLI_TRANSPILE_BABEL_RUNTIME=true VUE_CLI_BABEL_TARGET_NODE=true VUE_CLI_BABEL_TRANSPILE_MODULES=true stryker run",
-        "test:mutation2": "stryker run stryker.conf.json",
+        "test:mutation:reports": "stryker run stryker.conf.json --reporters clear-text,progress,html",
         "build-storybook": "build-storybook",
         "storybook": "start-storybook -p 6006 --no-open"
     },
