@@ -16,6 +16,7 @@
         "src/main.js",
         "src/service-worker.js",
         "src/registerServiceWorker.js",
+        "src/**/index.js",
         "src/**/*.stories.js"
     ],
     "tempDirName_comment": "Jest doesn't play nice with the default (.stryker-tmp).",
