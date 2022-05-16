@@ -6,7 +6,6 @@
 **/storybook-static/*
 **/.cache/*
 
-
 # local env files
 **/.env
 **/.env.*.local
@@ -26,3 +25,6 @@ pnpm-debug.log*
 *.sln
 *.sw?
 stryker-tmp
+
+# Tests
+**/tests/_reports/

@@ -12,7 +12,7 @@ module.exports = {
     collectCoverageFrom: [
         'src/**/*.js',
         '!src/**/index.js',
-        '!src/**/*.(spec|test).js',
+        '!src/**/*.(spec|test|stories).js',
         '!**/node_modules/**',
     ],
     testEnvironment: 'jest-environment-jsdom',
