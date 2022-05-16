@@ -11,7 +11,10 @@ module.exports = {
     coverageDirectory: '<rootDir>/tests/_reports/coverage',
     collectCoverageFrom: [
         'src/**/*.js',
+        '!src/**/main.js',
         '!src/**/index.js',
+        '!src/**/service-worker.js',
+        '!src/**/registerServiceWorker.js',
         '!src/**/*.(spec|test|stories).js',
         '!**/node_modules/**',
     ],
@@ -23,4 +26,5 @@ module.exports = {
         // process `*.vue` files with `@vue/vue3-jest`
         '^.+\\.vue$': '@vue/vue3-jest',
     },
+    setupFiles: ['<rootDir>/tests/jest.setup.js'],
 }

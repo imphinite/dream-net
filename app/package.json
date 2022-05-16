@@ -66,6 +66,7 @@
         "jest": "27.5.1",
         "jest-environment-jsdom": "27.5.1",
         "mini-css-extract-plugin": "^2.5.3",
+        "moxios": "^0.4.0",
         "postcss-loader": "^4.2.0",
         "prettier": "^2.2.1",
         "typescript": "~3.9.3",
