@@ -2,13 +2,13 @@ import useAxios from '@/composables/use-axios'
 import moxios from 'moxios'
 import useAuthentication from '@/composables/use-authentication'
 import authModule from '@/store/modules/auth'
-// Mock useAxios
-// jest.mock('@/composables/use-axios', () => {
-//     return jest.fn()
-// })
 
 describe('use-authentication', () => {
     let axiosInstance
+    const mockUser = {
+        id: 2,
+        name: 'test_user',
+    }
 
     beforeEach(() => {
         // import and pass your custom axios instance to this method
@@ -45,17 +45,12 @@ describe('use-authentication', () => {
             },
         })
 
-        await login({ username: 'teat_user', password: 'password' })
+        await login({ username: 'test_user', password: 'password' })
 
         expect(isAuthenticated.value).toBe(true)
     })
 
     it('fetchSelfInfo', async () => {
-        const mockUser = {
-            id: 2,
-            name: 'test_user',
-        }
-
         moxios.stubRequest('self', {
             status: 200,
             response: mockUser,
@@ -68,11 +63,6 @@ describe('use-authentication', () => {
     })
 
     it('register', async () => {
-        const mockUser = {
-            id: 2,
-            name: 'test_user',
-        }
-
         moxios.stubRequest('register', {
             status: 200,
             response: mockUser,

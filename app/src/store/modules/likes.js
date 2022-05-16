@@ -59,9 +59,9 @@ const savePostLike = async ({ postId }) => {
         })
     } catch (error) {
         if (error.status === 403) {
-            updatePostLike({ postId, favor: true })
+            updatePostLike({ postId, like: true })
         } else {
-            updatePostLike({ postId, favor: false })
+            updatePostLike({ postId, like: false })
         }
     }
 
@@ -81,9 +81,9 @@ const deletePostLike = async ({ postId }) => {
         })
     } catch (error) {
         if (error.status === 403) {
-            updatePostLike({ postId, favor: false })
+            updatePostLike({ postId, like: false })
         } else {
-            updatePostLike({ postId, favor: true })
+            updatePostLike({ postId, like: true })
         }
     }
 

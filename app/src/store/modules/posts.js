@@ -53,7 +53,7 @@ const computedMyFeed = computed(() => {
 })
 
 const computedActivePost = computed(() => {
-    return data.value.posts[activePost.value] || {}
+    return data.value.posts?.[activePost.value] || {}
 })
 
 //-- Methods

@@ -1,4 +1,3 @@
-// import moxios from 'moxios'
 import useAxios, {
     requestInterceptor,
     requestInterceptorOnError,
