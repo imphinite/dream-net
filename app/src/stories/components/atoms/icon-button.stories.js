@@ -25,8 +25,6 @@ export default {
 const Template = (args, { argTypes }) => ({
     props: Object.keys(argTypes),
     setup() {
-        console.log('args.selected', args.selected)
-
         return {
             args,
         }

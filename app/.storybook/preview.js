@@ -24,5 +24,7 @@ export const parameters = {
         viewports: INITIAL_VIEWPORTS,
         defaultViewport: 'iphone5',
     },
+    // Set the viewports in Chromatic at the global level.
+    chromatic: { viewports: [320, 428] },
     layout: 'fullscreen',
 }
