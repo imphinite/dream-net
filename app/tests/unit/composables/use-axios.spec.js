@@ -10,7 +10,6 @@ import authModule from '@/store/modules/auth'
 describe('use-axios', () => {
     const { isLoading } = useLoading()
     let config = {}
-    const request = {}
     const error = {}
     const mockResponse = {
         data: [{ id: 1 }],

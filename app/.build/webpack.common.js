@@ -7,6 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
+const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
     entry: './src/main.js', //Import file
@@ -42,6 +43,14 @@ module.exports = {
                 removeComments: true, // Remove comments from HTML
                 collapseWhitespace: true, // Remove whitespace and newline
             },
+        }),
+        new CopyPlugin({
+            patterns: [
+                {
+                    from: path.resolve(__dirname, '../src/assets/favicon.png'),
+                    to: path.resolve(__dirname, '../dist'),
+                },
+            ],
         }),
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
