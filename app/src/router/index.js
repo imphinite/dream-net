@@ -9,7 +9,7 @@ import useAuthentication from '@/composables/use-authentication'
 import Auth from '@/pages/auth.vue'
 import Home from '@/pages/home.vue'
 import Favorites from '@/pages/favorites.vue'
-import History from '@/pages/history.vue'
+import MyDreams from '@/pages/my-dreams.vue'
 import Settings from '@/pages/settings.vue'
 import Post from '@/pages/post.vue'
 import Compose from '@/pages/compose.vue'
@@ -60,9 +60,9 @@ const routes = [
         },
     },
     {
-        path: '/history',
-        name: 'History',
-        component: History,
+        path: '/my-dreams',
+        name: 'My Dreams',
+        component: MyDreams,
         meta: {
             navigatable: true,
         },

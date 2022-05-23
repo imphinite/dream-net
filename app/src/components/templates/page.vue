@@ -2,6 +2,7 @@
     <article ref="page" :class="containerStyles">
         <dn-header
             v-if="header"
+            :title="title"
             :interactions="interactions"
             @back-button-click="onBackButtonClick"
             @menu-button-click="$emit('toggle-navigation-drawer')"
@@ -81,6 +82,10 @@ export default {
         header: {
             type: Boolean,
             default: true,
+        },
+        title: {
+            type: String,
+            default: 'DreamNet',
         },
     },
     setup(props, { emit }) {

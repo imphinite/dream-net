@@ -1,13 +1,13 @@
 <template>
     <dn-page
-        title="Favorites"
+        title="My Dreams"
         swipable
         @toggle-navigation-drawer="navDrawer = !navDrawer"
         @reload="$router.go()"
         @load-more="loadMorePosts"
     >
         <dn-card
-            v-for="(post, index) in favoredFeed.posts"
+            v-for="(post, index) in myFeed.posts"
             :key="index"
             class="snap-start mt-2"
             :title="post.title"
@@ -38,7 +38,7 @@ import useNavigationDrawer from '@/composables/use-navigation-drawer'
 import useInteractionState from '@/composables/use-interaction-state'
 
 export default {
-    name: 'dn-favorites',
+    name: 'dn-my-dreams',
     components: { DnPage, DnCard },
     setup() {
         // const { navDrawer } = useNavigationDrawer()
@@ -53,19 +53,19 @@ export default {
             likes: likeModule,
             favors: favorModule,
         } = useStore()
-        const { favoredFeed, fetchFavoredPosts } = postModule
+        const { myFeed, fetchMyFeedPosts } = postModule
         const { hasLikedPost } = likeModule
         const { hasFavoredPost } = favorModule
 
         // Fetch posts from API
-        if (!favoredFeed.value?.posts || favoredFeed.value?.posts.length == 0) {
-            fetchFavoredPosts()
+        if (!myFeed.value?.posts || myFeed.value?.posts.length == 0) {
+            fetchMyFeedPosts()
         }
 
         // State of each post item
         const postState = reactive({})
         watchEffect(() => {
-            favoredFeed.value.posts.forEach((post) => {
+            myFeed.value.posts.forEach((post) => {
                 const postId = post.id
 
                 // Initialize
@@ -92,11 +92,11 @@ export default {
         return {
             ...useNavigationDrawer(),
             router,
-            favoredFeed,
+            myFeed,
             ...likeModule,
             ...favorModule,
             postState,
-            fetchFavoredPosts,
+            fetchMyFeedPosts,
             loadingMore,
         }
     },
@@ -141,8 +141,8 @@ export default {
             this.loadingMore = true
 
             try {
-                await this.fetchFavoredPosts({
-                    cursor: this.favoredFeed.meta.cursor.next,
+                await this.fetchMyFeedPosts({
+                    cursor: this.myFeed.meta.cursor.next,
                     globalLoading: false,
                 })
             } finally {

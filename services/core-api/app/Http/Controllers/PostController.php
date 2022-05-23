@@ -50,16 +50,18 @@ class PostController extends Controller
         if ($favored) {
             $query = $query->join('favors', 'posts.id', '=', 'favors.favorable_id')
                 ->select('posts.*', 'favors.user_id', 'favors.favorable_id', 'favors.favorable_type')
-                ->where('favorable_type', 'App\Models\Post')
-                ->where('posts.user_id', '=', Auth::user()->id);
+                ->where('favors.favorable_type', 'App\Models\Post')
+                ->where('favors.user_id', '=', Auth::user()->id);
         }
         if ($currentCursor) {
             $query = $query->where('id', '<', $currentCursor);
         }
 
+        // dd($query->toSql());
         // Get data
         $posts = $query->get();
-        
+
+
         // Save pagination cursor
         $newCursor = $posts?->last()?->id;
         $cursor = new Cursor($currentCursor, $previousCursor, $newCursor, $posts->count());

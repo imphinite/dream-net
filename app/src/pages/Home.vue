@@ -1,6 +1,5 @@
 <template>
     <dn-page
-        swipable
         @toggle-navigation-drawer="navDrawer = !navDrawer"
         @reload="$router.go()"
         @load-more="loadMorePosts"

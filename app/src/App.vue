@@ -12,6 +12,7 @@
 
 <script>
 //-- Libraries
+import _ from 'lodash'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -35,7 +36,7 @@ export default {
         const ROUTE_ICON_MAPPING = {
             Home: 'home',
             Favorites: 'star',
-            History: 'book',
+            'My Dreams': 'book',
             Settings: 'gear',
             Logout: 'user',
         }

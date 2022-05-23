@@ -18,6 +18,10 @@ const bearerToken = computed(() => {
         : null
 })
 
+const currentUser = computed(() => {
+    return data?.value?.user
+})
+
 //-- Methods
 const storeAuth = (authData) => {
     data.value.auth = authData
@@ -36,6 +40,7 @@ export default {
     data,
     isAuthenticated,
     bearerToken,
+    currentUser,
     storeAuth,
     clearAuth,
     storeUserSelfInfo,

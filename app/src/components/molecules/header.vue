@@ -18,7 +18,7 @@
             class="absolute bottom-1/2 right-1/2 translate-x-1/2 translate-y-1/2"
             @click="$emit('title-click')"
         >
-            <h1 class="text-white text-xl ml-2 font-bold">Dreamnet</h1>
+            <h1 class="text-white text-xl ml-2 font-bold">{{ title }}</h1>
         </div>
 
         <div class="flex h-full items-center">
@@ -46,6 +46,10 @@ export default {
         'title-click',
     ],
     props: {
+        title: {
+            type: String,
+            default: 'DreamNet',
+        },
         user: {
             type: Object,
         },

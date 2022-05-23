@@ -6,6 +6,7 @@ import { useStorage } from '@vueuse/core'
 //-- Store
 import likeModule from './likes'
 import favorModule from './favors'
+import authModule from './auth'
 
 //-- Composables
 import useAxios from '@/composables/use-axios'
@@ -17,6 +18,11 @@ const data = useStorage('posts', {
 
 //-- Global data storage
 const homeFeed = ref({
+    posts: [],
+    meta: {},
+})
+
+const favoredFeed = ref({
     posts: [],
     meta: {},
 })
@@ -40,6 +46,15 @@ const computedHomeFeed = computed(() => {
             return data.value.posts[postId]
         }),
         meta: homeFeed.value.meta,
+    }
+})
+
+const computedFavoredFeed = computed(() => {
+    return {
+        posts: favoredFeed.value.posts.map((postId) => {
+            return data.value.posts[postId]
+        }),
+        meta: favoredFeed.value.meta,
     }
 })
 
@@ -99,10 +114,21 @@ const storePostReferencesToHomeFeed = (feedData) => {
     )
     homeFeed.value.meta = feedData.meta
 }
+const storePostReferencesToFavoredFeed = (feedData) => {
+    favoredFeed.value.posts = _.uniq(
+        _.concat(
+            favoredFeed.value.posts,
+            feedData.data.map((post) => post.id)
+        )
+    )
+    favoredFeed.value.meta = feedData.meta
+}
 const storePostReferencesToMyFeed = (feedData) => {
-    myFeed.value.posts = _.concat(
-        myFeed.value.posts,
-        feedData.data.map((post) => post.id)
+    myFeed.value.posts = _.uniq(
+        _.concat(
+            myFeed.value.posts,
+            feedData.data.map((post) => post.id)
+        )
     )
     myFeed.value.meta = feedData.meta
 }
@@ -180,6 +206,58 @@ const fetchHomeFeedPosts = async (
     storePostCollectionFavors(response.data)
 }
 
+const fetchFavoredPosts = async (
+    { cursor, globalLoading } = { globalLoading: true }
+) => {
+    const response = await axios({
+        method: 'get',
+        url: 'posts',
+        params: {
+            cursor,
+            favored: true,
+        },
+        globalLoading,
+    })
+
+    // Store post data in storage
+    storePostCollection(response.data)
+
+    // Update post references
+    storePostReferencesToFavoredFeed(response)
+
+    // Update post like relationships
+    storePostCollectionLikes(response.data)
+
+    // Update post favor relationships
+    storePostCollectionFavors(response.data)
+}
+
+const fetchMyFeedPosts = async (
+    { cursor, globalLoading } = { globalLoading: true }
+) => {
+    const response = await axios({
+        method: 'get',
+        url: 'posts',
+        params: {
+            cursor,
+            user_id: authModule.currentUser.value.id,
+        },
+        globalLoading,
+    })
+
+    // Store post data in storage
+    storePostCollection(response.data)
+
+    // Update post references
+    storePostReferencesToMyFeed(response)
+
+    // Update post like relationships
+    storePostCollectionLikes(response.data)
+
+    // Update post favor relationships
+    storePostCollectionFavors(response.data)
+}
+
 const fetchPost = async ({ postId }) => {
     const response = await axios({
         method: 'get',
@@ -225,6 +303,7 @@ export default {
     data,
     posts,
     homeFeed: computedHomeFeed,
+    favoredFeed: computedFavoredFeed,
     myFeed: computedMyFeed,
     activePost: computedActivePost,
 
@@ -238,6 +317,8 @@ export default {
 
     // API
     fetchHomeFeedPosts,
+    fetchFavoredPosts,
+    fetchMyFeedPosts,
     fetchPost,
     savePost,
 }
