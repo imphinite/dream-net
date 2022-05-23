@@ -12,7 +12,7 @@
         <!-- content block -->
         <dn-editor
             v-if="hasContent"
-            v-model="content"
+            :model-value="deltaContent"
             theme="bubble"
             read-only
         />
@@ -116,7 +116,7 @@ export default {
             type: String,
         },
         content: {
-            type: Object,
+            type: [Object, String],
             default: () => {},
         },
         interactions: {
@@ -151,9 +151,31 @@ export default {
 
         const hasContent = computed(() => !_.isEmpty(props.content))
 
+        const getDeltaContent = (rawContent) => {
+            let content, delta
+
+            if (typeof rawContent === 'string') {
+                try {
+                    delta = JSON.parse(rawContent)
+                    content = delta
+                } catch (err) {
+                    content = {
+                        ops: [{ insert: rawContent }],
+                    }
+                }
+
+                return content
+            }
+
+            return props.content
+        }
+
+        const deltaContent = getDeltaContent(props.content)
+
         return {
             computedStyles,
             hasContent,
+            deltaContent,
         }
     },
 }

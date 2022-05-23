@@ -6,6 +6,7 @@
             menu: false,
             plus: true,
         }"
+        swipable
         @toggle-navigation-drawer="navDrawer = !navDrawer"
         @swipe-end="goToHomePage"
         @load-more="loadMoreComments"
@@ -14,7 +15,7 @@
         <dn-card
             class="snap-start mt-2"
             :title="activePost.title"
-            :content="getContent(activePost.body)"
+            :content="activePost.body"
             :state="postState"
             @reply-button-click="showComposer = !showComposer"
             @heart-button-click="togglePostLike(activePost)"
@@ -38,7 +39,7 @@
             :key="index"
             class="snap-start mt-2"
             dim
-            :content="getContent(comment.body)"
+            :content="comment.body"
             :state="commentState[comment.id]"
             @heart-button-click="toggleCommentLike(comment)"
             @star-button-click="toggleCommentFavor(comment)"
@@ -205,19 +206,6 @@ export default {
     },
 
     methods: {
-        getContent(body) {
-            let content, delta
-            try {
-                delta = JSON.parse(body)
-                content = delta
-            } catch (err) {
-                content = {
-                    ops: [{ insert: body }],
-                }
-            }
-
-            return content
-        },
         goToHomePage() {
             this.$router.push({ name: 'Home' })
         },

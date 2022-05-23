@@ -1,5 +1,6 @@
 <template>
     <dn-page
+        swipable
         @toggle-navigation-drawer="navDrawer = !navDrawer"
         @reload="$router.go()"
         @load-more="loadMorePosts"
@@ -9,7 +10,7 @@
             :key="index"
             class="snap-start mt-2"
             :title="post.title"
-            :content="getContent(post.body)"
+            :content="post.body"
             :state="postState[post.id]"
             @title-click="goToPost(post)"
             @heart-button-click="togglePostLike(post)"
@@ -101,19 +102,6 @@ export default {
         }
     },
     methods: {
-        getContent(body) {
-            let content, delta
-            try {
-                delta = JSON.parse(body)
-                content = delta
-            } catch (err) {
-                content = {
-                    ops: [{ insert: body }],
-                }
-            }
-
-            return content
-        },
         goToPost(post) {
             this.router.push(`/posts/${post.id}`)
         },
