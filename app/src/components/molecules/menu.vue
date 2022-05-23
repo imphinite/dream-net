@@ -57,6 +57,7 @@ export default {
         })
         const selectItem = (itemIndex) => {
             selectedItemIndex.value = itemIndex
+            emit('select', selectedItem.value)
         }
         const isItemActive = (itemIndex) => {
             return itemIndex === selectedItemIndex.value

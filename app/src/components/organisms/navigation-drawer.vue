@@ -15,7 +15,11 @@
         </div>
 
         <div class="navbar-body w-full flex flex-col grow py-2">
-            <dn-menu v-model="activeMenuItem" :items="menuItems" />
+            <dn-menu
+                v-model="activeMenuItem"
+                :items="menuItems"
+                @select="onMenuItemSelected"
+            />
         </div>
         <div
             class="navbar-footer w-full p-2 text-right font-normal text-sm text-gray-400"
@@ -111,11 +115,19 @@ export default {
             }
         })
 
+        const onMenuItemSelected = (menuItem) => {
+            if (router) {
+                router.push({ name: menuItem.label })
+                collapse()
+            }
+        }
+
         return {
             navbar,
             containerStyles,
             active,
             collapse,
+            onMenuItemSelected,
             activeMenuItem,
         }
     },
