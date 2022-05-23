@@ -20,6 +20,7 @@ const login = async ({ username, password }) => {
             password,
             scope: '*',
         },
+        globalLoading: true,
     })
 
     authModule.storeAuth(authData)
@@ -29,6 +30,7 @@ const fetchSelfInfo = async () => {
     const userData = await axios({
         method: 'get',
         url: 'self',
+        globalLoading: true,
     })
 
     authModule.storeUserSelfInfo(userData)
@@ -43,6 +45,7 @@ const register = async ({ username, email, password }) => {
             email,
             password,
         },
+        globalLoading: true,
     })
 }
 
