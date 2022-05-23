@@ -1,5 +1,9 @@
 <template>
-    <form action="" method="post" :class="formStyles">
+    <form
+        method="post"
+        :class="formStyles"
+        @keydown.enter.prevent="handleKeyupEnter"
+    >
         <div class="text-white text-xl font-bold self-center py-4">Sign Up</div>
 
         <!-- TODO: progress bar -->
@@ -20,6 +24,7 @@
         <div v-show="step == 2" class="text-white">
             <div class="flex gap-2" :class="inputContainerStyles">
                 <dn-text-input
+                    ref="firstnameInput"
                     v-model="formData.firstName"
                     placeholder="First name"
                     :disabled="disabled"
@@ -117,6 +122,15 @@ export default {
             formData,
             step,
         }
+    },
+    methods: {
+        async handleKeyupEnter() {
+            if (this.step == 1) {
+                this.step += 1
+            } else {
+                this.$emit('submit', this.formData)
+            }
+        },
     },
 }
 </script>

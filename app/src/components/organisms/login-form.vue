@@ -1,5 +1,9 @@
 <template>
-    <form action="" method="post" :class="formStyles">
+    <form
+        method="post"
+        :class="formStyles"
+        @keydown.enter.prevent="$emit('submit', formData)"
+    >
         <div class="text-white text-xl font-bold self-center py-4">Login</div>
 
         <div>

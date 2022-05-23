@@ -145,5 +145,13 @@ export default {
             clearInput,
         }
     },
+    methods: {
+        keyupEnter() {
+            console.log('text input keyup.enter')
+        },
+        keyupEnterButton() {
+            console.log('icon button keyup.enter')
+        },
+    },
 }
 </script>
