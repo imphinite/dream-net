@@ -41,7 +41,6 @@ export default {
     name: 'dn-favorites',
     components: { DnPage, DnCard },
     setup() {
-        // const { navDrawer } = useNavigationDrawer()
         const { buildInteractionState } = useInteractionState()
 
         // Handle routing
