@@ -34,6 +34,8 @@ class PostController extends Controller
     {
         // Filters
         $user_id = Request::input('user_id', null);
+        $favored = Request::input('favored', null);
+        // $liked = Request::input('liked', null);
 
         // Pagination
         $currentCursor = Request::input('cursor', null);
@@ -45,15 +47,21 @@ class PostController extends Controller
         if ($user_id) {
             $query = $query->where('user_id', $user_id);
         }
+        if ($favored) {
+            $query = $query->join('favors', 'posts.id', '=', 'favors.favorable_id')
+                ->select('posts.*', 'favors.user_id', 'favors.favorable_id', 'favors.favorable_type')
+                ->where('favorable_type', 'App\Models\Post')
+                ->where('posts.user_id', '=', Auth::user()->id);
+        }
         if ($currentCursor) {
             $query = $query->where('id', '<', $currentCursor);
         }
 
         // Get data
         $posts = $query->get();
-
+        
         // Save pagination cursor
-        $newCursor = $posts->last()->id;
+        $newCursor = $posts?->last()?->id;
         $cursor = new Cursor($currentCursor, $previousCursor, $newCursor, $posts->count());
 
         // Transform models
