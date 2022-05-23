@@ -53,13 +53,26 @@ export default {
             likes: likeModule,
             favors: favorModule,
         } = useStore()
-        const { homeFeed, fetchHomeFeedPosts } = postModule
+        const {
+            homeFeed,
+            favoredFeed,
+            myFeed,
+            fetchHomeFeedPosts,
+            fetchFavoredPosts,
+            fetchMyFeedPosts,
+        } = postModule
         const { hasLikedPost } = likeModule
         const { hasFavoredPost } = favorModule
 
-        // Fetch posts from API
+        // Initialize data, fetch from API
         if (!homeFeed.value?.posts || homeFeed.value?.posts.length == 0) {
             fetchHomeFeedPosts()
+        }
+        if (!favoredFeed.value?.posts || favoredFeed.value?.posts.length == 0) {
+            fetchFavoredPosts()
+        }
+        if (!myFeed.value?.posts || myFeed.value?.posts.length == 0) {
+            fetchMyFeedPosts()
         }
 
         // State of each post item

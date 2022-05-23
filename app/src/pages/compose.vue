@@ -77,13 +77,13 @@ export default {
                 return
             }
 
-            const newPost = await this.savePost({
+            await this.savePost({
                 title,
                 body: JSON.stringify(content),
             })
 
             if (this.$router) {
-                this.$router.push(`/posts/${newPost.id}`)
+                this.$router.push({ name: 'My Dreams' })
             }
         },
     },

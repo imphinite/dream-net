@@ -293,7 +293,8 @@ const savePost = async ({ title, body, mood, anonymous }) => {
     // Store post data in storage
     storePost(response.data)
 
-    // Prepend this post's id to Home feed (TODO: and My feed)
+    // Prepend this post's id to Home feed and my dreams feed
+    myFeed.value.posts.unshift(response.data.id)
     homeFeed.value.posts.unshift(response.data.id)
 
     return response.data
