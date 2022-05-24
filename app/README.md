@@ -1,44 +1,41 @@
-# vue-tailwind-tempalte
+## DreamNet App
 
--   Minimal webpack setup for Vue 3 (RC)
--   Tailwind installed
--   Lint & prettier
+### Quick start
 
-### Prerequisites
-
--   npm | yarn
-
-### Install
+1. Install dependencies
 
 ```sh
-# npm
-npm install
-# yarn
 yarn install
 ```
 
-### Usage
-
-##### Develop
+2. Initialize environment variables
 
 ```sh
-# run dev server at localhost:8080
-# npm
-npm run dev
-# yarn
+cp .env.example .env
+```
+
+Before you can use the OAuth Authentication services provided by [Laravel/Passport](https://laravel.com/docs/9.x/passport#installation) in this app, you must generate `client_id` and `client_secret` first by running `php artisan passport:install` in the core-api subproject. Once you have both `client_id` and `client_secret`, copy and paste them to the `OAUTH_CLIENT_ID` and `OAUTH_CLIENT_SECRET` fields respectively in your `app/.env` file.
+
+3. Serve Storybook
+
+```sh
+yarn storybook
+```
+
+4. Serve local dev server
+
+```sh
 yarn dev
 ```
 
-##### Build
+### Build
 
-```sh
-# transpile js for deployment
-# npm
-npm run build
-# yarn
-yarn build
+```
+yarn build && serve dist/ -p 4000
 ```
 
-### Reference
+If you want to preview PWA,
 
-https://snipcart.com/blog/tailwind-vue-tutorial
+```
+yarn prod:preview
+```
