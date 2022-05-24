@@ -11,6 +11,15 @@
 
 Do you want to collaborate on this project? Here's how.
 
+### Index
+
+-   [Technical Overview](https://github.com/imphinite/dream-net#technical-overview)
+-   [Directory Structure](https://github.com/imphinite/dream-net#set-up-dev-environment-for-core-api)
+-   [How to Set Up Development Environment](https://github.com/imphinite/dream-net#how-to-set-up-development-environment)
+-   [Global Dev Dependencies](https://github.com/imphinite/dream-net#set-up-dev-environment-for-core-api)
+-   [Set Up Dev Environment for DreamNet App](https://github.com/imphinite/dream-net#set-up-dev-environment-for-dreamnet-app)
+-   [Set Up Dev Environment for Core API](https://github.com/imphinite/dream-net#set-up-dev-environment-for-core-api)
+
 ### Technical Overview
 
 ##### Technologies
