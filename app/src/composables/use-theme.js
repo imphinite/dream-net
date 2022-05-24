@@ -7,7 +7,7 @@ import { useStorage } from '@vueuse/core'
 import useGradients from './use-gradients'
 
 //-- Centralized data storage
-const theme = useStorage('theme', 'ROYAL')
+const theme = useStorage('theme', 'CELESTIAL')
 
 const { GRADIENTS } = useGradients({ hover: false })
 
