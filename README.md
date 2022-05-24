@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://github.com/imphinite/dream-net)
 
-##### Find Your Soulmate. Uncover the veil. Sail your dream.
+##### Find your soulmate. Uncover the veil. Sail your dream.
 
 -   DreamNet matches you with your soulmate if they share the same dream life with you. It does not matter if the life in your dream is distant in the past or far in the future. You're destinied to be together, just because you're soulmates.
 -   Track your dreams, and share them with others.
