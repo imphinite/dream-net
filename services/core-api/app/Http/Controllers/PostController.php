@@ -35,7 +35,6 @@ class PostController extends Controller
         // Filters
         $user_id = Request::input('user_id', null);
         $favored = Request::input('favored', null);
-        // $liked = Request::input('liked', null);
 
         // Pagination
         $currentCursor = Request::input('cursor', null);
@@ -57,10 +56,8 @@ class PostController extends Controller
             $query = $query->where('id', '<', $currentCursor);
         }
 
-        // dd($query->toSql());
         // Get data
         $posts = $query->get();
-
 
         // Save pagination cursor
         $newCursor = $posts?->last()?->id;

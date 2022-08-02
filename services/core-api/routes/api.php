@@ -29,7 +29,6 @@ Route::post('/register', [RegisterController::class, 'register']);
 Route::get('/self', [UserController::class, 'self']);
 
 // Posts
-// Route::get('/posts', [PostController::class, 'index']);
 Route::controller(PostController::class)->group(function () {
     Route::get('/posts', 'index');
     Route::post('/posts', 'store');
