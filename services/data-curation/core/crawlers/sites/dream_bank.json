@@ -1,0 +1,6 @@
+{
+    "site_name": "Dream Bank",
+    "description": "www.dreambank.net",
+    "browser": "headless",
+    "base_url": "https://www.dreambank.net/search.cgi"
+}
