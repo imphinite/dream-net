@@ -30,6 +30,13 @@
                 </div>
             </slot>
         </section>
+
+        <dn-footer
+            @user-button-click="pushRoute($event, { name: 'My Dreams' })"
+            @chat-button-click="pushRoute($event, { name: 'Home' })"
+            @favorites-button-click="pushRoute($event, { name: 'Favorites' })"
+            @settings-button-click="pushRoute($event, { name: 'Settings' })"
+        />
     </article>
 </template>
 
@@ -50,6 +57,7 @@ import { useSwipe, useElementSize, useInfiniteScroll } from '@vueuse/core'
 
 //-- Components
 import DnHeader from '@cm/header.vue'
+import DnFooter from '@cm/footer.vue'
 
 //-- Composables
 import useTheme from '@/composables/use-theme'
@@ -57,7 +65,7 @@ import useLoading from '@/composables/use-loading'
 
 export default {
     name: 'dn-page',
-    components: { DnHeader },
+    components: { DnHeader, DnFooter },
     emits: [
         'toggle-navigation-drawer',
         'back-button-click',
@@ -197,6 +205,11 @@ export default {
             this.$emit('plus-button-click')
             if (this.$router) {
                 this.$router.push({ name: 'Compose' })
+            }
+        },
+        pushRoute(event, route) {
+            if (this.$router) {
+                this.$router.push(route)
             }
         },
     },
