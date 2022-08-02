@@ -5,6 +5,8 @@
 **/dist/*
 **/storybook-static/*
 **/.cache/*
+**/__pycache__/*
+**/venv/*
 
 # local env files
 **/.env

@@ -36,7 +36,9 @@ services:
             - POSTGRES_PASSWORD=postgres
 
     data-curation:
-        build: ./data-curation
+        build:
+            context: ./data-curation
+            dockerfile: Dockerfile
         container_name: data_curation
         ports:
             - '8091:8080'
