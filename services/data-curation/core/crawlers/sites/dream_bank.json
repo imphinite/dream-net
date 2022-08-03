@@ -1,6 +1,70 @@
 {
     "site_name": "Dream Bank",
     "description": "www.dreambank.net",
-    "browser": "headless",
-    "base_url": "https://www.dreambank.net/search.cgi"
+    "mode": "headless",
+    "browser": "chrome",
+    "base_url": "https://www.dreambank.net/search.cgi",
+    "script": {
+        "action_1": {
+            "description": "Type in 'a' in search text input field",
+            "type": "input",
+            "target": "//input[@name='query']",
+            "value": "a"
+        },
+        "action_2": {
+            "description": "Select 2 items",
+            "type": "select",
+            "target": "//select[@name='series']",
+            "batch": {
+                "size": 2,
+                "targets": "//select/option"
+            }
+        },
+        "action_3": {
+            "description": "Select OR mode",
+            "type": "click",
+            "target": "//input[@id='radio:mode:OR']"
+        },
+        "action_4": {
+            "description": "Uncheck subtotals option",
+            "type": "click",
+            "target": "//input[@name='subtotals']"
+        },
+        "action_5": {
+            "description": "Check 'Lists' option",
+            "type": "click",
+            "target": "//input[@name='rd_lists']"
+        },
+        "action_6": {
+            "description": "Uncheck 'Table' option",
+            "type": "click",
+            "target": "//input[@name='rd_table']"
+        },
+        "action_7": {
+            "description": "Submit query and wait for next page load",
+            "type": "click",
+            "target": "(//input[@type='submit'])[1]",
+            "breathe": 5
+        },
+        "action_8": {
+            "description": "Uncheck 'Highlight matches' option",
+            "type": "click",
+            "target": "//input[@name='ul']"
+        },
+        "action_9": {
+            "description": "Click 'Show dreams' button",
+            "type": "click",
+            "target": "(//input[@type='submit'])[1]"
+        },
+        "action_10": {
+            "description": "Collect data",
+            "type": "read",
+            "targets": {
+                "title": "",
+                "date": "",
+                "content": "",
+                "word_count": ""
+            }
+        }
+    }
 }
