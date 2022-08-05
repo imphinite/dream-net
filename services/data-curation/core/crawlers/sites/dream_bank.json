@@ -59,11 +59,27 @@
         "action_10": {
             "description": "Collect data",
             "type": "read",
-            "targets": {
-                "title": "",
-                "date": "",
-                "content": "",
-                "word_count": ""
+            "target": "//form/span",
+            "fields": {
+                "title": {
+                    "parser": "array",
+                    "index": 0
+                },
+                "date": {
+                    "parser": "regex",
+                    "index": 0,
+                    "pattern": "\\(([0-9]+([\\/-][0-9]+[\\/-][0-9]+)?)\\??\\)"
+                },
+                "content": {
+                    "parser": "array",
+                    "index": [0],
+                    "invert": true
+                },
+                "word_count": {
+                    "parser": "regex",
+                    "index": -1,
+                    "pattern": "\\(([0-9]+) words\\)"
+                }
             }
         }
     }

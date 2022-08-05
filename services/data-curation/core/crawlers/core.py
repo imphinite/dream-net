@@ -1,10 +1,11 @@
 from site_config import SiteConfig
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
+from script_action.read import ReadAction
+from script_action.input import InputAction
+from script_action.click import ClickAction
+from script_action.select import SelectAction
 import time
 
 
@@ -54,46 +55,18 @@ class Crawler:
 
 
     def perform_action(self, action):
-        action_type = action['type']
-        target_xpath = action['target']
-
-        # Locate target element
-        element = self.driver.find_element(By.XPATH, target_xpath)
-
-        # text input action
-        if (action_type == 'input'):
-            value = action['value']
-            element.send_keys(value)
-            # Breathe
-            breathe = action.get('breathe', 2)
-            time.sleep(breathe)
-            return
-
-        # select action
-        if (action_type == 'select'):
-            batch_size = action['batch']['size']
-            batch_target_xpath_root = action['batch']['targets']
-            batch_target_xpath_template = "({root})[{index}]"
-            batch_elements = []
-
-            for i in range(batch_size):
-                batch_target_xpath = batch_target_xpath_template.format(
-                    root = batch_target_xpath_root,
-                    index = i + 1)
-
-                element = self.driver.find_element(By.XPATH, batch_target_xpath)
-                ActionChains(self.driver).key_down(Keys.CONTROL).click(element).key_up(Keys.CONTROL).perform()
-                batch_elements.append(element)
-                # Breathe
-                breathe = action.get('breathe', 1)
-                time.sleep(breathe)
-            return
-
-        # default - click action
-        element.click()
-        # Breathe
-        breathe = action.get('breathe', 1)
-        time.sleep(breathe)
+        action_type = action['type'] if action['type'] else 'click'
+        # Script action mapping
+        actions = {
+            'read': ReadAction(action, driver=self.driver),
+            'input': InputAction(action, driver=self.driver),
+            'select': SelectAction(action, driver=self.driver),
+            'click': ClickAction(action, driver=self.driver)
+        }
+        
+        # Perform script action
+        script_action = actions[action_type]
+        script_action.perform()
 
 
 if __name__ == '__main__':
