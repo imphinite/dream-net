@@ -5,8 +5,6 @@ import re
 
 class ReadAction(ScriptAction):
     def perform(self):
-        print('window handles?', self.driver.window_handles)
-
         new_tab = len(self.driver.window_handles) > 1
         if (new_tab):
             self.driver.switch_to.window(self.driver.window_handles[1])
@@ -15,9 +13,6 @@ class ReadAction(ScriptAction):
         target_element_xpath = self.action['target']
         # 
         root_elements = self.driver.find_elements(By.XPATH, target_element_xpath)
-
-        print('root elements?', len(root_elements))
-
         result_array = []
 
         test_max = 5
@@ -37,8 +32,6 @@ class ReadAction(ScriptAction):
             # Test control
             test_counter = test_counter + 1
             
-        # print('result_array', len(result_array))
-
         # Breathe after action
         self.breathe()
 
@@ -59,7 +52,7 @@ class ContentParser:
             parser_mapping = {
                 'array': self.get_data_by_item_index(config=field_parser_config),
                 'regex': self.get_data_by_regex(config=field_parser_config),
-            }            
+            }
 
             self.result[field_name] = parser_mapping[parser]
 

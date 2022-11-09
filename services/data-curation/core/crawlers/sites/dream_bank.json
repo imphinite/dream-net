@@ -5,58 +5,76 @@
     "browser": "chrome",
     "base_url": "https://www.dreambank.net/search.cgi",
     "script": {
+        "action_0": {
+            "description": "Send form request",
+            "type": "form_request",
+            "form_action": "show.cgi",
+            "form_body": {
+                "series": "vonuslar.de",
+                "mode": "OR",
+                "query": "a",
+                "d": "0001"
+            }
+        },
         "action_1": {
             "description": "Type in 'a' in search text input field",
             "type": "input",
             "target": "//input[@name='query']",
-            "value": "a"
+            "value": "a",
+            "disabled": true
         },
         "action_2": {
-            "description": "Select 2 items",
+            "description": "Select 1 series",
             "type": "select",
             "target": "//select[@name='series']",
             "batch": {
-                "size": 2,
+                "size": 1,
                 "targets": "//select/option"
-            }
+            },
+            "disabled": true
         },
         "action_3": {
             "description": "Select OR mode",
             "type": "click",
-            "target": "//input[@id='radio:mode:OR']"
+            "target": "//input[@id='radio:mode:OR']",
+            "disabled": true
         },
         "action_4": {
-            "description": "Uncheck subtotals option",
-            "type": "click",
-            "target": "//input[@name='subtotals']"
-        },
-        "action_5": {
-            "description": "Check 'Lists' option",
-            "type": "click",
-            "target": "//input[@name='rd_lists']"
-        },
-        "action_6": {
             "description": "Uncheck 'Table' option",
             "type": "click",
-            "target": "//input[@name='rd_table']"
+            "target": "//input[@name='rd_table']",
+            "disabled": true
         },
-        "action_7": {
+        "action_5": {
             "description": "Submit query and wait for next page load",
             "type": "click",
             "target": "(//input[@type='submit'])[1]",
-            "breathe": 5
+            "breathe": 5,
+            "disabled": true
         },
-        "action_8": {
+        "action_6": {
+            "description": "Select 1 series",
+            "type": "select",
+            "target": "//select[@name='d']",
+            "batch": {
+                "size": 500,
+                "targets": "//select[@name='d']/option"
+            },
+            "disabled": true
+        },
+        "action_7": {
             "description": "Uncheck 'Highlight matches' option",
             "type": "click",
-            "target": "//input[@name='ul']"
+            "target": "//input[@name='ul']",
+            "disabled": true
         },
-        "action_9": {
+        "action_8": {
             "description": "Click 'Show dreams' button",
             "type": "click",
-            "target": "(//input[@type='submit'])[1]"
+            "target": "(//input[@type='submit'])[1]",
+            "disabled": true
         },
-        "action_10": {
+        "action_9": {
             "description": "Collect data",
             "type": "read",
             "target": "//form/span",
@@ -79,6 +97,24 @@
                     "parser": "regex",
                     "index": -1,
                     "pattern": "\\(([0-9]+) words\\)"
+                }
+            },
+            "disabled": true
+        },
+        "action_10": {
+            "description": "Save HTML",
+            "type": "save",
+            "database": "dreambank",
+            "table": {
+                "base_name": "raw_html",
+                "schema": {
+                    "id": {
+                        "type": "SERIAL",
+                        "identifier": "primary key"
+                    },
+                    "html": {
+                        "type": ""
+                    }
                 }
             }
         }
