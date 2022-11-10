@@ -1,9 +1,10 @@
 <template>
     <dn-page @toggle-navigation-drawer="navDrawer = !navDrawer">
-        <div class="text-shadow text-white text-xl font-bold px-4 py-2">
+        <dn-settings-form />
+        <!-- <div class="text-shadow text-white text-xl font-bold px-4 py-2">
             Theme
         </div>
-        <dn-menu v-model="activeThemeMenuItem" :items="themeOptions" />
+        <dn-menu v-model="activeThemeMenuItem" :items="themeOptions" /> -->
     </dn-page>
 </template>
 
@@ -12,8 +13,9 @@
 import { ref, watch } from 'vue'
 
 //-- Components
-import DnPage from '@ct/page.vue'
 import DnMenu from '@cm/menu.vue'
+import DnPage from '@ct/page.vue'
+import DnSettingsForm from '@co/settings-form.vue'
 
 //-- Composables
 import useNavigationDrawer from '@/composables/use-navigation-drawer'
@@ -21,7 +23,11 @@ import useTheme from '@/composables/use-theme'
 
 export default {
     name: 'dn-settings',
-    components: { DnPage, DnMenu },
+    components: {
+        DnMenu,
+        DnPage,
+        DnSettingsForm,
+    },
     setup() {
         const { themeOptions, setActiveTheme } = useTheme()
 

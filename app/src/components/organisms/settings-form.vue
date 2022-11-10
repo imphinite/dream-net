@@ -6,13 +6,41 @@
     >
         <div>
             <div :class="inputContainerStyles">
-                <dn-email-input v-model="formData.email" :disabled="disabled" />
+                <dn-text-input
+                    v-model="formData.displayName"
+                    placeholder="Display name"
+                    :disabled="disabled"
+                />
             </div>
+            <!-- TODO Dropdown input -->
             <div :class="inputContainerStyles">
                 <dn-text-input
-                    v-model="formData.password"
-                    type="password"
-                    placeholder="Password"
+                    v-model="formData.theme"
+                    placeholder="Theme"
+                    :disabled="disabled"
+                />
+            </div>
+            <!-- TODO Dropdown input -->
+            <div :class="inputContainerStyles">
+                <dn-text-input
+                    v-model="formData.gender"
+                    placeholder="Gender"
+                    :disabled="disabled"
+                />
+            </div>
+            <!-- TODO Dropdown input -->
+            <div :class="inputContainerStyles">
+                <dn-text-input
+                    v-model="formData.birthDate"
+                    placeholder="Birth date"
+                    :disabled="disabled"
+                />
+            </div>
+            <!-- TODO Checkbox input -->
+            <div :class="inputContainerStyles">
+                <dn-text-input
+                    v-model="formData.consent"
+                    placeholder="I give my consent to share my data for research purposes"
                     :disabled="disabled"
                 />
             </div>
@@ -24,26 +52,8 @@
                 preset="secondary"
                 class="w-full"
                 @click="$emit('submit', formData)"
-                >LOGIN</dn-button
+                >SAVE</dn-button
             >
-        </div>
-
-        <div class="mt-10">
-            <button
-                class="text-blue-400"
-                @click.prevent="$emit('forgot-password')"
-            >
-                Forgot password?
-            </button>
-            <div class="mt-4">
-                <span>Not a member? </span>
-                <button
-                    class="text-blue-400"
-                    @click.prevent="$emit('signup-form')"
-                >
-                    Sign up now
-                </button>
-            </div>
         </div>
     </form>
 </template>
@@ -53,17 +63,17 @@
 import { ref, computed, watch } from 'vue'
 
 //-- Components
-import DnTextInput from '@ca/text-input'
-import DnEmailInput from '@cm/email-input'
 import DnButton from '@ca/button'
+import DnEmailInput from '@cm/email-input'
+import DnTextInput from '@ca/text-input'
 
 export default {
     name: 'dn-login-form',
     emits: ['update:modelValue', 'forgot-password', 'submit', 'signup-form'],
     components: {
-        DnTextInput,
-        DnEmailInput,
         DnButton,
+        DnEmailInput,
+        DnTextInput,
     },
     props: {
         modelValue: {
@@ -84,8 +94,11 @@ export default {
         // v-model
         const formData = ref({})
         formData.value = props.modelValue || {
-            email: '',
-            password: '',
+            displayName: '',
+            theme: '',
+            gender: '',
+            birthDate: '',
+            consent: '',
         }
         watch(formData.value, (newFormData) => {
             emit('update:modelValue', newFormData)

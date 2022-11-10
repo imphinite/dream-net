@@ -81,14 +81,13 @@ export default {
             'w-full',
             'transition',
             'border-none focus:border-none',
+            'shadow-[inset_0_-1px_5px_rgba(0,0,0,0.2)]',
             'focus:ring-2',
-            // 'focus-visible:outline-none',
         ]
 
         const computedColors = computed(() => {
             return [
                 props.dim ? 'text-white' : 'text-black/75',
-                // props.dim ? 'border-none focus:border-none' : '',
                 props.dim ? 'bg-black/25' : 'bg-white',
                 props.dim ? 'focus:ring-white/75' : 'focus:ring-[#2563eb]',
             ]
@@ -105,11 +104,11 @@ export default {
         const computedTrailingButtonStyles = computed(() => {
             return [
                 'absolute right-2 bottom-1/2 translate-y-1/2',
-                'rounded-full h-4/6 aspect-square',
+                'rounded-full h-1/2 aspect-square',
                 'cursor-pointer',
                 'transition',
                 'bg-gray-600/75 hover:bg-black/75 active:bg-black',
-                'text-white',
+                'text-white text-xs leading-none',
             ]
         })
 

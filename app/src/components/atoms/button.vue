@@ -39,7 +39,7 @@ export default {
         },
     },
     setup(props) {
-        const BASE_STYLES = 'font-display border-2 rounded-full transition'
+        const BASE_STYLES = 'font-display border-2 rounded-md transition'
 
         //-- refs
         const preset = toRef(props, 'preset')
@@ -54,16 +54,22 @@ export default {
                     'active:bg-purple-extra-dark active:text-white',
                     'focus:ring-2 focus:ring-yellow-light',
                 ],
+                // secondary: [
+                //     'bg-purple-default text-white border-purple-default',
+                //     'hover:bg-white hover:text-purple-default hover:border-gray-300',
+                //     'active:bg-gray-300 active:text-purple',
+                //     'focus:ring-2 focus:ring-yellow-light',
+                // ],
                 secondary: [
-                    'bg-purple-dark text-white border-purple-dark',
-                    'hover:bg-white hover:text-purple-dark hover:border-gray-300',
-                    'active:bg-gray-300 active:text-purple-dark',
+                    'bg-purple-default text-white border-purple-default',
+                    'hover:bg-white hover:text-purple-default hover:border-gray-300',
+                    'active:bg-gray-300 active:text-purple',
                     'focus:ring-2 focus:ring-yellow-light',
                 ],
                 transparent: [
-                    'bg-transparent text-white/90 border-white/90 bg-gray-700/25',
-                    'hover:bg-black/50',
-                    'active:bg-black/75 active:text-white/50 active:border-white/50',
+                    'bg-transparent text-black/60 border-black/10',
+                    'hover:bg-black/25',
+                    'active:bg-black/75 active:text-white active:border-white/75',
                     'focus:ring-2 focus:ring-yellow-light',
                 ],
                 round: [
@@ -77,17 +83,17 @@ export default {
         })
         const computedSpacingStyles = computed(() => {
             const spacingMapping = {
-                large: ['px-6 py-1'],
-                medium: ['px-4 py-1'],
+                large: ['px-6 py-2'],
+                medium: ['px-4 py-2'],
                 small: ['px-3'],
             }
             return spacingMapping[size.value] || ''
         })
         const computedSizeStyles = computed(() => {
             const sizeStyleMapping = {
-                large: ['font-bold text-lg'],
-                medium: ['font-semibold text-base'],
-                small: ['font-semibold text-sm'],
+                large: ['font-bold text-lg leading-relaxed'],
+                medium: ['font-semibold text-base leading-relaxed'],
+                small: ['font-semibold text-sm leading-relaxed'],
             }
             return sizeStyleMapping[size.value] || ''
         })

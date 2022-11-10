@@ -21,7 +21,7 @@
         </div>
 
         <!-- footer block -->
-        <div class="card-footer flex justify-between pt-2">
+        <div class="card-footer flex justify-between pt-2" v-if="interactions">
             <div class="flex justify-between">
                 <dn-icon-button
                     v-if="state.like.enabled"

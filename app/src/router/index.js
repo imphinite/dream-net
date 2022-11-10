@@ -8,8 +8,10 @@ import useAuthentication from '@/composables/use-authentication'
 //-- Pages
 import Auth from '@/pages/auth.vue'
 import Home from '@/pages/home.vue'
+import Feed from '@/pages/feed.vue'
 import Favorites from '@/pages/favorites.vue'
 import MyDreams from '@/pages/my-dreams.vue'
+import Notifications from '@/pages/notifications.vue'
 import Settings from '@/pages/settings.vue'
 import Post from '@/pages/post.vue'
 import Compose from '@/pages/compose.vue'
@@ -42,6 +44,14 @@ const routes = [
         },
     },
     {
+        path: '/feed',
+        name: 'Feed',
+        component: Feed,
+        meta: {
+            navigatable: true,
+        },
+    },
+    {
         path: '/posts/:id',
         name: 'Post',
         component: Post,
@@ -63,6 +73,14 @@ const routes = [
         path: '/my-dreams',
         name: 'My Dreams',
         component: MyDreams,
+        meta: {
+            navigatable: true,
+        },
+    },
+    {
+        path: '/notifications',
+        name: 'Notifications',
+        component: Notifications,
         meta: {
             navigatable: true,
         },

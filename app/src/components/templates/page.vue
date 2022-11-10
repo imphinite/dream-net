@@ -6,7 +6,6 @@
             :interactions="interactions"
             @back-button-click="onBackButtonClick"
             @menu-button-click="$emit('toggle-navigation-drawer')"
-            @plus-button-click="onPlusButtonClick"
             @title-click="$emit('reload')"
         />
 
@@ -21,10 +20,10 @@
                     v-if="!isLoading"
                     class="flex flex-col justify-center items-center h-2/3"
                 >
-                    <div class="text-white text-md">
+                    <div class="text-black text-md">
                         Oops! No content found..
                     </div>
-                    <div class="text-sky-300 text-md" @click="$emit('reload')">
+                    <div class="text-sky-300 text-lg" @click="$emit('reload')">
                         Try refreshing?
                     </div>
                 </div>
@@ -32,10 +31,12 @@
         </section>
 
         <dn-footer
+            :current-page="route.name"
+            @home-button-click="pushRoute($event, { name: 'Home' })"
             @user-button-click="pushRoute($event, { name: 'My Dreams' })"
-            @chat-button-click="pushRoute($event, { name: 'Home' })"
-            @favorites-button-click="pushRoute($event, { name: 'Favorites' })"
+            @comment-button-click="pushRoute($event, { name: 'Notifications' })"
             @settings-button-click="pushRoute($event, { name: 'Settings' })"
+            @plus-button-click="onPlusButtonClick"
         />
     </article>
 </template>
@@ -53,6 +54,7 @@
 <script>
 //-- Libraries
 import { ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { useSwipe, useElementSize, useInfiniteScroll } from '@vueuse/core'
 
 //-- Components
@@ -97,15 +99,21 @@ export default {
         },
     },
     setup(props, { emit }) {
+        const route = useRoute()
+
         const CONTAINER_STYLES = [
             'relative',
             'flex flex-col',
             'w-screen h-screen overflow-hidden',
+            // 'bg-white',
         ]
 
         const { themeStyles } = useTheme()
         const computedBgStyles = computed(() => {
-            return ['bg-gradient-to-tr', themeStyles.value]
+            return [
+                // 'bg-gradient-to-tr',
+                themeStyles.value,
+            ]
         })
 
         const containerStyles = computed(() => {
@@ -116,7 +124,7 @@ export default {
             'absolute',
             'w-full h-[calc(100vh-3rem)] pt-12',
             'snap-y overflow-y-scroll scroll-smooth box-content scroll-py-14',
-            'bg-black/25',
+            // 'bg-black/25',
         ]
 
         const bodySectionStyles = computed(() => {
@@ -192,6 +200,9 @@ export default {
 
             // loading
             isLoading,
+
+            // routing
+            route,
         }
     },
     methods: {

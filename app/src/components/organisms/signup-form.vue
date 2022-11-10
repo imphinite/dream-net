@@ -4,13 +4,18 @@
         :class="formStyles"
         @keydown.enter.prevent="handleKeyupEnter"
     >
-        <div class="text-white text-xl font-bold self-center py-4">Sign Up</div>
-
         <!-- TODO: progress bar -->
 
         <div v-show="step == 1" class="text-white">
             <div :class="inputContainerStyles">
                 <dn-email-input v-model="formData.email" :disabled="disabled" />
+            </div>
+            <div :class="inputContainerStyles">
+                <dn-text-input
+                    v-model="formData.displayName"
+                    placeholder="Display name"
+                    :disabled="disabled"
+                />
             </div>
             <div :class="inputContainerStyles">
                 <dn-text-input
@@ -46,7 +51,7 @@
 
         <!-- Button group -->
         <div class="flex items-center justify-between">
-            <div class="left">
+            <!-- <div class="left">
                 <dn-button v-show="step >= 2" @click="step -= 1"
                     >Back</dn-button
                 >
@@ -58,10 +63,17 @@
                 <dn-button v-show="step == 2" @click="$emit('submit', formData)"
                     >Sign up</dn-button
                 >
-            </div>
+            </div> -->
+
+            <dn-button
+                preset="secondary"
+                class="w-full"
+                @click="$emit('submit', formData)"
+                >SIGN UP</dn-button
+            >
         </div>
 
-        <div class="text-white mt-4">
+        <div class="mt-10">
             <span>Already a member? </span>
             <button class="text-blue-400" @click.prevent="$emit('login-form')">
                 Login here
@@ -71,18 +83,24 @@
 </template>
 
 <script>
+//-- External libraries
 import { ref, computed, watch } from 'vue'
-import DnTextInput from '@ca/text-input'
-import DnEmailInput from '@cm/email-input'
+
+//-- Components
 import DnButton from '@ca/button'
+import DnEmailInput from '@cm/email-input'
+import DnTextInput from '@ca/text-input'
+
+//-- Assets
+import googleIcon from '@/assets/logo_google_g_icon.png'
 
 export default {
     name: 'dn-signup-form',
     emits: ['update:modelValue', 'submit', 'login-form'],
     components: {
-        DnTextInput,
-        DnEmailInput,
         DnButton,
+        DnEmailInput,
+        DnTextInput,
     },
     props: {
         modelValue: {
@@ -121,6 +139,7 @@ export default {
             inputContainerStyles,
             formData,
             step,
+            googleIcon,
         }
     },
     methods: {

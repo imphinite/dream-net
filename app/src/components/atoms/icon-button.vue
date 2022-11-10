@@ -83,24 +83,24 @@ export default {
                     'focus:ring-2 focus:ring-yellow-light',
                 ],
                 secondary: [
-                    'bg-purple-dark text-white border-purple-dark',
-                    'hover:bg-white hover:text-purple-dark hover:border-gray-300',
-                    'active:bg-gray-300 active:text-purple-dark',
+                    'bg-purple-default text-white border-purple-default',
+                    'hover:bg-white hover:text-purple-default hover:border-gray-300',
+                    'active:bg-gray-300 active:text-purple-default',
                     'focus:ring-2 focus:ring-yellow-light',
                 ],
                 transparent: [
-                    'bg-transparent border-white/90 bg-gray-700/25',
+                    'bg-transparent border-white/90',
                     computedIconSelectedColor.value || 'text-white/90',
                     'hover:bg-black/50',
-                    'active:bg-black/75 active:text-white/50 active:border-white/50',
-                    'focus:ring-2 focus:ring-yellow-light',
+                    'active:bg-white/75 active:text-purple-extra-dark/50 active:border-white/50',
+                    'focus:bg-white/75 focus:text-purple-extra-dark/50 focus:ring-2 focus:ring-yellow-light',
                 ],
             }
             return presetStyleMapping[preset.value] || ''
         })
         const computedSizeStyles = computed(() => {
             const sizeStyleMapping = {
-                large: ['font-bold text-lg w-11 h-11'],
+                large: ['font-extrabold text-3xl w-14 h-14'],
                 medium: ['font-semibold text-base text-center w-9 h-9'],
                 small: ['font-semibold text-sm w-7 h-7'],
             }
