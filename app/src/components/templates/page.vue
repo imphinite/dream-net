@@ -31,7 +31,7 @@
         </section>
 
         <dn-footer
-            :current-page="route.name"
+            :current-page="route ? route.name : 'Home'"
             @home-button-click="pushRoute($event, { name: 'Home' })"
             @user-button-click="pushRoute($event, { name: 'My Dreams' })"
             @comment-button-click="pushRoute($event, { name: 'Notifications' })"
