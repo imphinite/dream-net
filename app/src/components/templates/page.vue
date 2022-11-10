@@ -110,15 +110,11 @@ export default {
             'relative',
             'flex flex-col',
             'w-screen h-screen overflow-hidden',
-            // 'bg-white',
         ]
 
         const { themeStyles } = useTheme()
         const computedBgStyles = computed(() => {
-            return [
-                // 'bg-gradient-to-tr',
-                themeStyles.value,
-            ]
+            return [themeStyles.value]
         })
 
         const containerStyles = computed(() => {
@@ -129,7 +125,6 @@ export default {
             'absolute',
             'w-full h-[calc(100vh-3rem)] pt-12',
             'snap-y overflow-y-scroll scroll-smooth box-content scroll-py-14',
-            // 'bg-black/25',
         ]
 
         const bodySectionStyles = computed(() => {

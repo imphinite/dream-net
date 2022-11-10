@@ -23,14 +23,7 @@
             </h1>
         </div>
 
-        <div class="flex h-full items-center">
-            <!-- <dn-icon-button
-                v-if="interactions.plus"
-                icon="plus"
-                preset="transparent"
-                @click="$emit('plus-button-click', $event)"
-            /> -->
-        </div>
+        <div class="flex h-full items-center"></div>
     </header>
 </template>
 
@@ -75,7 +68,6 @@ export default {
             'relative',
             'flex w-full items-center justify-between p-2 z-10',
             'backdrop-blur-md bg-gradient-to-b from-purple-default/50 to-purple-default/25',
-            // 'bg-purple-default/90',
         ]
 
         const containerStyles = computed(() => {

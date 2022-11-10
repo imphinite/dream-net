@@ -54,12 +54,6 @@ export default {
                     'active:bg-purple-extra-dark active:text-white',
                     'focus:ring-2 focus:ring-yellow-light',
                 ],
-                // secondary: [
-                //     'bg-purple-default text-white border-purple-default',
-                //     'hover:bg-white hover:text-purple-default hover:border-gray-300',
-                //     'active:bg-gray-300 active:text-purple',
-                //     'focus:ring-2 focus:ring-yellow-light',
-                // ],
                 secondary: [
                     'bg-purple-default text-white border-purple-default',
                     'hover:bg-white hover:text-purple-default hover:border-gray-300',

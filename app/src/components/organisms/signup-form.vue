@@ -51,26 +51,13 @@
 
         <!-- Button group -->
         <div class="flex items-center justify-between">
-            <!-- <div class="left">
-                <dn-button v-show="step >= 2" @click="step -= 1"
-                    >Back</dn-button
-                >
-            </div>
-            <div class="right">
-                <dn-button v-show="step == 1" @click="step += 1"
-                    >Next</dn-button
-                >
-                <dn-button v-show="step == 2" @click="$emit('submit', formData)"
-                    >Sign up</dn-button
-                >
-            </div> -->
-
             <dn-button
                 preset="secondary"
                 class="w-full"
                 @click="$emit('submit', formData)"
-                >SIGN UP</dn-button
             >
+                SIGN UP
+            </dn-button>
         </div>
 
         <div class="mt-10">

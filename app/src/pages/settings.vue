@@ -1,10 +1,6 @@
 <template>
     <dn-page @toggle-navigation-drawer="navDrawer = !navDrawer">
         <dn-settings-form />
-        <!-- <div class="text-shadow text-white text-xl font-bold px-4 py-2">
-            Theme
-        </div>
-        <dn-menu v-model="activeThemeMenuItem" :items="themeOptions" /> -->
     </dn-page>
 </template>
 
