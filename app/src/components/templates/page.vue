@@ -31,6 +31,7 @@
         </section>
 
         <dn-footer
+            v-if="footer"
             :current-page="route ? route.name : 'Home'"
             @home-button-click="pushRoute($event, { name: 'Home' })"
             @user-button-click="pushRoute($event, { name: 'My Dreams' })"
@@ -90,6 +91,10 @@ export default {
             }),
         },
         header: {
+            type: Boolean,
+            default: true,
+        },
+        footer: {
             type: Boolean,
             default: true,
         },

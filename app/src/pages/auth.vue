@@ -1,6 +1,19 @@
 <template>
-    <dn-page :header="false">
+    <dn-page :header="false" :footer="false">
         <section :class="containerStyles">
+            <div class="mx-auto w-2/5">
+                <img :src="logo" alt="logo" />
+            </div>
+
+            <div class="w-full flex p-4">
+                <dn-button class="w-full flex align-center justify-start">
+                    <img class="inline w-8" :src="googleIcon" />
+                    <span class="ml-2 pt-[3px]">Sign up with Google</span>
+                </dn-button>
+            </div>
+
+            <dn-divider />
+
             <dn-signup-form
                 v-if="isSignupFormActive"
                 :disabled="isLoading"
@@ -23,6 +36,8 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 //-- Components
+import DnButton from '@ca/button'
+import DnDivider from '@ca/divider'
 import DnLoginForm from '@co/login-form'
 import DnSignupForm from '@co/signup-form'
 import DnPage from '@ct/page.vue'
@@ -36,11 +51,17 @@ import useEnum from '@/composables/use-enum'
 import useLoading from '@/composables/use-loading'
 import { useRoute } from 'vue-router'
 
+//-- Assets
+import logo from '@/assets/favicon.png'
+import googleIcon from '@/assets/logo_google_g_icon.png'
+
 export default {
     components: {
+        DnButton,
+        DnDivider,
         DnLoginForm,
-        DnSignupForm,
         DnPage,
+        DnSignupForm,
     },
     setup() {
         // Styles
@@ -108,6 +129,9 @@ export default {
             clearAuth,
             authModule,
             ...useLoading(),
+            // assets
+            logo,
+            googleIcon,
         }
     },
 }
