@@ -5,3 +5,7 @@
 .text-shadow {
     text-shadow: 0 0 4px black;
 }
+
+.ql-editor img {
+    border-radius: 0.5rem;
+}

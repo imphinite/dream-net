@@ -1,6 +1,6 @@
 <template>
     <button type="button" :class="computedStyles">
-        <img :src="icon" class="object-cover blur-xl saturate-[.75]" />
+        <img :src="icon" class="object-cover w-full blur-xl saturate-[.75]" />
         <div
             class="absolute left-0 top-0 w-full h-full flex justify-center items-center"
         >

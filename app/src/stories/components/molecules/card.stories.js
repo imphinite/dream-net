@@ -20,11 +20,11 @@ const Template = (args, { argTypes }) => ({
 
 export const Compact = Template.bind({})
 Compact.args = {
-    title: 'Card Title',
+    title: 'Card Title could be pretty lonnnnnnnnnnng and occupies more than two lines',
     content: {
         ops: [
-            { insert: 'Gandalf', attributes: { bold: true } },
-            { insert: ' the ' },
+            { insert: 'Gandalf', attributes: { bold: true, color: '#000000' } },
+            { insert: ' the ', attributes: { color: '#000' } },
             { insert: 'Grey', attributes: { color: '#cccccc' } },
         ],
     },

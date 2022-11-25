@@ -26,6 +26,7 @@
             v-if="showComposer"
             ref="composer"
             v-model="formData"
+            :compact="true"
             @cancel="showComposer = false"
             @submit="handleSubmit"
         />
@@ -131,7 +132,7 @@ export default {
         const state = buildInteractionState({
             like: true,
             favor: true,
-            dislike: false,
+            sensitive: false,
             reply: true,
         })
         const postState = reactive(state)
@@ -150,7 +151,7 @@ export default {
             postState.favor.active = hasFavoredPost({
                 postId: activePost.value.id,
             })
-            postState.dislike.active = true
+            postState.sensitive.active = true
         })
 
         // Interaction state of each comment item
@@ -165,7 +166,7 @@ export default {
                         const state = buildInteractionState({
                             like: true,
                             favor: true,
-                            dislike: true,
+                            sensitive: true,
                             reply: false,
                         })
 

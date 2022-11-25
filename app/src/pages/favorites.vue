@@ -6,18 +6,23 @@
         @reload="$router.go()"
         @load-more="loadMorePosts"
     >
-        <dn-card
-            v-for="(post, index) in favoredFeed.posts"
-            :key="index"
-            class="snap-start mt-2"
-            :title="post.title"
-            :content="post.body"
-            :state="postState[post.id]"
-            @title-click="goToPost(post)"
-            @heart-button-click="togglePostLike(post)"
-            @star-button-click="togglePostFavor(post)"
-            @reply-button-click="makingCommentsToPost(post)"
-        />
+        <div class="px-2">
+            <dn-card
+                v-for="(post, index) in favoredFeed.posts"
+                :key="index"
+                class="snap-start mt-2"
+                :title="post.title"
+                :content="post.body"
+                :state="postState[post.id]"
+                @title-click="goToPost(post)"
+                @heart-button-click="togglePostLike(post)"
+                @star-button-click="togglePostFavor(post)"
+                @sensitive-button-click="
+                    toggleSensitiveConfirmationDialog(post)
+                "
+                @reply-button-click="makingCommentsToPost(post)"
+            />
+        </div>
     </dn-page>
 </template>
 
@@ -72,7 +77,7 @@ export default {
                     const state = buildInteractionState({
                         like: true,
                         favor: true,
-                        dislike: false,
+                        sensitive: false,
                         reply: true,
                     })
 

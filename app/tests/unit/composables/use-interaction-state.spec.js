@@ -19,7 +19,7 @@ describe('use-interaction-state', () => {
                 ...defaultState,
                 enabled: true,
             },
-            dislike: {
+            sensitive: {
                 ...defaultState,
                 enabled: true,
             },

@@ -4,18 +4,26 @@
         @reload="$router.go()"
         @load-more="loadMorePosts"
     >
-        <dn-image-button class="h-48 m-4" @click="router.push(`/compose`)">
-            I just had a dream!
-        </dn-image-button>
-        <dn-image-button class="h-48 m-4" @click="router.push(`/feed`)">
-            What are other people dreaming of?
-        </dn-image-button>
-        <dn-image-button
-            class="h-48 m-4 mb-16"
-            @click="router.push(`/favorites`)"
-        >
-            Favorite dreams
-        </dn-image-button>
+        <div class="p-4 w-full">
+            <dn-image-button
+                class="h-48 w-full mb-4"
+                @click="router.push(`/compose`)"
+            >
+                I just had a dream!
+            </dn-image-button>
+            <dn-image-button
+                class="h-48 w-full mb-4"
+                @click="router.push(`/feed`)"
+            >
+                What are other people dreaming of?
+            </dn-image-button>
+            <dn-image-button
+                class="h-48 w-full mb-16"
+                @click="router.push(`/favorites`)"
+            >
+                Favorite dreams
+            </dn-image-button>
+        </div>
     </dn-page>
 </template>
 
