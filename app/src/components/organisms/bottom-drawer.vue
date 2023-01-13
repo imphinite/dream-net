@@ -1,19 +1,22 @@
 <template>
-    <div ref="drawer" class="drawer" :class="containerStyles">
-        <div
-            class="drawer-header w-full h-1/8 flex flex-col items-center justify-center pt-1 px-2"
-            @click="collapse"
-        >
-            <div class="border-b mx-2 border-black/40 w-1/4"></div>
-            <div class="border-b mx-2 border-black/40 w-1/4 mt-[1px]"></div>
-        </div>
+    <div ref="drawer">
+        <slot name="activator"></slot>
+        <div class="drawer" :class="containerStyles">
+            <div
+                class="drawer-header w-full h-1/8 flex flex-col items-center justify-center pt-1 px-2"
+                @click="collapse"
+            >
+                <div class="border-b mx-2 border-black/40 w-1/4"></div>
+                <div class="border-b mx-2 border-black/40 w-1/4 mt-[1px]"></div>
+            </div>
 
-        <div class="drawer-body h-full w-full flex flex-col grow py-2">
-            <dn-menu
-                v-model="activeMenuItem"
-                :items="menuItems"
-                @select="onMenuItemSelected"
-            />
+            <div class="drawer-body h-full w-full flex flex-col grow py-2">
+                <dn-menu
+                    v-model="activeMenuItem"
+                    :items="menuItems"
+                    @select="onMenuItemSelected"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -95,8 +98,8 @@ export default {
 
             if (router) {
                 router.push({ name: newActiveMenuItem.label })
-                collapse()
             }
+            collapse()
         })
 
         const onMenuItemSelected = (menuItem) => {

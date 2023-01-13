@@ -78,17 +78,35 @@
                 </div>
             </div>
             <div class="flex justify-between">
-                <dn-icon-button
-                    v-if="state.sensitive.enabled"
-                    class="ml-2"
-                    icon-color="black"
-                    icon-selected-color="red"
-                    :selected="state.sensitive.active"
-                    :disabled="state.sensitive.loading"
-                    @click="$emit('sensitive-button-click', state)"
+                <dn-bottom-drawer
+                    v-show="state.sensitive.enabled"
+                    class="text-sm ml-2"
+                    :menu-items="[
+                        {
+                            icon: 'eye-slash',
+                            label: 'Flag sensitive content',
+                        },
+                        {
+                            icon: 'ban',
+                            label: 'Cancel',
+                        },
+                    ]"
+                    v-model="sensitivityConfirmationDialogControl"
+                    :active-item="state.sensitive"
+                    @update:active-item="() => onSentivityOptionSelected(state)"
                 >
-                    <fa icon="eye-slash" />
-                </dn-icon-button>
+                    <template #activator>
+                        <dn-icon-button
+                            icon-color="black"
+                            icon-selected-color="red"
+                            :selected="state.sensitive.active"
+                            :disabled="state.sensitive.loading"
+                            @click="() => sensitivityButtonClicked(state)"
+                        >
+                            <fa icon="eye-slash" />
+                        </dn-icon-button>
+                    </template>
+                </dn-bottom-drawer>
                 <dn-icon-button
                     v-if="state.reply.enabled"
                     class="ml-2"
@@ -106,11 +124,12 @@
 <script>
 //-- Libraries
 import _ from 'lodash'
-import { computed, toRef } from 'vue'
+import { computed, ref, toRef } from 'vue'
 
 //-- Components
-import DnIconButton from '@ca/icon-button.vue'
+import DnBottomDrawer from '@co/bottom-drawer.vue'
 import DnEditor from '@ca/editor.vue'
+import DnIconButton from '@ca/icon-button.vue'
 
 //-- Composables
 import { useTimeAgo } from '@vueuse/core'
@@ -121,13 +140,12 @@ import userDefault from '@/assets/user_default.png'
 
 const { buildInteractionState } = useInteractionState()
 
-console.log('date', '2022-06-17T21:30:09.000000Z')
-
 export default {
     name: 'dn-card',
     components: {
-        DnIconButton,
+        DnBottomDrawer,
         DnEditor,
+        DnIconButton,
     },
     emits: [
         'title-click',
@@ -189,7 +207,7 @@ export default {
             },
         },
     },
-    setup(props) {
+    setup(props, { emit }) {
         const BASE_STYLES = [
             'flex flex-col',
             'w-full min-w-[80%]',
@@ -239,6 +257,18 @@ export default {
 
         const deltaContent = getDeltaContent(props.content)
 
+        const sensitivityConfirmationDialogControl = ref(false)
+        const sensitivityButtonClicked = (state) => {
+            sensitivityConfirmationDialogControl.value = true
+
+            // TODO move this to @update:active-item
+            emit('sensitive-button-click', state)
+        }
+
+        const onSentivityOptionSelected = () => {
+            sensitivityConfirmationDialogControl.value = false
+        }
+
         return {
             computedStyles,
             smallFontStyles,
@@ -246,6 +276,9 @@ export default {
             timeAgo,
             hasContent,
             deltaContent,
+            sensitivityConfirmationDialogControl,
+            sensitivityButtonClicked,
+            onSentivityOptionSelected,
         }
     },
 }

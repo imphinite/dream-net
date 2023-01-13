@@ -98,7 +98,6 @@ export default {
             emit('update:modelValue', newValue)
         })
         const toggleMenu = () => {
-            console.log('toggle')
             if (props.disabled) return
             menuActive.value = !Boolean(menuActive.value)
         }
