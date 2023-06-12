@@ -12,35 +12,33 @@
                     :disabled="disabled"
                 />
             </div>
-            <!-- TODO Dropdown input -->
             <div :class="inputContainerStyles">
-                <dn-text-input
+                <dn-dropdown
                     v-model="formData.theme"
                     placeholder="Theme"
                     :disabled="disabled"
+                    :items="themeOptions"
                 />
             </div>
-            <!-- TODO Dropdown input -->
             <div :class="inputContainerStyles">
-                <dn-text-input
+                <dn-dropdown
                     v-model="formData.gender"
                     placeholder="Gender"
                     :disabled="disabled"
+                    :items="genderOptions"
                 />
             </div>
-            <!-- TODO Dropdown input -->
             <div :class="inputContainerStyles">
-                <dn-text-input
+                <dn-date-picker
                     v-model="formData.birthDate"
                     placeholder="Birth date"
                     :disabled="disabled"
                 />
             </div>
-            <!-- TODO Checkbox input -->
             <div :class="inputContainerStyles">
-                <dn-text-input
+                <dn-checkbox
                     v-model="formData.consent"
-                    placeholder="I give my consent to share my data for research purposes"
+                    label="I give my consent to share my data for research purposes"
                     :disabled="disabled"
                 />
             </div>
@@ -64,6 +62,9 @@ import { ref, computed, watch } from 'vue'
 
 //-- Components
 import DnButton from '@ca/button'
+import DnCheckbox from '@ca/checkbox'
+import DnDatePicker from '@ca/date-picker'
+import DnDropdown from '@ca/dropdown'
 import DnEmailInput from '@cm/email-input'
 import DnTextInput from '@ca/text-input'
 
@@ -72,6 +73,9 @@ export default {
     emits: ['update:modelValue', 'forgot-password', 'submit', 'signup-form'],
     components: {
         DnButton,
+        DnCheckbox,
+        DnDatePicker,
+        DnDropdown,
         DnEmailInput,
         DnTextInput,
     },
@@ -104,10 +108,42 @@ export default {
             emit('update:modelValue', newFormData)
         })
 
+        const themeOptions = ref([
+            {
+                label: 'Light',
+                value: 'light',
+            },
+            {
+                label: 'Dark',
+                value: 'dark',
+            },
+        ])
+
+        const genderOptions = ref([
+            {
+                label: 'Male',
+                value: 'male',
+            },
+            {
+                label: 'Female',
+                value: 'female',
+            },
+            {
+                label: 'Non-binary',
+                value: 'non-binary',
+            },
+            {
+                label: 'Prefer not to respond',
+                value: null,
+            },
+        ])
+
         return {
             formStyles,
             inputContainerStyles,
             formData,
+            themeOptions,
+            genderOptions,
         }
     },
 }

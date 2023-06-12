@@ -1,7 +1,7 @@
 <template>
     <form action="" method="post" :class="formStyles">
         <!-- Title -->
-        <div v-if="title" class="mb-4">
+        <div v-if="!compact" class="mb-4">
             <dn-text-input
                 v-model="formData.title"
                 dim
@@ -12,11 +12,12 @@
                     <span
                         v-if="titleError"
                         class="text-red-400 text-shadow text-sm px-2"
-                        >{{
+                    >
+                        {{
                             titleError.message ||
                             'Oops, an unknown error occurred'
-                        }}</span
-                    >
+                        }}
+                    </span>
                 </template>
             </dn-text-input>
         </div>
@@ -33,22 +34,43 @@
             <span
                 v-if="contentError"
                 class="text-red-400 text-shadow text-sm px-2"
-                >{{ contentError.message || 'Oops, an unknown error occurred' }}
+            >
+                {{ contentError.message || 'Oops, an unknown error occurred' }}
             </span>
         </div>
 
+        <div class="mt-8 px-1"><dn-checkbox label="Publish anonymously" /></div>
+
         <!-- Button group -->
-        <div class="flex items-center justify-between mt-2">
+        <div v-if="compact" class="flex items-center justify-between mt-2">
             <dn-icon-button
                 icon="arrow-left"
+                icon-color="black"
                 @click="$emit('cancel')"
                 :disabled="disabled"
             />
             <dn-icon-button
                 icon="paper-plane"
+                icon-color="black"
                 @click="$emit('submit', formData)"
                 :disabled="disabled"
             />
+        </div>
+        <div v-else class="my-4">
+            <dn-button
+                preset="secondary"
+                class="w-full"
+                @click="$emit('submit', formData)"
+            >
+                PUBLISH
+            </dn-button>
+            <dn-button
+                preset="secondary"
+                class="w-full mt-4"
+                @click="$emit('save', formData)"
+            >
+                SAVE
+            </dn-button>
         </div>
     </form>
 </template>
@@ -58,25 +80,25 @@
 import { toRef, computed, watch } from 'vue'
 
 //-- Components
-import DnIconButton from '@ca/icon-button.vue'
+import DnButton from '@ca/button.vue'
+import DnCheckbox from '@ca/checkbox.vue'
 import DnEditor from '@ca/editor.vue'
+import DnIconButton from '@ca/icon-button.vue'
 import DnTextInput from '@ca/text-input'
 
 export default {
     name: 'dn-composer',
     components: {
-        DnIconButton,
+        DnButton,
+        DnCheckbox,
         DnEditor,
+        DnIconButton,
         DnTextInput,
     },
-    emits: ['cancel', 'submit', 'update:modelValue'],
+    emits: ['cancel', 'submit', 'save', 'update:modelValue'],
     props: {
         modelValue: {
             type: Object,
-        },
-        title: {
-            type: Boolean,
-            default: false,
         },
         disabled: {
             type: Boolean,
@@ -87,6 +109,10 @@ export default {
             default: () => {
                 return {}
             },
+        },
+        compact: {
+            type: Boolean,
+            default: false,
         },
     },
     setup(props, { emit }) {

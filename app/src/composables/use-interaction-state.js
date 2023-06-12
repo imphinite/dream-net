@@ -1,8 +1,8 @@
 const buildInteractionState = (
-    { like, favor, dislike, reply } = {
+    { like, favor, sensitive, reply } = {
         like: true,
         favor: true,
-        dislike: true,
+        sensitive: true,
         reply: true,
     }
 ) => {
@@ -10,15 +10,17 @@ const buildInteractionState = (
         like: {
             enabled: Boolean(like),
             active: false,
+            count: '1.1k',
             loading: false,
         },
         favor: {
             enabled: Boolean(favor),
             active: false,
+            count: '243',
             loading: false,
         },
-        dislike: {
-            enabled: Boolean(dislike),
+        sensitive: {
+            enabled: Boolean(sensitive),
             active: false,
             loading: false,
         },

@@ -35,7 +35,9 @@
             :current-page="route ? route.name : 'Home'"
             @home-button-click="pushRoute($event, { name: 'Home' })"
             @user-button-click="pushRoute($event, { name: 'My Dreams' })"
-            @comment-button-click="pushRoute($event, { name: 'Notifications' })"
+            @comments-button-click="
+                pushRoute($event, { name: 'Notifications' })
+            "
             @settings-button-click="pushRoute($event, { name: 'Settings' })"
             @plus-button-click="onPlusButtonClick"
         />

@@ -52,7 +52,7 @@ export default {
             emit(newFocusValue ? 'focus' : 'blur')
         })
 
-        const BASE_STYLES = ['rounded', 'text-white', 'transition']
+        const BASE_STYLES = ['rounded', 'transition']
         const BASE_BG = [props.dim ? 'bg-black/25' : 'bg-transparent']
 
         const computedFocusRingStyles = computed(() => {

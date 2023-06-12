@@ -7,7 +7,8 @@
 </template>
 
 <script>
-import { toRef, computed } from 'vue'
+//-- External libraries
+import { computed, toRef } from 'vue'
 
 export default {
     name: 'dn-button',

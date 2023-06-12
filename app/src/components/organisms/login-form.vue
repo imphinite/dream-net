@@ -24,8 +24,9 @@
                 preset="secondary"
                 class="w-full"
                 @click="$emit('submit', formData)"
-                >LOGIN</dn-button
             >
+                LOGIN
+            </dn-button>
         </div>
 
         <div class="mt-10">

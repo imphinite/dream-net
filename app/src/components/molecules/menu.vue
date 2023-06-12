@@ -22,7 +22,7 @@ export default {
     components: {
         DnMenuItem,
     },
-    emits: ['update:modelValue'],
+    emits: ['update:modelValue', 'select'],
     props: {
         modelValue: {
             type: Object,
