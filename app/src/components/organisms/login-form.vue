@@ -4,8 +4,6 @@
         :class="formStyles"
         @keydown.enter.prevent="$emit('submit', formData)"
     >
-        <div class="text-white text-xl font-bold self-center py-4">Login</div>
-
         <div>
             <div :class="inputContainerStyles">
                 <dn-email-input v-model="formData.email" :disabled="disabled" />
@@ -22,26 +20,40 @@
 
         <!-- Button group -->
         <div class="flex items-center justify-between">
+            <dn-button
+                preset="secondary"
+                class="w-full"
+                @click="$emit('submit', formData)"
+            >
+                LOGIN
+            </dn-button>
+        </div>
+
+        <div class="mt-10">
             <button
                 class="text-blue-400"
                 @click.prevent="$emit('forgot-password')"
             >
                 Forgot password?
             </button>
-            <dn-button @click="$emit('submit', formData)">Login</dn-button>
-        </div>
-
-        <div class="text-white mt-4">
-            <span>Not a member? </span>
-            <button class="text-blue-400" @click.prevent="$emit('signup-form')">
-                Sign up now
-            </button>
+            <div class="mt-4">
+                <span>Not a member? </span>
+                <button
+                    class="text-blue-400"
+                    @click.prevent="$emit('signup-form')"
+                >
+                    Sign up now
+                </button>
+            </div>
         </div>
     </form>
 </template>
 
 <script>
+//-- External libraries
 import { ref, computed, watch } from 'vue'
+
+//-- Components
 import DnTextInput from '@ca/text-input'
 import DnEmailInput from '@cm/email-input'
 import DnButton from '@ca/button'

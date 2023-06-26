@@ -30,14 +30,20 @@ module.exports = {
                 cyan: '#9cdbff',
                 purple: {
                     light: '#d05ce3',
-                    default: '#9c27b0',
-                    dark: '#6a0080',
+                    default: '#6a0080',
+                    dark: '#370058',
                     'extra-dark': '#490059',
                 },
                 yellow: {
                     light: '#fffb85',
                     default: '#ffc800',
                     dark: '#ffa600',
+                },
+                teal: {
+                    light: '#C0F2F3',
+                    default: '#48CBC5',
+                    dark: '#1E9C99',
+                    'extra-dark': '#064D51',
                 },
             },
             fontFamily: {

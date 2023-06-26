@@ -44,8 +44,8 @@ export default {
 
         const TEXT_STYLES = [
             'font-display text-center select-none',
-            'text-white/90 text-shadow',
-            'active:text-white/50',
+            'text-black/90',
+            // 'active:text-white/50',
         ]
 
         const active = toRef(props, 'active')
@@ -53,9 +53,9 @@ export default {
         const bgStyles = computed(() => {
             if (!props.background) {
                 return [
-                    active.value ? 'bg-black/75' : 'bg-transparent',
-                    'hover:bg-black/50',
-                    'active:bg-black/75',
+                    active.value ? 'bg-black/25' : 'bg-transparent',
+                    'hover:bg-black/10',
+                    'active:bg-black/25',
                 ]
             }
 

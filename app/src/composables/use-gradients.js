@@ -66,6 +66,10 @@ export default ({ hover = true, dim = false } = {}) => {
                 : 'from-[#141e30] to-[#243b55]',
             hover && 'hover:from-[#141e30]/75 hover:to-[#243b55]/75',
         ],
+        LIGHT: [
+            dim ? 'bg-[#FBFAF5]/75' : 'bg-[#FBFAF5]',
+            hover && 'hover:[#FBFAF5]/75',
+        ],
     }
 
     return {

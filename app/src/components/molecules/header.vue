@@ -18,19 +18,20 @@
             class="absolute bottom-1/2 right-1/2 translate-x-1/2 translate-y-1/2"
             @click="$emit('title-click')"
         >
-            <h1 class="text-white text-xl ml-2 font-bold">{{ title }}</h1>
+            <h1 class="header-title text-white text-xl ml-2 font-bold">
+                {{ title }}
+            </h1>
         </div>
 
-        <div class="flex h-full items-center">
-            <dn-icon-button
-                v-if="interactions.plus"
-                icon="plus"
-                preset="transparent"
-                @click="$emit('plus-button-click', $event)"
-            />
-        </div>
+        <div class="flex h-full items-center"></div>
     </header>
 </template>
+
+<style scoped>
+.header-title {
+    text-shadow: 0 0 4px rgb(73, 0, 0);
+}
+</style>
 
 <script>
 import { computed } from 'vue'
@@ -66,7 +67,7 @@ export default {
         const CONTAINER_STYLES = [
             'relative',
             'flex w-full items-center justify-between p-2 z-10',
-            'backdrop-blur-md bg-gradient-to-b from-black/50 to-transparent',
+            'backdrop-blur-md bg-gradient-to-b from-purple-default/50 to-purple-default/25',
         ]
 
         const containerStyles = computed(() => {

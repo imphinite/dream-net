@@ -18,7 +18,7 @@ export const parameters = {
         },
     },
     backgrounds: {
-        default: 'dark',
+        default: 'light',
     },
     viewport: {
         viewports: INITIAL_VIEWPORTS,

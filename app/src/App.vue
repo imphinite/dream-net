@@ -35,9 +35,11 @@ export default {
         const router = useRouter()
         const ROUTE_ICON_MAPPING = {
             Home: 'home',
+            Feed: 'rss',
             Favorites: 'star',
             'My Dreams': 'book',
             Settings: 'gear',
+            Notifications: 'comment',
             Logout: 'user',
         }
         const navigationMenuItems = ref()

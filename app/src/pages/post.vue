@@ -12,38 +12,44 @@
         @load-more="loadMoreComments"
     >
         <!-- Post -->
-        <dn-card
-            class="snap-start mt-2"
-            :title="activePost.title"
-            :content="activePost.body"
-            :state="postState"
-            @reply-button-click="showComposer = !showComposer"
-            @heart-button-click="togglePostLike(activePost)"
-            @star-button-click="togglePostFavor(activePost)"
-        />
+        <div class="px-2">
+            <dn-card
+                class="snap-start mt-2"
+                :title="activePost.title"
+                :content="activePost.body"
+                :state="postState"
+                @reply-button-click="showComposer = !showComposer"
+                @heart-button-click="togglePostLike(activePost)"
+                @star-button-click="togglePostFavor(activePost)"
+            />
 
-        <dn-composer
-            v-if="showComposer"
-            ref="composer"
-            v-model="formData"
-            @cancel="showComposer = false"
-            @submit="handleSubmit"
-        />
+            <dn-composer
+                v-if="showComposer"
+                ref="composer"
+                v-model="formData"
+                :compact="true"
+                @cancel="showComposer = false"
+                @submit="handleSubmit"
+            />
 
-        <!-- Comments -->
-        <div v-if="loadingComments" class="w-full text-center text-white p-16">
-            <fa class="fa-spin text-4xl" icon="spinner" />
+            <!-- Comments -->
+            <div
+                v-if="loadingComments"
+                class="w-full text-center text-white p-16"
+            >
+                <fa class="fa-spin text-4xl" icon="spinner" />
+            </div>
+            <dn-card
+                v-for="(comment, index) in activePostComments.comments"
+                :key="index"
+                class="snap-start mt-2"
+                dim
+                :content="comment.body"
+                :state="commentState[comment.id]"
+                @heart-button-click="toggleCommentLike(comment)"
+                @star-button-click="toggleCommentFavor(comment)"
+            />
         </div>
-        <dn-card
-            v-for="(comment, index) in activePostComments.comments"
-            :key="index"
-            class="snap-start mt-2"
-            dim
-            :content="comment.body"
-            :state="commentState[comment.id]"
-            @heart-button-click="toggleCommentLike(comment)"
-            @star-button-click="toggleCommentFavor(comment)"
-        />
     </dn-page>
 </template>
 
@@ -131,7 +137,7 @@ export default {
         const state = buildInteractionState({
             like: true,
             favor: true,
-            dislike: false,
+            sensitive: false,
             reply: true,
         })
         const postState = reactive(state)
@@ -150,7 +156,7 @@ export default {
             postState.favor.active = hasFavoredPost({
                 postId: activePost.value.id,
             })
-            postState.dislike.active = true
+            postState.sensitive.active = true
         })
 
         // Interaction state of each comment item
@@ -165,7 +171,7 @@ export default {
                         const state = buildInteractionState({
                             like: true,
                             favor: true,
-                            dislike: true,
+                            sensitive: true,
                             reply: false,
                         })
 

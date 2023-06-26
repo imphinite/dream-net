@@ -1,18 +1,17 @@
 <template>
     <dn-page
-        title="Favorites"
-        swipable
         @toggle-navigation-drawer="navDrawer = !navDrawer"
         @reload="$router.go()"
         @load-more="loadMorePosts"
     >
         <div class="px-2">
             <dn-card
-                v-for="(post, index) in favoredFeed.posts"
+                v-for="(post, index) in homeFeed.posts"
                 :key="index"
                 class="snap-start mt-2"
                 :title="post.title"
                 :content="post.body"
+                :date="post.updatedAt"
                 :state="postState[post.id]"
                 @title-click="goToPost(post)"
                 @heart-button-click="togglePostLike(post)"
@@ -32,8 +31,10 @@ import { ref, reactive, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
 
 //-- Components
-import DnPage from '@ct/page.vue'
+import DnHeader from '@cm/header.vue'
+import DnNavigationDrawer from '@co/navigation-drawer.vue'
 import DnCard from '@cm/card.vue'
+import DnPage from '@ct/page.vue'
 
 //-- Store
 import useStore from '@/store/use-store'
@@ -43,9 +44,10 @@ import useNavigationDrawer from '@/composables/use-navigation-drawer'
 import useInteractionState from '@/composables/use-interaction-state'
 
 export default {
-    name: 'dn-favorites',
-    components: { DnPage, DnCard },
+    name: 'dn-home',
+    components: { DnHeader, DnNavigationDrawer, DnCard, DnPage },
     setup() {
+        const { navDrawer } = useNavigationDrawer()
         const { buildInteractionState } = useInteractionState()
 
         // Handle routing
@@ -57,19 +59,32 @@ export default {
             likes: likeModule,
             favors: favorModule,
         } = useStore()
-        const { favoredFeed, fetchFavoredPosts } = postModule
+        const {
+            homeFeed,
+            favoredFeed,
+            myFeed,
+            fetchHomeFeedPosts,
+            fetchFavoredPosts,
+            fetchMyFeedPosts,
+        } = postModule
         const { hasLikedPost } = likeModule
         const { hasFavoredPost } = favorModule
 
-        // Fetch posts from API
+        // Initialize data, fetch from API
+        if (!homeFeed.value?.posts || homeFeed.value?.posts.length == 0) {
+            fetchHomeFeedPosts()
+        }
         if (!favoredFeed.value?.posts || favoredFeed.value?.posts.length == 0) {
             fetchFavoredPosts()
+        }
+        if (!myFeed.value?.posts || myFeed.value?.posts.length == 0) {
+            fetchMyFeedPosts()
         }
 
         // State of each post item
         const postState = reactive({})
         watchEffect(() => {
-            favoredFeed.value.posts.forEach((post) => {
+            homeFeed.value.posts.forEach((post) => {
                 const postId = post.id
 
                 // Initialize
@@ -77,7 +92,7 @@ export default {
                     const state = buildInteractionState({
                         like: true,
                         favor: true,
-                        sensitive: false,
+                        sensitive: true,
                         reply: true,
                     })
 
@@ -94,13 +109,13 @@ export default {
         const loadingMore = ref(false)
 
         return {
-            ...useNavigationDrawer(),
+            navDrawer,
             router,
-            favoredFeed,
+            homeFeed,
             ...likeModule,
             ...favorModule,
             postState,
-            fetchFavoredPosts,
+            fetchHomeFeedPosts,
             loadingMore,
         }
     },
@@ -145,13 +160,16 @@ export default {
             this.loadingMore = true
 
             try {
-                await this.fetchFavoredPosts({
-                    cursor: this.favoredFeed.meta.cursor.next,
+                await this.fetchHomeFeedPosts({
+                    cursor: this.homeFeed.meta.cursor.next,
                     globalLoading: false,
                 })
             } finally {
                 this.loadingMore = false
             }
+        },
+        toggleSensitiveConfirmationDialog(post) {
+            console.log('TODO toggleSensitiveConfirmationDialog')
         },
     },
 }

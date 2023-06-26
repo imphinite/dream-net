@@ -2,14 +2,9 @@
     <form
         method="post"
         :class="formStyles"
-        @keydown.enter.prevent="handleKeyupEnter"
+        @keydown.enter.prevent="$emit('submit', formData)"
     >
-        <!-- TODO: progress bar -->
-
-        <div v-show="step == 1" class="text-white">
-            <div :class="inputContainerStyles">
-                <dn-email-input v-model="formData.email" :disabled="disabled" />
-            </div>
+        <div>
             <div :class="inputContainerStyles">
                 <dn-text-input
                     v-model="formData.displayName"
@@ -18,32 +13,32 @@
                 />
             </div>
             <div :class="inputContainerStyles">
-                <dn-text-input
-                    v-model="formData.password"
-                    type="password"
-                    placeholder="Password"
+                <dn-dropdown
+                    v-model="formData.theme"
+                    placeholder="Theme"
                     :disabled="disabled"
+                    :items="themeOptions"
                 />
             </div>
-        </div>
-        <div v-show="step == 2" class="text-white">
-            <div class="flex gap-2" :class="inputContainerStyles">
-                <dn-text-input
-                    ref="firstnameInput"
-                    v-model="formData.firstName"
-                    placeholder="First name"
+            <div :class="inputContainerStyles">
+                <dn-dropdown
+                    v-model="formData.gender"
+                    placeholder="Gender"
                     :disabled="disabled"
+                    :items="genderOptions"
                 />
-                <dn-text-input
-                    v-model="formData.lastName"
-                    placeholder="Last name"
+            </div>
+            <div :class="inputContainerStyles">
+                <dn-date-picker
+                    v-model="formData.birthDate"
+                    placeholder="Birth date"
                     :disabled="disabled"
                 />
             </div>
             <div :class="inputContainerStyles">
-                <dn-text-input
-                    v-model="formData.displayName"
-                    placeholder="Display name"
+                <dn-checkbox
+                    v-model="formData.consent"
+                    label="I give my consent to share my data for research purposes"
                     :disabled="disabled"
                 />
             </div>
@@ -55,16 +50,8 @@
                 preset="secondary"
                 class="w-full"
                 @click="$emit('submit', formData)"
+                >SAVE</dn-button
             >
-                SIGN UP
-            </dn-button>
-        </div>
-
-        <div class="mt-10">
-            <span>Already a member? </span>
-            <button class="text-blue-400" @click.prevent="$emit('login-form')">
-                Login here
-            </button>
         </div>
     </form>
 </template>
@@ -75,17 +62,20 @@ import { ref, computed, watch } from 'vue'
 
 //-- Components
 import DnButton from '@ca/button'
+import DnCheckbox from '@ca/checkbox'
+import DnDatePicker from '@ca/date-picker'
+import DnDropdown from '@ca/dropdown'
 import DnEmailInput from '@cm/email-input'
 import DnTextInput from '@ca/text-input'
 
-//-- Assets
-import googleIcon from '@/assets/logo_google_g_icon.png'
-
 export default {
-    name: 'dn-signup-form',
-    emits: ['update:modelValue', 'submit', 'login-form'],
+    name: 'dn-login-form',
+    emits: ['update:modelValue', 'forgot-password', 'submit', 'signup-form'],
     components: {
         DnButton,
+        DnCheckbox,
+        DnDatePicker,
+        DnDropdown,
         DnEmailInput,
         DnTextInput,
     },
@@ -100,7 +90,7 @@ export default {
     },
     setup(props, { emit }) {
         const formStyles = computed(() => {
-            return ['flex flex-col', 'w-full p-4']
+            return ['flex flex-col', 'p-4']
         })
 
         const inputContainerStyles = ['h-20']
@@ -108,35 +98,53 @@ export default {
         // v-model
         const formData = ref({})
         formData.value = props.modelValue || {
-            email: '',
-            password: '',
-            firstName: '',
-            lastName: '',
             displayName: '',
+            theme: '',
+            gender: '',
+            birthDate: '',
+            consent: '',
         }
         watch(formData.value, (newFormData) => {
             emit('update:modelValue', newFormData)
         })
 
-        // Progress
-        const step = ref(1)
+        const themeOptions = ref([
+            {
+                label: 'Light',
+                value: 'light',
+            },
+            {
+                label: 'Dark',
+                value: 'dark',
+            },
+        ])
+
+        const genderOptions = ref([
+            {
+                label: 'Male',
+                value: 'male',
+            },
+            {
+                label: 'Female',
+                value: 'female',
+            },
+            {
+                label: 'Non-binary',
+                value: 'non-binary',
+            },
+            {
+                label: 'Prefer not to respond',
+                value: null,
+            },
+        ])
 
         return {
             formStyles,
             inputContainerStyles,
             formData,
-            step,
-            googleIcon,
+            themeOptions,
+            genderOptions,
         }
-    },
-    methods: {
-        async handleKeyupEnter() {
-            if (this.step == 1) {
-                this.step += 1
-            } else {
-                this.$emit('submit', this.formData)
-            }
-        },
     },
 }
 </script>

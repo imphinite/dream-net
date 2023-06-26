@@ -24,12 +24,13 @@ export default {
         const BASE_STYLES = [
             'flex flex-col justify-center items-center',
             'absolute top-0 left-0 w-screen h-screen overflow-hidden',
-            'font-bold text-white',
+            'font-bold text-purple-extra-dark',
             'z-100',
         ]
 
         const BG_STYLES = [
-            'bg-gradient-to-tr from-gray-900/25 via-gray-800/25 to-gray-500/50',
+            // 'bg-gradient-to-tr from-gray-900/25 via-gray-800/25 to-gray-500/50',
+            'bg-transparent',
             'backdrop-blur-md',
             'shadow-lg',
         ]
